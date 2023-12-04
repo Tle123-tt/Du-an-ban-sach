@@ -4,7 +4,7 @@ var router = express.Router();
 const discountBuilder = require( '../../app/controllers/cms/Discount.controller' );
 
 
-const authMiddleware = require( './../../app/middleware/adminAuthjwt' );
+const authMiddleware = require( './../../app/middleware/adminAuthJwt' );
 const isAuth = authMiddleware.roleGuards;
 
 router.get( '/discount/', isAuth, discountBuilder.index );

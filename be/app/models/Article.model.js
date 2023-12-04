@@ -8,6 +8,10 @@ const articleSchema = new Schema(
             type: String,
             required: 'name cannot be blank'
         },
+		slug: {
+            type: String,
+            required: 'slug cannot be blank'
+        },
         avatar: {
             type: String,
         },

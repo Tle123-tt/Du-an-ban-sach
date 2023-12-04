@@ -98,11 +98,11 @@ CREATE TABLE `articles_tags` (
 
 CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `c_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `c_slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `c_avatar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `avatar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `c_banner` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `c_description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `c_parent_id` int(11) NOT NULL DEFAULT '0',
   `c_hot` tinyint(4) NOT NULL DEFAULT '0',
   `c_status` tinyint(4) NOT NULL DEFAULT '1',
@@ -114,7 +114,7 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `c_name`, `c_slug`, `c_avatar`, `c_banner`, `c_description`, `c_parent_id`, `c_hot`, `c_status`, `created_at`, `updated_at`) VALUES
+INSERT INTO `categories` (`id`, `name`, `slug`, `avatar`, `c_banner`, `description`, `c_parent_id`, `c_hot`, `c_status`, `created_at`, `updated_at`) VALUES
 (11, 'Tẩy trang', 'tay-trang', 'https://theme.hstatic.net/200000551679/1000944132/14/coll_1.jpg?v=491', 'https://theme.hstatic.net/200000551679/1000944132/14/coll_1.jpg?v=491', 'Tẩy trangg', 0, 1, 1, NULL, NULL),
 (12, 'Sữa rửa mặt', 'sua-rua-mat', 'https://theme.hstatic.net/200000551679/1000944132/14/coll_2.jpg?v=491', 'https://theme.hstatic.net/200000551679/1000944132/14/coll_2.jpg?v=491', 'Tẩy trang', 0, 1, 1, NULL, NULL),
 (14, 'Mặt nạ', 'mat-na', 'https://theme.hstatic.net/200000551679/1000944132/14/coll_3.jpg?v=530', 'https://theme.hstatic.net/200000551679/1000944132/14/coll_2.jpg?v=491', 'Sữa tắm', 0, 1, 1, NULL, '2022-11-20 01:49:00'),
@@ -133,7 +133,7 @@ INSERT INTO `categories` (`id`, `c_name`, `c_slug`, `c_avatar`, `c_banner`, `c_d
 
 CREATE TABLE `comments` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `c_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `c_user_id` int(11) NOT NULL DEFAULT '0',
   `c_vote_id` int(11) NOT NULL DEFAULT '0',
   `c_content` text COLLATE utf8mb4_unicode_ci,
@@ -146,7 +146,7 @@ CREATE TABLE `comments` (
 -- Dumping data for table `comments`
 --
 
-INSERT INTO `comments` (`id`, `c_name`, `c_user_id`, `c_vote_id`, `c_content`, `c_product_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `comments` (`id`, `name`, `c_user_id`, `c_vote_id`, `c_content`, `c_product_id`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 0, 87, 'Cảm ơn bạn đã ủng hộ chúng tôi', 208, '2023-02-19 09:51:43', '2023-02-19 09:51:43');
 
 -- --------------------------------------------------------
@@ -551,37 +551,37 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `pro_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pro_slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pro_price` int(11) NOT NULL DEFAULT '0',
-  `pro_category_id` int(11) NOT NULL DEFAULT '0',
-  `pro_number` int(11) NOT NULL DEFAULT '0',
-  `pro_admin_id` int(11) NOT NULL DEFAULT '0',
-  `pro_sale` tinyint(4) NOT NULL DEFAULT '0',
-  `pro_discount_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pro_discount_value` int(11) NOT NULL DEFAULT '0',
-  `pro_avatar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pro_view` int(11) NOT NULL DEFAULT '0',
-  `pro_hot` tinyint(4) NOT NULL DEFAULT '0',
-  `pro_manufacturer_id` int(11) NOT NULL DEFAULT '0',
-  `pro_active` tinyint(4) NOT NULL DEFAULT '1',
-  `pro_pay` int(11) NOT NULL DEFAULT '0',
-  `pro_dealer_id` int(11) NOT NULL DEFAULT '0',
-  `pro_description` mediumtext COLLATE utf8mb4_unicode_ci,
-  `pro_content` text COLLATE utf8mb4_unicode_ci,
-  `pro_review_total` int(11) NOT NULL DEFAULT '0',
-  `pro_warranty_date` int(11) NOT NULL DEFAULT '0',
-  `pro_review_star` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` int(11) NOT NULL DEFAULT '0',
+  `category_id` int(11) NOT NULL DEFAULT '0',
+  `number` int(11) NOT NULL DEFAULT '0',
+  `admin_id` int(11) NOT NULL DEFAULT '0',
+  `sale` tinyint(4) NOT NULL DEFAULT '0',
+  `discount_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discount_value` int(11) NOT NULL DEFAULT '0',
+  `avatar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `view` int(11) NOT NULL DEFAULT '0',
+  `hot` tinyint(4) NOT NULL DEFAULT '0',
+  `manufacturer_id` int(11) NOT NULL DEFAULT '0',
+  `active` tinyint(4) NOT NULL DEFAULT '1',
+  `pay` int(11) NOT NULL DEFAULT '0',
+  `dealer_id` int(11) NOT NULL DEFAULT '0',
+  `description` mediumtext COLLATE utf8mb4_unicode_ci,
+  `content` text COLLATE utf8mb4_unicode_ci,
+  `review_total` int(11) NOT NULL DEFAULT '0',
+  `warranty_date` int(11) NOT NULL DEFAULT '0',
+  `review_star` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `pro_configuration` text COLLATE utf8mb4_unicode_ci
+  `configuration` text COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `pro_name`, `pro_slug`, `pro_price`, `pro_category_id`, `pro_number`, `pro_admin_id`, `pro_sale`, `pro_discount_type`, `pro_discount_value`, `pro_avatar`, `pro_view`, `pro_hot`, `pro_manufacturer_id`, `pro_active`, `pro_pay`, `pro_dealer_id`, `pro_description`, `pro_content`, `pro_review_total`, `pro_warranty_date`, `pro_review_star`, `created_at`, `updated_at`, `pro_configuration`) VALUES
+INSERT INTO `products` (`id`, `name`, `slug`, `price`, `category_id`, `number`, `admin_id`, `sale`, `discount_type`, `discount_value`, `avatar`, `view`, `hot`, `manufacturer_id`, `active`, `pay`, `dealer_id`, `description`, `content`, `review_total`, `warranty_date`, `review_star`, `created_at`, `updated_at`, `configuration`) VALUES
 (1, 'QT Bio-essence Nước tẩy trang Bio-water micellar water (400ml) (IP01)', 'qt-bio-essence-nuoc-tay-trang-bio-water-micellar-water-400ml-ip01', 10, 12, 10, 0, 10, 'percent', 0, 'http://localhost:3006/api/upload/image-08b38465-69db-4d16-a91b-53425f4c7bc4.png', 0, 0, 0, 1, 1, 0, 'Đang cập nhật', 'Đang cập nhật', 0, 0, 0, NULL, '2022-11-20 01:53:49', 'Đang cập nhật'),
 (2, 'QT Bio-essence Nước tẩy trang Bio-water micellar water (100ml) (IP01)', 'qt-bio-essence-nuoc-tay-trang-bio-water-micellar-water-100ml-ip01', 10, 11, 10, 0, 4, 'percent', 5, 'https://product.hstatic.net/200000551679/product/untitled_7c69d5ed28d3494fa769e363fe9ec2f0_1024x1024.png', 0, 0, 0, 1, 0, 0, 'QT Bio-essence Nước tẩy trang Bio-water micellar water (100ml) (IP01)\r\nĐang cập nhật', 'Đang cập nhật', 0, 0, 0, NULL, '2022-11-20 01:53:08', NULL),
 (3, '[HÀNG TẶNG KHÔNG BÁN] Avander Nước tẩy trang Babassu Cleansing Water 150ml trị giá 150K', 'hang-tang-khong-ban-avander-nuoc-tay-trang-babassu-cleansing-water-150ml-tri-gia-150k', 250000, 11, 10, 0, 0, 'percent', 10, 'https://product.hstatic.net/200000551679/product/untitled_038980a264144ec3bd79a9a60d97575f_large.png', 0, 0, 0, 1, 0, 0, 'Đang cập nhật', 'Đang cập nhật', 0, 0, 0, NULL, NULL, NULL),
@@ -667,7 +667,7 @@ INSERT INTO `products` (`id`, `pro_name`, `pro_slug`, `pro_price`, `pro_category
 (88, 'Axis-Y Tinh chất Artichoke Intensive Skin Barrier Ampoule 30ml', 'axis-y-tinh-chat-artichoke-intensive-skin-barrier-ampoule-30ml', 268000, 22, 20, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/2._hinh_texture_f77142fe6ac949fcb37fc7b4b6be45a4.png', 0, 0, 0, 1, 0, 0, 'Tinh chất Axis-Y Artichoke Intensive Skin Barrier Ampoule có khả năng phục hồi và dưỡng ẩm để da luôn được nuôi dưỡng từ sâu bên trong. Đồng thời, các chất chống oxy hóa mạnh mẽ chứa trong Atiso giúp bảo vệ da khỏi các tác nhân gây hại, giữ cho da luôn căng mịn, tươi trẻ.', NULL, 0, 0, 0, '2022-11-22 09:01:15', NULL, NULL),
 (89, 'Axis-Y Tinh chất Dark Spot Correcting Glow Serum 50ml', 'axis-y-tinh-chat-dark-spot-correcting-glow-serum-50ml', 256000, 22, 0, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/3._hinh_inforgraphic_8b2d4ece86a74d0ba2ef3b1742acb7bf.png', 0, 0, 0, 1, 0, 0, 'Tinh chất Axis-Y Dark Spot Correcting Glow Serum chứa Niacinamide 5% giúp dưỡng da mờ thâm và cải thiện các vấn đề về sắc tố da như thâm xỉn, không đều màu. Đồng thời, Niacinamide còn có khả năng giảm viêm do mụn, kích thích quá trình tổng hợp ceramide, giúp da phục hồi. Bên cạnh đó, Squalane có nguồn gốc từ thực vật giúp dưỡng ẩm sâu cho làn da căng mọng, săn chắc.', NULL, 0, 0, 0, '2022-11-22 09:01:37', NULL, NULL),
 (90, 'Some By Mi Tinh chất AHA-BHA-PHA 30 Days Miracle Serum 50ml', 'some-by-mi-tinh-chat-aha-bha-pha-30-days-miracle-serum-50ml', 268000, 22, 15, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/vuong-03-01__13__335bb49c1e5e40e09199ce57d875370c.png', 0, 0, 0, 1, 0, 0, 'Tinh chất Some By Mi AHA-BHA-PHA 30 Days Miracle Serum với thành phần chứa bộ 3 AHA-BHA-PHA có tác dụng cao trong việc trị mụn, loại bỏ các tế bào chết giúp đánh bay các loại mụn cám, mụn đầu đen, mụn bọc sẽ nằm trong lòng bàn tay chỉ sau 30 ngày sử dụng kiên trì.', NULL, 0, 0, 0, '2022-11-22 09:02:07', NULL, NULL);
-INSERT INTO `products` (`id`, `pro_name`, `pro_slug`, `pro_price`, `pro_category_id`, `pro_number`, `pro_admin_id`, `pro_sale`, `pro_discount_type`, `pro_discount_value`, `pro_avatar`, `pro_view`, `pro_hot`, `pro_manufacturer_id`, `pro_active`, `pro_pay`, `pro_dealer_id`, `pro_description`, `pro_content`, `pro_review_total`, `pro_warranty_date`, `pro_review_star`, `created_at`, `updated_at`, `pro_configuration`) VALUES
+INSERT INTO `products` (`id`, `name`, `slug`, `price`, `category_id`, `number`, `admin_id`, `sale`, `discount_type`, `discount_value`, `avatar`, `view`, `hot`, `manufacturer_id`, `active`, `pay`, `dealer_id`, `description`, `content`, `review_total`, `warranty_date`, `review_star`, `created_at`, `updated_at`, `configuration`) VALUES
 (91, 'Melano CC Tinh chất Whitening Essence 20ml', 'melano-cc-tinh-chat-whitening-essence-20ml', 0, 22, 0, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/806a06c89f1a99e782c9832fc9fbecd4_90694336bf4c4e95aa0befb138f722e4.jpg', 0, 0, 0, 1, 0, 0, 'Tinh chất Melano CC Vitamin C Brightening Essence là một trong những sản phẩm trị thâm, dưỡng trăng. Với thành phần vitamin C kết hợp cùng nhiều vi chất khác, sản phẩm giúp cải thiện làn da rõ rệt, mang lại làn da trắng sáng, mịn màng.', NULL, 0, 0, 0, '2022-11-22 09:02:27', NULL, NULL),
 (92, 'Tinh chất dưỡng mi DHC Eyelash Tonic 6.5ml', 'tinh-chat-duong-mi-dhc-eyelash-tonic-65ml', 285000, 22, 15, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/f5806e1820fa6519f89854531ba213bd_00202ce7479f401a8f6bd3045028c658.jpg', 0, 0, 0, 1, 0, 0, 'Tinh chất dưỡng mi DHC Eyelash Tonic với thành phần từ chiết xuất 6 loại thực vật, placenta cùng các thành phần dưỡng chất giúp kích thích sự phát triển của lông mi, mang lại hàng mi dày và dài, chắc khỏe và mượt mà.', NULL, 0, 0, 0, '2022-11-22 09:02:53', NULL, NULL),
 (93, 'Skin1004 Tinh chất Madagascar Centella Ampoule 100ml', 'skin1004-tinh-chat-madagascar-centella-ampoule-100ml', 152000, 22, 15, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/1-05__11__f6b6fcda12174274ac0f525b252806f4.png', 0, 0, 0, 1, 0, 0, 'Tinh chất rau má hỗ trợ giảm mụn, phục hồi da Skin1004 Madagascar Centella Ampoule là dòng sản phẩm bán chạy nhất của thương hiệu chăm sóc da Skin1004 đến từ Hàn Quốc.Sản phẩm chứa chiết xuất từ rau má giúp làm dịu da, giảm sưng viêm mụn, hỗ trợ phục hồi da và chữa lành các thương tổn do mụn hoặc kích ứng gây ra, tái tạo làn da mới tươi sáng và mịn màng hơn.', NULL, 0, 0, 0, '2022-11-22 09:03:33', NULL, NULL),
@@ -748,7 +748,7 @@ INSERT INTO `products` (`id`, `pro_name`, `pro_slug`, `pro_price`, `pro_category
 (176, 'Sexylook Mặt nạ giấy Intensive Moisturizing Black Facial Mask 28 ml', 'sexylook-mat-na-giay-intensive-moisturizing-black-facial-mask-28-ml', 23000, 14, 50, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/trew_bd70fbfac37840f8907cdeda1833e11a.jpg', 0, 0, 0, 1, 0, 0, 'Mặt nạ giấy SEXYLOOK Intensive Moisturizing Black Facial Mask có công dụng chính là cấp ẩm cho da, cải thiện sắc tố da, điều hòa bã nhờn và giúp cho làn da trở nên căng tràn sức sống.', NULL, 0, 0, 0, '2022-11-24 10:29:32', NULL, NULL),
 (177, 'Sexylook Mặt nạ giấy Pure Avocado Cooling Cool Jelly Mask 38ml', 'sexylook-mat-na-giay-pure-avocado-cooling-cool-jelly-mask-38ml', 45200, 14, 20, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/c33db6367ae0e1a89ad849fbc0948eca_1629d320b8654b08b27f88392745f2e5.jpg', 0, 0, 0, 1, 0, 0, 'Mặt nạ giấy Sexylook Pure Avocado Cooling Cool Jelly Mask với chiết xuất bơ, chứa nhiều dưỡng chất thẩm thấu sâu vào làn da, đồng thời thanh lọc, cấp nước cho da và ngăn ngừa tình trạng lão hóa sớm, mang đến vẻ tươi trẻ cho da giúp da căng mịn và tươi sáng.', NULL, 0, 0, 0, '2022-11-24 10:30:09', NULL, NULL),
 (178, 'Carenel Mặt nạ ngủ Vita-C Toning Night Mask 80ml', 'carenel-mat-na-ngu-vita-c-toning-night-mask-80ml', 450000, 14, 45, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/mat-na-ngu-mat-vita-c-toning-night-mask-carenel-1_126296f86d4744e795ad8cecbaafe5df.jpg', 0, 0, 0, 1, 0, 0, 'Mặt nạ ngủ Care:nel Vita-C Toning Night Mask chứa thành phần nhóm vitamin B, C, e hỗ trợ dưỡng sáng, cải thiện thâm mụn, nám, tàn nhang cực kỳ hiệu quả.', NULL, 0, 0, 0, '2022-11-24 10:30:45', NULL, NULL);
-INSERT INTO `products` (`id`, `pro_name`, `pro_slug`, `pro_price`, `pro_category_id`, `pro_number`, `pro_admin_id`, `pro_sale`, `pro_discount_type`, `pro_discount_value`, `pro_avatar`, `pro_view`, `pro_hot`, `pro_manufacturer_id`, `pro_active`, `pro_pay`, `pro_dealer_id`, `pro_description`, `pro_content`, `pro_review_total`, `pro_warranty_date`, `pro_review_star`, `created_at`, `updated_at`, `pro_configuration`) VALUES
+INSERT INTO `products` (`id`, `name`, `slug`, `price`, `category_id`, `number`, `admin_id`, `sale`, `discount_type`, `discount_value`, `avatar`, `view`, `hot`, `manufacturer_id`, `active`, `pay`, `dealer_id`, `description`, `content`, `review_total`, `warranty_date`, `review_star`, `created_at`, `updated_at`, `configuration`) VALUES
 (179, 'Sexylook Mặt nạ giấy Marine Algae Whitening Facial Treatment Mask 28ml', 'sexylook-mat-na-giay-marine-algae-whitening-facial-treatment-mask-28ml', 43200, 14, 20, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/1_8e8513450983401a9e5446cca9778845.jpg', 0, 0, 0, 1, 0, 0, 'Mặt nạ giấy SEXYLOOK Marine Algae Whitening Facial Treatment Mask với tinh chất từ rong biển, nấm men và công nghệ enzyme làm đẹp da độc quyền từ Nhật Bản sẽ giúp giải quyết cùng lúc 3 vấn đề là da khô, nếp nhăn và sần sùi, đồng thời bổ sung thêm Mandelic Acid giúp làm mờ đốm nâu và dưỡng da sáng mịn đều màu.', NULL, 0, 0, 0, '2022-11-24 10:32:15', NULL, NULL),
 (180, 'Carenel Mặt nạ ngủ mặt Care:nel Aqua Night Mask 15ml', 'carenel-mat-na-ngu-mat-carenel-aqua-night-mask-15ml', 56200, 14, 30, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/aec7ffd24c65b7a1f0259c3206d3f21b_a3241eaa23a34a17a738e692ea8bfe61.jpg', 0, 0, 0, 1, 0, 0, 'Mặt nạ ngủ Care:nel Aqua Night Mask được sử dụng vào ban đêm sẽ giúp cho da có thời gian thư giãn và nạp lại năng lượng vào sáng hôm sau. Mặt nạ ngủ còn giúp cảm giác thoải mái mát lạnh đối với da, để dễ dàng chìm vào giấc ngủ. Không chỉ dưỡng ẩm da, mặt nạ ngủ còn hỗ trợ da phục hồi lại sắc độ da, loại bỏ dần những nét tối sạm trên da, thay vào đó là sự hồng hào, khỏe khoắn và tràn đầy năng lượng.', NULL, 0, 0, 0, '2022-11-24 10:32:39', NULL, NULL),
 (181, 'Wellderma Mặt nạ giấy Cica Treatment Repair Fitting Mask 25g', 'wellderma-mat-na-giay-cica-treatment-repair-fitting-mask-25g', 54999, 14, 50, 0, 0, 'percent', 0, 'https://product.hstatic.net/200000551679/product/wellderma-premium-cica-treatment-repair-fitting-mask-2_42ad184b3a994f0fadeb180fd805dbbc.jpg', 0, 0, 0, 1, 0, 0, 'Mặt nạ giấy Wellderma Cica Treatment Repair Fitting Mask được chiết xuất từ rau má rất lành tính, mát dịu rất tốt cho da tổn thương. Được chiết xuất từ 7 công thức tự nhiên như lá oregano, vỏ cây liễu trắng, cây kim tiền thảo, vàng, lactobacillus (chiết xuất từ ​​đậu nành lên men), vỏ cây thịt gà và cây kim mai giúp làn da của bạn đủ ẩm và khỏe mạnh.', NULL, 0, 0, 0, '2022-11-24 10:33:25', NULL, NULL),
@@ -1287,8 +1287,8 @@ ALTER TABLE `articles_tags`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `categories_c_name_unique` (`c_name`) USING BTREE,
-  ADD KEY `categories_c_slug_index` (`c_slug`) USING BTREE;
+  ADD UNIQUE KEY `categories_name_unique` (`name`) USING BTREE,
+  ADD KEY `categories_slug_index` (`slug`) USING BTREE;
 
 --
 -- Indexes for table `comments`
@@ -1358,10 +1358,10 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `products_pro_name_unique` (`pro_name`) USING BTREE,
-  ADD KEY `products_pro_slug_index` (`pro_slug`) USING BTREE,
-  ADD KEY `products_pro_hot_index` (`pro_hot`) USING BTREE,
-  ADD KEY `products_pro_active_index` (`pro_active`) USING BTREE;
+  ADD UNIQUE KEY `products_name_unique` (`name`) USING BTREE,
+  ADD KEY `products_slug_index` (`slug`) USING BTREE,
+  ADD KEY `products_hot_index` (`hot`) USING BTREE,
+  ADD KEY `products_active_index` (`active`) USING BTREE;
 
 --
 -- Indexes for table `products_images`

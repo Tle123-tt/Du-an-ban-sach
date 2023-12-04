@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const bookingBuilder = require('../../app/controllers/cms/Booking.controller');
-const authMiddleware = require('./../../app/middleware/adminAuthjwt');
+const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 
 router.get('/booking/',isAuth,bookingBuilder.index);

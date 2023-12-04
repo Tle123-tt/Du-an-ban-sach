@@ -7,8 +7,8 @@ import formatPrice from "../../pages/utils/util_price";
 
 function ProductItem({product, loading}) {
     const renderAge = () => {
-        if (loading === false && product.pro_review_total > 0) {
-            return Math.round(product.pro_review_star / product.pro_review_total, 1);
+        if (loading === false && product.review_total > 0) {
+            return Math.round(product.review_star / product.review_total, 1);
         }
         return 0;
     }
@@ -19,17 +19,17 @@ function ProductItem({product, loading}) {
             </div>
         ) : (
             <div className='product-item mb-3'>
-                <Link to={`/san-pham/${product.pro_slug}`} className='product-item-image'>
-                    <LazyLoadImage src={product.pro_avatar}
-                                   alt={product.pro_name}
+                <Link to={`/san-pham/${product.slug}`} className='product-item-image'>
+                    <LazyLoadImage src={product.avatar}
+                                   alt={product.name}
                                    placeholderSrc={ImageDefailt}
                     />
                 </Link>
                 <h3 className='product-item-title'>
-                    <Link to={`/san-pham/${product.pro_slug}`}>{product.pro_name}</Link>
+                    <Link to={`/san-pham/${product.slug}`}>{product.name}</Link>
                 </h3>
                 <p className='product-item-start'>
-                    <span><span>{renderAge()} </span> <FaStar className='start' /> </span> <span>|</span>  <span>Đã bán {product.pro_pay}</span>
+                    <span><span>{renderAge()} </span> <FaStar className='start' /> </span> <span>|</span>  <span>Đã bán {product.pay}</span>
                 </p>
                 {/*{ product.sale > 0 ? (*/}
                 {/*    <p className='product-item-price'>*/}
@@ -41,7 +41,7 @@ function ProductItem({product, loading}) {
                 {/*    </p>*/}
                 {/*)}*/}
                 <p className='product-item-price'>
-                    <span className='price'>{formatPrice(product?.pro_price)} <sup>đ</sup></span>
+                    <span className='price'>{formatPrice(product?.price)} <sup>đ</sup></span>
                 </p>
             </div>
         ))

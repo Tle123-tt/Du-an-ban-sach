@@ -10,11 +10,23 @@ exports.buildParamPaging = ( queryParam ) =>
 exports.buildResponsePaging = ( page, page_size, total ) =>
 {
 	return {
-		total_page: Math.ceil( total / page_size ),
+		total_page: Math.ceil( Number(total) / Number(page_size) ),
 		total: total,
-		current_page: parseInt( page ),
+		page: parseInt( page ),
 		page_size: parseInt( page_size )
 	}
+}
+
+exports.buildException = ( code, message ) =>
+{
+	return {
+		status: ''
+	}
+}
+
+exports.buildException = ( res,status, error ) =>
+{
+	return res.status(status || 400).json(error || {status: 400, message: "Error"})
 }
 
 exports.makeid = ( length = 5 ) =>

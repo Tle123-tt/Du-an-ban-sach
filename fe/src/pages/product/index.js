@@ -34,8 +34,8 @@ function ProductPage(){
         if (response.status === 200) {
             setProductDetail(response.data);
             let image = {
-                original: response.data.pro_avatar,
-                thumbnail : response.data.pro_avatar
+                original: response.data.avatar,
+                thumbnail : response.data.avatar
             }
             images.push(image);
 
@@ -72,7 +72,7 @@ function ProductPage(){
     }
 
     const addCart = async () => {
-        if (productDetail.pro_number <= qty) {
+        if (productDetail.number <= qty) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
@@ -124,7 +124,7 @@ function ProductPage(){
                         <div className='product-detail-header'>
                             <h4 className='cate'><span>Chuyên mục</span> <Link>Điện thoại</Link></h4>
                                 { loadingProductDetail === false ? (
-                                    <h1>{productDetail.pro_name}</h1>
+                                    <h1>{productDetail.name}</h1>
                                 ) : (
                                     <Skeleton  count={2 } />
                                 )}
@@ -134,7 +134,7 @@ function ProductPage(){
                                         { ratingConfig.map((index) => (
                                             <FaStar key={index} className={'active'}  />
                                         ))}
-                                        <Link>Xem ({productDetail.pro_review_total | 0}) đánh giá</Link>
+                                        <Link>Xem ({productDetail.review_total | 0}) đánh giá</Link>
                                     </p>
                                 ) : (
                                     <Skeleton  count={1} />
@@ -144,7 +144,7 @@ function ProductPage(){
                                         <span>120.000 đ</span>
                                     </p> */}
                                     <p className='price'>
-                                        <span>{formatPrice(productDetail?.pro_price)} đ</span> <span><sub className='discount'>0 đ</sub></span>
+                                        <span>{formatPrice(productDetail?.price)} đ</span> <span><sub className='discount'>0 đ</sub></span>
                                     </p>
                                 </div>
                                 <div className="box-qty-add-cart">
@@ -158,7 +158,7 @@ function ProductPage(){
                                 <div className="box-button-cart d-flex">
                                     <button type="submit" onClick={addCart} className={'btn btn-success'}>Thêm giỏ hàng</button>
                                 </div>
-                                <p style={{ marginTop: "10px"}}>{productDetail?.pro_content}</p>
+                                <p style={{ marginTop: "10px"}}>{productDetail?.content}</p>
                             </div>
                         </div>
                     </Col>

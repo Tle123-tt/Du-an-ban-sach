@@ -4,7 +4,7 @@ var router = express.Router();
 const roleBuilder = require('../../app/controllers/cms/Role.controller');
 
 
-const authMiddleware = require('./../../app/middleware/adminAuthjwt');
+const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 const permissionBuilder = require("../../app/controllers/cms/Permission.controller");
 

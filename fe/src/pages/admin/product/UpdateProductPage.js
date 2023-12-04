@@ -13,7 +13,7 @@ function UpdateProductPage() {
     const [desc, setDesc] = useState('');
     const [status, setStatus] = useState(1);
     let [product, setProduct] = useState(1);
-    let [pro_number, setNumber] = useState(0);
+    let [number, setNumber] = useState(0);
     let [price, setPrice] = useState(0);
     const [categoryId, setCategoryId] = useState(0);
     const [categories, setCategories] = useState([]);
@@ -24,13 +24,13 @@ function UpdateProductPage() {
         const response = await productAdminService.findById(id);
         if (response.status === 200) {
             setProduct(response.data);
-            setName(response.data.pro_name);
-            setAvatar(response.data.pro_avatar);
-            setDesc(response.data.pro_description);
-            setNumber(response.data.pro_number);
-            setCategoryId(response.data.pro_category_id);
-            setPrice(response.data.pro_price);
-            setStatus(response.data.pro_active);
+            setName(response.data.name);
+            setAvatar(response.data.avatar);
+            setDesc(response.data.description);
+            setNumber(response.data.number);
+            setCategoryId(response.data.category_id);
+            setPrice(response.data.price);
+            setStatus(response.data.active);
         }
     }
 
@@ -38,13 +38,13 @@ function UpdateProductPage() {
         e.preventDefault();
 
         let newProduct = {...product};
-        newProduct.pro_name = name;
-        newProduct.pro_description = desc;
-        newProduct.pro_discount_value = '0';
-        newProduct.pro_price = price;
-        newProduct.pro_number = pro_number;
-        newProduct.pro_category_id = parseInt(categoryId);
-        newProduct.pro_avatar = avatar;
+        newProduct.name = name;
+        newProduct.description = desc;
+        newProduct.discount_value = '0';
+        newProduct.price = price;
+        newProduct.number = number;
+        newProduct.category_id = parseInt(categoryId);
+        newProduct.avatar = avatar;
         console.log('---------- new product: ', newProduct);
 
         const results = await productAdminService.updateProduct(newProduct, id);
@@ -140,7 +140,7 @@ function UpdateProductPage() {
                                         <Form.Select value={categoryId} onChange={handleChangeCategory} aria-label="Default select example">
                                             <option>Mời bạn chọn danh mục</option>
                                             { categories && categories.length > 0 && categories.map((item, index) => (
-                                                <option key={index} value={ item.id }>{item.c_name}</option>
+                                                <option key={index} value={ item.id }>{item.name}</option>
                                             ))}
                                         </Form.Select>
                                     </Form.Group>
@@ -155,7 +155,7 @@ function UpdateProductPage() {
                                         <Form.Label>Số lượng</Form.Label>
                                         <Form.Control
                                             type="number" rows={3}
-                                            value={pro_number}
+                                            value={number}
                                             onChange={(event) => setNumber(event.target.value)}
                                         />
                                     </Form.Group>

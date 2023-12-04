@@ -135,13 +135,13 @@ function AdminTransactionPage() {
                                                         {item.orders.map((order, key) => (
                                                             <div className="items" key={key}>
                                                                 <div className="image">
-                                                                    <Link to={`/san-pham/${order.pro_slug}`}>
-                                                                        <img src={order.product.pro_avatar} />
+                                                                    <Link to={`/san-pham/${order.slug}`}>
+                                                                        <img src={order.product.avatar} />
                                                                     </Link>
                                                                 </div>
                                                                 <div className="info">
-                                                                    <Link to={`/san-pham/${order.product.pro_slug}`}>
-                                                                        <h4>{order.product.pro_name}</h4>
+                                                                    <Link to={`/san-pham/${order.product.slug}`}>
+                                                                        <h4>{order.product.name}</h4>
                                                                     </Link>
                                                                     {/*<span className='item-delete' >*/}
                                                                     {/*    <FaTrash /> huỷ bỏ*/}

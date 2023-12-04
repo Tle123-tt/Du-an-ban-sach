@@ -21,7 +21,7 @@ function FlashSaleCpn()
     const getListsProductsFlash = async () => {
         const response = await productService.getListsProducts({
             page_size: 18,
-            sort: 'pro_pay,desc'
+            sort: 'pay,desc'
         });
         if (response.status === 200) {
             setProductsFlash(response.data);
@@ -80,24 +80,24 @@ function FlashSaleCpn()
                                                     <span>Giảm</span>
                                                 </div>
                                             </div>
-                                            <Link to={`/san-pham/${product.pro_slug}`} className='product-item-image'>
-                                                {/*<img src={product.pro_avatar}  alt={product.pro_name}/>*/}
-                                                <LazyLoadImage src={product.pro_avatar}
-                                                               alt={product.pro_name}
+                                            <Link to={`/san-pham/${product.slug}`} className='product-item-image'>
+                                                {/*<img src={product.avatar}  alt={product.name}/>*/}
+                                                <LazyLoadImage src={product.avatar}
+                                                               alt={product.name}
                                                                height={165}
                                                                placeholderSrc={ImageDefailt}
                                                 />
                                             </Link>
                                             {/* <h3 className='product-item-title'>
-                                                <Link to='/san-pham'>{product.pro_name}</Link>
+                                                <Link to='/san-pham'>{product.name}</Link>
                                             </h3> */}
 
                                             <p className='product-item-price-flash'>
-                                                <span className='price'>{formatPrice(product?.pro_price)} <sup>đ</sup></span>
+                                                <span className='price'>{formatPrice(product?.price)} <sup>đ</sup></span>
                                             </p>
                                             <div className="deals_qty">
                                                 <div className="deals_progress" style={{ width: "80%" }}></div>
-                                                <span>Đã bán {product.pro_pay}</span>
+                                                <span>Đã bán {product.pay}</span>
                                                 <img className="icon" src="https://frontend.tikicdn.com/_desktop-next/static/img/fire_icon.svg" />
                                             </div>
 

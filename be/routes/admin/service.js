@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const serviceBuilder = require('../../app/controllers/cms/Service.controller');
-const authMiddleware = require('./../../app/middleware/adminAuthjwt');
+const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 
 router.get('/service/',isAuth,serviceBuilder.index);

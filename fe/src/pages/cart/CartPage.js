@@ -47,15 +47,15 @@ function CartPage() {
         carts.forEach((item, index) => {
             transactions.push({
                 id: item.id,
-                name: item.pro_name,
+                name: item.name,
                 quantity: item.quantity,
                 discount_type: "money",
                 discount_value: 0,
-                price: item.pro_price,
-                total_price: item.pro_price,
+                price: item.price,
+                total_price: item.price,
             });
 
-            total += item.pro_price * item.quantity;
+            total += item.price * item.quantity;
         });
 
         order.name = name;
@@ -89,7 +89,7 @@ function CartPage() {
 
     // tăng
     const increaseQty = async (product) => {
-        if (product.pro_number <= product.quantity) {
+        if (product.number <= product.quantity) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
@@ -125,7 +125,7 @@ function CartPage() {
 
     function getTotal() {
         carts.map((item) => {
-            price_total += item.quantity * item.pro_price;
+            price_total += item.quantity * item.price;
         });
         return price_total.toLocaleString();
     }
@@ -167,16 +167,16 @@ function CartPage() {
                                 {carts && carts.map((item, index) => (
                                     <div className="items" key={index}>
                                         <div className="image">
-                                            <Link to={`/san-pham/${item.pro_slug}`}>
-                                                <img src={item.pro_avatar} />
+                                            <Link to={`/san-pham/${item.slug}`}>
+                                                <img src={item.avatar} />
                                             </Link>
                                             <span className='item-delete' onClick={() => deleteCart(item)}>
                                                 <FaTrash /> Xoá
                                             </span>
                                         </div>
                                         <div className="info">
-                                            <Link to={`/san-pham/${item.pro_slug}`}>
-                                                <h4>{item.pro_name}</h4>
+                                            <Link to={`/san-pham/${item.slug}`}>
+                                                <h4>{item.name}</h4>
                                             </Link>
                                         </div>
                                         <div className="price">

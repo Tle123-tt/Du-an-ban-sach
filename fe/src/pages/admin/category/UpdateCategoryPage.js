@@ -18,11 +18,11 @@ function UpdateCategoryPage() {
         const response = await categoryService.findById(id);
         if (response.status === 200) {
             console.log('---------- response.data', response.data);
-            setName(response.data.c_name);
-            setAvatar(response.data.c_avatar);
-            setDesc(response.data.c_description);
-            setStatus(response.data.c_status);
-            setHot(response.data.c_hot);
+            setName(response.data.name);
+            setAvatar(response.data.avatar);
+            setDesc(response.data.description);
+            setStatus(response.data.status);
+            setHot(response.data.hot);
         }
     }
 
@@ -32,9 +32,9 @@ function UpdateCategoryPage() {
         console.log('--------- status', status);
         // return;
         let data = {
-            c_name: name,
-            c_avatar: avatar,
-            c_description: desc,
+            name: name,
+            avatar: avatar,
+            description: desc,
             c_status: (status == 1) ? 1 : 0 ,
             c_hot: (hot == 1) ? 1 : 0 ,
         }

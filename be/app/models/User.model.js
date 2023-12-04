@@ -20,7 +20,7 @@ const userSchema = new Schema(
         avatar: {
             type: String,
         },
-        sex: {
+        gender: {
             type: String,
             default: "Khac"
         },
@@ -33,12 +33,12 @@ const userSchema = new Schema(
             default: "USER"
         },
         created_at : { type: Date, default: Date.now },
-        roles: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Role"
-            }
-        ]
+        // roles: [
+        //     {
+        //         type: mongoose.Schema.Types.ObjectId,
+        //         ref: "Role"
+        //     }
+        // ]
     },
     { collection: 'users' }
 );

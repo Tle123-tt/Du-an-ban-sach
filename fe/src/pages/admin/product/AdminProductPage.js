@@ -119,17 +119,17 @@ function AdminProductPage ()
 											<tr key={ index }>
 												<td>{ item.id }</td>
 												<td>
-													<Link to={ '/' } title={ item.pro_name }>
-														<img src={ item.pro_avatar } style={ { width: '40px', height: '40px' } } />
+													<Link to={ '/' } title={ item.name }>
+														<img src={ item.avatar } style={ { width: '40px', height: '40px' } } />
 													</Link>
 												</td>
-												<td><span style={ { fontSize: '14px' } }>{ item.pro_name }</span></td>
+												<td><span style={ { fontSize: '14px' } }>{ item.name }</span></td>
 												<td>
-													<Link to={ `/` }>{ item?.category?.c_name }</Link>
+													<Link to={ `/` }>{ item?.category?.name }</Link>
 												</td>
 												<td>
-													<Badge bg={ item.pro_active === 1 ? 'success' : 'dark' }>
-														{ item.pro_active === 1 ? 'Hiển thị' : 'Ẩn' }
+													<Badge bg={ item.active === 1 ? 'success' : 'dark' }>
+														{ item.active === 1 ? 'Hiển thị' : 'Ẩn' }
 													</Badge>
 												</td>
 												<td>

@@ -19,9 +19,9 @@ function CreateCategoryPage()
         e.preventDefault();
 
         let data = {
-            c_name: name,
-            c_avatar: avatar,
-            c_description: desc,
+            name: name,
+            avatar: avatar,
+            description: desc,
             c_status: (status == 1 ) ? 1 : 0 ,
             c_hot: (hot == 1 ) ? 1 : 0 ,
         }

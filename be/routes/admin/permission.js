@@ -4,7 +4,7 @@ var router = express.Router();
 const permissionBuilder = require('../../app/controllers/cms/Permission.controller');
 
 
-const authMiddleware = require('./../../app/middleware/adminAuthjwt');
+const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 
 router.get('/permission/',isAuth, permissionBuilder.index);

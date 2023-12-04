@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const menuBuilder = require('../../app/controllers/cms/Menu.controller');
-const authMiddleware = require('./../../app/middleware/adminAuthjwt');
+const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 
 router.get('/menu/',isAuth,menuBuilder.index);

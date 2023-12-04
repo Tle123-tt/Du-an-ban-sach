@@ -106,7 +106,7 @@ exports.index = async (req, res) => {
         const meta = {
             total_page: Math.ceil(count / page_size),
             total: count,
-            current_page: parseInt(page),
+            page: parseInt(page),
             page_size: parseInt(page_size)
         }
         const status = 200;

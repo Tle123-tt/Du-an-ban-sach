@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const authMiddleware = require('./../../app/middleware/adminAuthjwt');
+const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 const adminBuilder = require("../../app/controllers/cms/Admin.controller");
 

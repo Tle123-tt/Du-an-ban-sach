@@ -106,20 +106,20 @@ function AdminCategoryPage ()
 										<tr key={ index }>
 											<td>{ item.id }</td>
 											<td>
-												<Link to={ '/' } title={ item.c_name }>
-													<img src={ item.c_avatar } style={ { width: '40px', height: '40px' } } />
+												<Link to={ '/' } title={ item.name }>
+													<img src={ item.avatar } style={ { width: '40px', height: '40px' } } />
 												</Link>
 											</td>
-											<td>{ item.c_name }</td>
-											<td>{ item.c_description }</td>
+											<td>{ item.name }</td>
+											<td>{ item.description }</td>
 											<td>
-												<Badge bg={ item.c_status === 1 ? 'success' : 'dark' }>
-													{ item.c_status === 1 ? 'Hiển thị' : 'Ẩn' }
+												<Badge bg={ item.status === 1 ? 'success' : 'dark' }>
+													{ item.status === 1 ? 'Hiển thị' : 'Ẩn' }
 												</Badge>
 											</td>
 											<td>
-												<Badge bg={ item.c_hot === 1 ? 'success' : 'dark' }>
-													{ item.c_hot === 1 ? 'Nổi bật' : 'Mặc định' }
+												<Badge bg={ item.hot === 1 ? 'success' : 'dark' }>
+													{ item.hot === 1 ? 'Nổi bật' : 'Mặc định' }
 												</Badge>
 											</td>
 											<td>

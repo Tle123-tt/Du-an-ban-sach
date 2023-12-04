@@ -44,6 +44,7 @@ exports.roleGuards = async ( req, res, next ) =>
 		{
 			throw { message: 'Bạn không có quyền truy cập vào tính năng này!', status: 403, code: '403' };
 		}
+		return next();
 		let roles = user?.roles;
 		// console.log( 'roles admin--------> ', roles );
 		// console.log('=========> CHECK ROLES <=============', roles);

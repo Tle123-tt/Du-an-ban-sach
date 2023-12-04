@@ -66,10 +66,10 @@ function HomePage () {
                                 {categories && categories.map((category, index) => (
                                     <div className='lists-category-home-item' key={index}>
                                         <div className='lists-category-home-box'>
-                                            <Link to={`/danh-muc/${category.c_slug}`}>
-                                                <img src={category.c_avatar}  alt={category.c_name} />
+                                            <Link to={`/danh-muc/${category.slug}`}>
+                                                <img src={category.avatar}  alt={category.name} />
                                             </Link>
-                                            <Link className='pt-2 pb-2'  to={`/danh-muc/${category.c_slug}-${category.id}`} title={category.c_name}>{category.c_name}</Link>
+                                            <Link className='pt-2 pb-2'  to={`/danh-muc/${category.slug}-${category.id}`} title={category.name}>{category.name}</Link>
                                         </div>
                                     </div>
                                 ))}

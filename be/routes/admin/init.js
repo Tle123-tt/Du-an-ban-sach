@@ -13,6 +13,7 @@ const adminRouter = require("./admin");
 const menuRouter = require("./menu");
 const cateRouter = require("./category");
 const voteRouter = require("./vote");
+const orderRouter = require("./order");
 
 router.use(articleRouter);
 router.use(serviceRouter);
@@ -27,5 +28,6 @@ router.use(adminRouter);
 router.use(menuRouter);
 router.use(cateRouter);
 router.use(voteRouter);
+router.use(orderRouter);
 
 module.exports = router;

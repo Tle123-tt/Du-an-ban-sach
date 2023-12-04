@@ -33,7 +33,7 @@ function ModalVote(props) {
 
     useEffect(() => {
         console.log('------------ props: ', props);
-        setTitle(props.product?.pro_name);
+        setTitle(props.product?.name);
     }, [props]);
 
     return (

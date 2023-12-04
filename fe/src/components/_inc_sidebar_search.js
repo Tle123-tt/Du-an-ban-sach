@@ -88,8 +88,8 @@ function SidebarSearch({queryParameters, category}) {
                     ) : (
                         <>
                             {categories.length > 0 &&  categories.map((item, index) => (
-                                <li key={index} className={ item.c_slug === (category?.c_slug ?? "") ? 'active' : ''}>
-                                    <Link to={`/danh-muc/${item.c_slug}`}>{item.c_name}</Link>
+                                <li key={index} className={ item.slug === (category?.slug ?? "") ? 'active' : ''}>
+                                    <Link to={`/danh-muc/${item.slug}`}>{item.name}</Link>
                                 </li>
                             ))}
                         </>
