@@ -10,25 +10,14 @@ const transactionSchema = new Schema(
         product_id: {
             type: String,
         },
-        status: {
-            type: Number,
-            default: 1
-        },
+        
         name: {
             type: String,
         },
 		avatar: {
             type: String,
         },
-		receiver_email: {
-            type: String,
-        },
-		receiver_phone: {
-            type: String,
-        },
-		receiver_address: {
-            type: String,
-        },
+		
 		price: {
             type: Number,
         },

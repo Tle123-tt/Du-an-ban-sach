@@ -1,16 +1,12 @@
 const { buildResponseException } = require( "../../helpers/buildData.helper" );
-const RoomModel = require( "../../models/Room.model" );
-const UserModel = require( "../../models/User.model" );
-const Vote = require( "../../models/Vote.model" );
-const VoteService = require( "../../services/vote.service" );
+const ProductService = require("../../services/product.service")
 
 exports.index = async ( req, res ) =>
 {
-	// destructure page and limit and set default values
 
 	try
 	{
-		return await VoteService.index( req, res )
+		return await ProductService.index(req, res);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -24,7 +20,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.show( req, res )
+		return await ProductService.show(req, res);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -38,7 +34,7 @@ exports.store = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.store( req, res )
+		return await ProductService.store(req, res);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -46,13 +42,14 @@ exports.store = async ( req, res ) =>
 			message: e?.message || "Không có dữ liệu"
 		} );
 	}
+
 };
 
 exports.update = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.update( req, res )
+		return await ProductService.update(req, res);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -66,7 +63,7 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.delete( req, res )
+		return await ProductService.delete(req, res);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {

@@ -9,7 +9,7 @@ const verify = promisify( jwt.verify ).bind( jwt );
 
 const authMiddleware = require( './../../app/middleware/userAuthjwt' );
 const Article = require( "../models/Article.model" );
-const { makeid } = require( "../helpers/buildData.helper" );
+const { makeId } = require( "../helpers/buildData.helper" );
 const nodemailer = require( 'nodemailer' );
 const isAuth = authMiddleware.isAuth;
 
@@ -227,7 +227,7 @@ exports.sendMailPassword = async ( req, res ) =>
 		console.log( '------------------ USER UPDATE', userUpdate );
 		if ( userUpdate )
 		{
-			const newPass = makeid( 6 );
+			const newPass = makeId( 6 );
 			userUpdate.password = bcrypt.hashSync( newPass, 12 );
 
 			await userUpdate.save();

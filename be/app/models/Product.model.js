@@ -10,13 +10,13 @@ const productSchema = new Schema(
 		slug: {
             type: String,
         },
+		avatar: {
+            type: String,
+        },
         quantity: {
             type: Number,
         },
-        total_price: {
-            type: Number,
-        },
-		sale: {
+        price: {
             type: Number,
         },
 		category_id: {
@@ -46,12 +46,9 @@ const productSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category"
         },
-		// products_images: [
-        //     {
-        //         type: mongoose.Schema.Types.ObjectId,
-        //         ref: "ProductImage"
-        //     }
-        // ],
+		product_images: {
+            type: Array
+        },
         created_at : { type: Date, default: Date.now }
     },
     { collection: 'products' }

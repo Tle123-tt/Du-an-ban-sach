@@ -11,14 +11,14 @@ const voteSchema = new Schema(
         },
         vote_number : {type: Number},
         user_id : {type: String},
-        room_id : {type: String},
+        product_id : {type: String},
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        room: {
+        product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Room"
+            ref: "Product"
         },
         created_at : { type: Date, default: Date.now },
     },

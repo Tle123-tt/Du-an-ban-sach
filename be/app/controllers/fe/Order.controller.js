@@ -1,7 +1,5 @@
-const TransactionModel = require( "../../models/Transaction.model" );
 const moment = require( "moment" );
-const { buildResponsePaging, buildResponseException } = require( "../../helpers/buildData.helper" );
-const OrderModel = require( "../../models/Order.model" );
+const {  buildResponseException } = require( "../../helpers/buildData.helper" );
 const OrderService = require( "../../services/order.service" );
 exports.index = async ( req, res ) =>
 {
@@ -59,6 +57,22 @@ exports.update = async ( req, res ) =>
 	try
 	{
 		return await OrderService.update( req, res );
+	} catch ( e )
+	{
+		console.log( 'Order update error--------> ', e );
+		buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+
+	}
+};
+
+exports.store = async ( req, res ) =>
+{
+	try
+	{
+		return await OrderService.store( req, res );
 	} catch ( e )
 	{
 		console.log( 'Order update error--------> ', e );

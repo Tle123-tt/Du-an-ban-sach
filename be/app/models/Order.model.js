@@ -35,6 +35,13 @@ const orderSchema = new Schema(
 		payment_status: {
             type: Number,
         },
+		user_id: {
+            type: String,
+        },
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
+		},
         payment_type: {
             type: Number,
             default: 0
