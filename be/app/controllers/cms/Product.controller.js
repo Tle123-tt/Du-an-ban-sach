@@ -1,26 +1,28 @@
-const { buildResponseException } = require( "../../helpers/buildData.helper" );
-const ProductService = require("../../services/product.service")
-
+const { buildResponse, buildResponseException } = require( "../../helpers/buildData.helper" );
+const ProductService = require( "../../services/product.service" );
 exports.index = async ( req, res ) =>
 {
-
 	try
 	{
-		return await ProductService.index(req, res);
+		const filters = req.query;
+		const response = await  ProductService.index( filters );
+		await buildResponse(res, response)
 	} catch ( e )
 	{
-		buildResponseException( res, 400, {
+		await buildResponseException( res, 400, {
 			status: 400,
 			message: e?.message || "Không có dữ liệu"
 		} );
 	}
+
 };
 
 exports.show = async ( req, res ) =>
 {
 	try
 	{
-		return await ProductService.show(req, res);
+		const response =  await ProductService.show( req.param.id );
+		await buildResponse(res, response);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -34,10 +36,11 @@ exports.store = async ( req, res ) =>
 {
 	try
 	{
-		return await ProductService.store(req, res);
+		const response =  await ProductService.store( req.body );
+		await buildResponse(res, response);
 	} catch ( e )
 	{
-		buildResponseException( res, 400, {
+		await buildResponseException( res, 400, {
 			status: 400,
 			message: e?.message || "Không có dữ liệu"
 		} );
@@ -49,12 +52,13 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		return await ProductService.update(req, res);
+		const response =  await ProductService.update( req.param.id, req.body );
+		await buildResponse(res, response);
 	} catch ( e )
 	{
-		buildResponseException( res, 400, {
+		await buildResponseException( res, 400, {
 			status: 400,
-			message: e?.message || "Không có dữ liệu"
+			message: e?.message || "Không có dữ liệu "
 		} );
 	}
 };
@@ -63,12 +67,12 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		return await ProductService.delete(req, res);
-	} catch ( e )
-	{
-		buildResponseException( res, 400, {
+		const response =  await ProductService.delete( req.param.id );
+		await buildResponse(res, response);
+	} catch (e) {
+		await buildResponseException(res, 400, {
 			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-	}
+			message:  e?.message || "Không có dữ liệu"
+		});
+	}	
 };

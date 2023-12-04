@@ -2,16 +2,17 @@ const TransactionModel = require( "../models/Transaction.model" );
 const moment = require( "moment" );
 const { buildResponsePaging, buildResponseException, makeId } = require( "../helpers/buildData.helper" );
 const OrderModel = require( "../models/Order.model" );
-exports.index = async ( req, res ) =>
+const { sendMailOrder } = require( "./sendMail.service" );
+exports.index = async ( filters ) =>
 {
-	const page = req.query?.page || 1; const page_size = req.query?.page_size || 10;
+	const page = filters?.page || 1; const page_size = filters?.page_size || 10;
 	const condition = {};
-	if ( req.query.receiver_name ) condition.receiver_name = req.query.receiver_name;
-	if ( req.query.receiver_email ) condition.receiver_email = req.query.receiver_email;
-	if ( req.query.receiver_phone ) condition.receiver_phone = req.query.receiver_phone;
-	if ( req.query.status ) condition.status = req.query.status;
-	if ( req.query.shipping_status ) condition.shipping_status = req.query.shipping_status;
-	if ( req.query.payment_status ) condition.payment_status = req.query.payment_status;
+	if ( filters?.receiver_name ) condition.receiver_name = filters.receiver_name;
+	if ( filters?.receiver_email ) condition.receiver_email = filters.receiver_email;
+	if ( filters?.receiver_phone ) condition.receiver_phone = filters.receiver_phone;
+	if ( filters?.status ) condition.status = filters.status;
+	if ( filters?.shipping_status ) condition.shipping_status = filters.shipping_status;
+	if ( filters?.payment_status ) condition.payment_status = filters.payment_status;
 
 	const orders = await OrderModel.find()
 		.where( condition )
@@ -30,11 +31,11 @@ exports.index = async ( req, res ) =>
 	const data = {
 		orders: orders
 	}
-	return res.status( 200 ).json( {
+	return  {
 		data,
 		meta,
 		status
-	} );
+	} ;
 };
 
 exports.show = async ( req, res ) =>
@@ -44,23 +45,22 @@ exports.show = async ( req, res ) =>
 			_id: req.params.id
 		}
 	).populate( 'transactions' );
-	return res.status( 200 ).json( { data: order, status: 200 } );
+	return order;
 };
 
-exports.delete = async ( req, res ) =>
+exports.delete = async ( id ) =>
 {
-	await OrderModel.deleteOne( { _id: req.params.id } );
-	await TransactionModel.deleteMany( { order_id: req.params.id } );
-	return res.status( 200 ).json( { data: [], status: 200 } );
+	await OrderModel.deleteOne( { _id: id } );
+	await TransactionModel.deleteMany( { order_id: id } );
+	return [];
 };
 
 
-exports.update = async ( req, res ) =>
+exports.update = async ( id, data ) =>
 {
-	const data = req.body;
 	let order = await OrderModel.findOne(
 		{
-			_id: req.params.id
+			_id: id
 		}
 	);
 	if ( !order )
@@ -87,12 +87,24 @@ exports.update = async ( req, res ) =>
 		order.shipping_status = Number( data.shipping_status );
 	}
 	await order.save();
-	return res.status( 200 ).json( { data: order, status: 200 } );
+	return order;
 };
 
-exports.store = async ( req, res ) =>
+exports.webhook = async (filters) => {
+    let _id = filters.vnp_TxnRef;
+    if (filters.vnp_ResponseCode !== "00") { // filters.vnp_ResponseCode === "00" thanh toán thành công
+        const order = await OrderModel.findById({ _id: _id }).populate(['transactions']);
+        if (order) {
+			sendMailOrder(order);
+			order.payment_status = 1;
+			order.save();
+        }
+
+    }
+}
+
+exports.store = async ( data ) =>
 {
-	const data = req.body;
 	if(!data.products || data.products?.length <= 0) {
 		throw {
 			message: "Vui lòng chọn sản phẩm"
@@ -127,5 +139,5 @@ exports.store = async ( req, res ) =>
 			await transaction.save();
 		}
 	}
-	return res.status( 200 ).json( { data: order, status: 200 } );
+	return order;
 };

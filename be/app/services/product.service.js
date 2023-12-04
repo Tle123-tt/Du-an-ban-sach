@@ -2,18 +2,18 @@ const { buildResponsePaging, buildParamPaging, buildResponseException, toSlug } 
 const ProductModel = require( "../models/Product.model" )
 const CategoryModel = require( "../models/Category.model" )
 
-exports.index = async ( req, res ) =>
+exports.index = async ( filters ) =>
 {
 
 	let condition = {}
-	if ( req.query.name ) condition.name = { $regex: '.*' + req.query.name + '.*' };
-	if ( req.query.price ) condition.price = req.query.price;
-	if ( req.query.hot ) condition.hot = req.query.hot;
-	if ( req.query.category_id ) condition.category_id = req.query.category_id;
-	if ( req.query.status ) condition.status = req.query.status;
+	if ( filters?.name ) condition.name = { $regex: '.*' + filters.name + '.*' };
+	if ( filters?.price ) condition.price = filters.price;
+	if ( filters?.hot ) condition.hot = filters.hot;
+	if ( filters?.category_id ) condition.category_id = filters.category_id;
+	if ( filters?.status ) condition.status = filters.status;
 
-	const paging = buildParamPaging( req.query );
-	const rooms = await ProductModel.find()
+	const paging = buildParamPaging( filters );
+	const products = await ProductModel.find()
 		.where( condition )
 		.limit( paging.page_size )
 		.skip( ( paging.page - 1 ) * paging.page_size )
@@ -29,28 +29,28 @@ exports.index = async ( req, res ) =>
 	const meta = buildResponsePaging( paging.page, paging.page_size, count )
 	const status = 200;
 	const data = {
-		rooms: rooms
+		products: products
 	}
-	res.json( {
+	return  {
 		data,
 		meta,
 		status
-	} );
+	} ;
 };
 
-exports.show = async ( req, res ) =>
+exports.show = async ( id ) =>
 {
-	const room = await ProductModel.findOne(
+	const data = await ProductModel.findOne(
 		{
-			_id: req.params.id
+			_id: id
 		} ).populate( [ 'category' ] )
-	return res.status( 200 ).json( { data: room, status: 200 } );
+	return  data;
 };
 
-exports.store = async ( req, res ) =>
+exports.store = async ( data ) =>
 {
 	const category = await CategoryModel.findOne( {
-		_id: req.body.category_id,
+		_id: data.category_id,
 		status: 1
 	} );
 	if ( !category )
@@ -58,35 +58,35 @@ exports.store = async ( req, res ) =>
 		throw { message: "Phân loại sản phẩm không tồn tại" };
 	}
 	const product = new ProductModel( {
-		name: req.body.name,
-		avatar: req.body.avatar || null,
-		description: req.body.description,
-		content: req.body.content,
-		price: Number( req.body.price ),
-		quantity: Number( req.body.quantity ),
-		status: Number( req.body.status || 1 ),
-		hot: Number( req.body.hot ),
-		customer: req.body.customer,
-		product_images: req.body.product_images,
-		slug: toSlug( req.body.slug ),
+		name: data.name,
+		avatar: data.avatar || null,
+		description: data.description,
+		content: data.content,
+		price: Number( data.price ),
+		quantity: Number( data.quantity ),
+		status: Number( data.status || 1 ),
+		hot: Number( data.hot ),
+		customer: data.customer,
+		product_images: data.product_images,
+		slug: toSlug( data.slug ),
 		category: category,
 		total_reviews: 0,
 		total_stars: 0,
-		category_id: req.body.category_id
+		category_id: data.category_id
 	} )
 	await product.save();
-	return res.status( 200 ).json( { data: product, status: 200 } );
+	return  product;
 
 };
 
-exports.update = async ( req, res ) =>
+exports.update = async ( id, data ) =>
 {
 	const product = await ProductModel.findOne(
 		{
-			_id: req.params.id
+			_id: id
 		} );
 	const category = await CategoryModel.
-		findById( req.body.category_id );
+		findById( data.category_id );
 	if ( !product )
 	{
 		throw {
@@ -97,58 +97,58 @@ exports.update = async ( req, res ) =>
 	{
 		throw { message: "Phân loại sản phẩm không tồn tại" };
 	}
-	if ( req.body.name )
+	if ( data.name )
 	{
-		product.name = req.body.name;
+		product.name = data.name;
 	}
-	if ( req.body.avatar )
+	if ( data.avatar )
 	{
-		product.avatar = req.body.avatar;
-	}
-
-	if ( req.body.product_images )
-	{
-		product.product_images = req.body.product_images;
-	}
-	if ( req.body.description )
-	{
-		product.description = req.body.description;
-	}
-	if ( req.body.content )
-	{
-		product.content = req.body.content;
+		product.avatar = data.avatar;
 	}
 
-	if ( req.body.price )
+	if ( data.product_images )
 	{
-		product.price = Number( req.body.price );
+		product.product_images = data.product_images;
+	}
+	if ( data.description )
+	{
+		product.description = data.description;
+	}
+	if ( data.content )
+	{
+		product.content = data.content;
 	}
 
-	if ( req.body.category_id )
+	if ( data.price )
 	{
-		product.category_id = req.body.category_id;
+		product.price = Number( data.price );
+	}
+
+	if ( data.category_id )
+	{
+		product.category_id = data.category_id;
 		// product.category = category;
 	}
 
-	if ( req.body.quantity )
+	if ( data.quantity )
 	{
-		product.quantity = Number( req.body.quantity );
+		product.quantity = Number( data.quantity );
 	}
 
-	if ( req.body.hot )
+	if ( data.hot )
 	{
-		product.hot = Number( req.body.hot );
+		product.hot = Number( data.hot );
 	}
 
-	if ( req.body.status ) product.status = Number( req.body.status );
+	if ( data.status ) product.status = Number( data.status );
 	await product.save();
-	return res.status( 200 ).json( { data: product, status: 200 } );
+	return product
 };
 
-exports.delete = async ( req, res ) =>
+exports.delete = async ( id ) =>
 {
-	await ProductModel.deleteOne( { _id: req.params.id } )
-	return res.status( 200 ).json( { data: [], status: 200 } );
+	await ProductModel.deleteOne( { _id: id } )
+	return  []
 };
 
 exports.updateVoting = async ( data, number ) =>

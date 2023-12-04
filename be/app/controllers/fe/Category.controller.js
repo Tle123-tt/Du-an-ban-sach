@@ -1,45 +1,79 @@
-const { buildParamPaging, buildResponsePaging } = require( "../../helpers/buildData.helper" );
-const Category = require("../../models/Category.model");
+const { buildParamPaging, buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
+const CategoryService = require( "../../services/category.service" );
 
-exports.index = async (req, res) => {
-    // destructure page and limit and set default values
+exports.index = async ( req, res ) =>
+{
+	try
+	{
+		const filters = req.query;
+		const response = await  CategoryService.index( filters );
+		await buildResponse(res, response)
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
 
-    try {
-        const condition = {};
-		const paging = buildParamPaging( req.query );
-		// execute query with page and limit values
-		const categories = await Category.find()
-			.where( condition )
-			.limit( paging.page_size )
-			.skip( ( paging.page - 1 ) * paging.page_size )
-			.exec();
-
-		// get total documents in the Posts collection
-		const count = await Category.count().where(condition);
-
-		// return response with posts, total pages, and current page
-		const meta = buildResponsePaging( paging.page, paging.page_size, count )
-		const status = 200;
-		const data = {
-			categories: categories
-		}
-        
-        res.json({
-            data,
-            meta,
-            status
-        });
-    } catch (err) {
-        console.error(err.message);
-    }
 };
 
-exports.show = async (req, res) => {
-    try {
-        const category = await Category.findOne({ _id: req.params.id })
-        return res.status(200).json({ data: category, status : 200 });
-    } catch {
-        res.status(404)
-        res.send({ error: "Category doesn't exist!" })
-    }
+exports.show = async ( req, res ) =>
+{
+	try
+	{
+		const response =  await CategoryService.show( req.param.id );
+		await buildResponse(res, response);
+	} catch ( e )
+	{
+		buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+};
+
+exports.store = async ( req, res ) =>
+{
+	try
+	{
+		const response =  await CategoryService.store( req.body );
+		await buildResponse(res, response);
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+
+};
+
+exports.update = async ( req, res ) =>
+{
+	try
+	{
+		const response =  await CategoryService.update( req.param.id, req.body );
+		await buildResponse(res, response);
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu "
+		} );
+	}
+};
+
+exports.delete = async ( req, res ) =>
+{
+	try
+	{
+		const response =  await CategoryService.delete( req.param.id );
+		await buildResponse(res, response);
+	} catch (e) {
+		await buildResponseException(res, 400, {
+			status: 400,
+			message:  e?.message || "Không có dữ liệu"
+		});
+	}	
 };

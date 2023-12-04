@@ -1,30 +1,30 @@
-const { buildResponseException } = require( "../../helpers/buildData.helper" );
-const RoomModel = require( "../../models/Room.model" );
-const UserModel = require( "../../models/User.model" );
-const Vote = require( "../../models/Vote.model" );
+const { buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
+
 const VoteService = require( "../../services/vote.service" );
 
 exports.index = async ( req, res ) =>
 {
-	// destructure page and limit and set default values
-
 	try
 	{
-		return await VoteService.index( req, res )
+		const filters = req.query;
+		const response = await  VoteService.index( filters );
+		await buildResponse(res, response)
 	} catch ( e )
 	{
-		buildResponseException( res, 400, {
+		await buildResponseException( res, 400, {
 			status: 400,
 			message: e?.message || "Không có dữ liệu"
 		} );
 	}
+
 };
 
 exports.show = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.show( req, res )
+		const response =  await VoteService.show( req.param.id );
+		await buildResponse(res, response);
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -38,26 +38,29 @@ exports.store = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.store( req, res )
+		const response =  await VoteService.store( req.body );
+		await buildResponse(res, response);
 	} catch ( e )
 	{
-		buildResponseException( res, 400, {
+		await buildResponseException( res, 400, {
 			status: 400,
 			message: e?.message || "Không có dữ liệu"
 		} );
 	}
+
 };
 
 exports.update = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.update( req, res )
+		const response =  await VoteService.update( req.param.id, req.body );
+		await buildResponse(res, response);
 	} catch ( e )
 	{
-		buildResponseException( res, 400, {
+		await buildResponseException( res, 400, {
 			status: 400,
-			message: e?.message || "Không có dữ liệu"
+			message: e?.message || "Không có dữ liệu "
 		} );
 	}
 };
@@ -66,12 +69,12 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		return await VoteService.delete( req, res )
-	} catch ( e )
-	{
-		buildResponseException( res, 400, {
+		const response =  await VoteService.delete( req.param.id );
+		await buildResponse(res, response);
+	} catch (e) {
+		await buildResponseException(res, 400, {
 			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-	}
+			message:  e?.message || "Không có dữ liệu"
+		});
+	}	
 };

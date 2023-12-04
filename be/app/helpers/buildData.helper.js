@@ -2,8 +2,8 @@
 exports.buildParamPaging = ( queryParam ) =>
 {
 	return {
-		page: queryParam.page || 1,
-		page_size: queryParam.page_size || 10,
+		page: queryParam?.page || 1,
+		page_size: queryParam?.page_size || 10,
 	}
 }
 
@@ -56,6 +56,11 @@ exports.buildException = ( code, message ) =>
 exports.buildResponseException = ( res,status, error ) =>
 {
 	return res.status(status || 400).json(error || {status: 400, message: "Error"})
+}
+
+exports.buildResponse = ( res, response ) =>
+{
+	return res.status(200).json({status: 200, data: response, message: "successfully!"})
 }
 
 exports.makeId = ( length = 5 ) =>

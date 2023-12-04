@@ -42,54 +42,54 @@ exports.index = async ( req, res ) =>
 		votes: votes,
 		total_star: total_star
 	}
-	res.json( {
+	return {
 		data,
 		meta,
 		status
-	} );
+	};
 };
 
-exports.show = async ( req, res ) =>
+exports.show = async ( id ) =>
 {
-	const vote = await Vote.findOne( { _id: req.params.id } )
-	return res.status( 200 ).json( { data: vote, status: 200 } );
+	const vote = await Vote.findOne( { _id: id } )
+	return vote;
 };
 
-exports.store = async ( req, res ) =>
+exports.store = async ( data ) =>
 {
-	let data = req.body;
 	const vote = new Vote( data );
 	await vote.save();
 	await ProductService.updateVoting( data, 1 );
-	return res.status( 200 ).json( { data: vote, status: 200 } );
+	return vote;
 };
 
-exports.update = async ( req, res ) =>
+exports.update = async ( id, data ) =>
 {
-	const vote = await Vote.findOne( { _id: req.params.id } );
+	const vote = await Vote.findOne( { _id: id } );
 
 	if ( vote )
 	{
-		if ( req.body.vote_content )
+		if ( data?.vote_content )
 		{
-			vote.vote_content = req.body.vote_content;
+			vote.vote_content = data?.vote_content;
 		}
-		if ( req.body.vote_number )
+		if ( data?.vote_number )
 		{
-			vote.vote_number = req.body.vote_number;
+			vote.vote_number = data?.vote_number;
 		}
 
 
 		await vote.save();
 		await ProductService.updateVoting( vote, 0 );
-		return res.status( 200 ).json( { data: vote, status: 200 } );
+		return vote;
 	}
+	throw {message: "Không có review"}
 };
 
-exports.delete = async ( req, res ) =>
+exports.delete = async ( id ) =>
 {
-	const vote = await Vote.findOne( { _id: req.params.id } );
-	await Vote.deleteOne( { _id: req.params.id } );
-	await ProductService.updateVoting( { room_id: vote.room_id, vote_number: vote.vote_number }, -1 );
-	return res.status( 200 ).json( { data: [], status: 200 } );
+	const vote = await Vote.findOne( { _id: id } );
+	await Vote.deleteOne( { _id: id } );
+	await ProductService.updateVoting( { product_id: vote.product_id, vote_number: vote.vote_number }, -1 );
+	return [];
 };

@@ -1,14 +1,12 @@
-const TransactionModel = require( "../../models/Transaction.model" );
-const moment = require( "moment" );
-const { buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
-const OrderModel = require( "../../models/Order.model" );
-const OrderService = require( "../../services/order.service" );
+const { buildParamPaging, buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
+const SlideService = require( "../../services/slide.service" );
+
 exports.index = async ( req, res ) =>
 {
 	try
 	{
 		const filters = req.query;
-		const response = await  OrderService.index( filters );
+		const response = await  SlideService.index( filters );
 		await buildResponse(res, response)
 	} catch ( e )
 	{
@@ -24,7 +22,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await OrderService.show( req.param.id );
+		const response =  await SlideService.show( req.param.id );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -39,7 +37,7 @@ exports.store = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await OrderService.store( req.body );
+		const response =  await SlideService.store( req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -55,7 +53,7 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await OrderService.update( req.param.id, req.body );
+		const response =  await SlideService.update( req.param.id, req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -70,7 +68,7 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await OrderService.delete( req.param.id );
+		const response =  await SlideService.delete( req.param.id );
 		await buildResponse(res, response);
 	} catch (e) {
 		await buildResponseException(res, 400, {

@@ -1,11 +1,93 @@
+const TransactionModel = require( "../../models/Transaction.model" );
 const moment = require( "moment" );
-const {  buildResponseException } = require( "../../helpers/buildData.helper" );
+const { buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
+const OrderModel = require( "../../models/Order.model" );
 const OrderService = require( "../../services/order.service" );
 exports.index = async ( req, res ) =>
 {
 	try
 	{
-		return await OrderService.index( req, res );
+		const filters = req.query;
+		const response = await OrderService.index( filters );
+		await buildResponse( req, response )
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+
+};
+
+exports.show = async ( req, res ) =>
+{
+	try
+	{
+		const response = await OrderService.show( req.param.id );
+		await buildResponse( req, response );
+	} catch ( e )
+	{
+		buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+};
+
+exports.store = async ( req, res ) =>
+{
+	try
+	{
+		const response = await OrderService.store( req.body );
+		await buildResponse( req, response );
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+
+};
+
+exports.update = async ( req, res ) =>
+{
+	try
+	{
+		const response = await OrderService.update( req.param.id, req.body );
+		await buildResponse( req, response );
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu "
+		} );
+	}
+};
+
+exports.delete = async ( req, res ) =>
+{
+	try
+	{
+		const response = await OrderService.delete( req.param.id );
+		await buildResponse( req, response );
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+};
+
+
+exports.webhook = async ( req, res ) =>
+{
+	try
+	{
+		const response = await OrderService.webhook( req.param.id );
+		await buildResponse( req, response );
 	} catch ( err )
 	{
 		console.error( 'error--------Order> ', err );
@@ -23,63 +105,3 @@ exports.index = async ( req, res ) =>
 	}
 };
 
-exports.show = async ( req, res ) =>
-{
-	try
-	{
-		return await OrderService.show( req, res );
-	} catch ( e )
-	{
-		buildResponseException( res, 400, {
-			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-	}
-};
-
-exports.delete = async ( req, res ) =>
-{
-	try
-	{
-		return await OrderService.delete( req, res );
-	} catch ( e )
-	{
-		buildResponseException( res, 400, {
-			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-	}
-};
-
-
-exports.update = async ( req, res ) =>
-{
-	try
-	{
-		return await OrderService.update( req, res );
-	} catch ( e )
-	{
-		console.log( 'Order update error--------> ', e );
-		buildResponseException( res, 400, {
-			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-
-	}
-};
-
-exports.store = async ( req, res ) =>
-{
-	try
-	{
-		return await OrderService.store( req, res );
-	} catch ( e )
-	{
-		console.log( 'Order update error--------> ', e );
-		buildResponseException( res, 400, {
-			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-
-	}
-};
