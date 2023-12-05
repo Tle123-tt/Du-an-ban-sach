@@ -14,7 +14,7 @@ export const VOTE_SERVICE_CMS = {
 
 	async show ( id, params )
 	{
-		return await getMethod( `/admin/vote/show/${ id }`, params );
+		return await getMethod( `/admin/vote/${ id }`, params );
 	},
 
 	async delete ( id )

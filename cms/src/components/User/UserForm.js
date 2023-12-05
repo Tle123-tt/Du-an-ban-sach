@@ -39,8 +39,8 @@ export const UserForm = ( props ) =>
 	{
 		if ( params.id )
 		{
-			setId( Number( params.id ) );
-			getData( Number( params.id ) );
+			setId( params.id );
+			getData( params.id );
 		}
 	}, [ params.id ] );
 

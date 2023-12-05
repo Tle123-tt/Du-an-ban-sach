@@ -128,7 +128,7 @@ function AdminCategoryPage ()
 													variant={ 'Secondary' }
 													key={ item.id } title="...">
 													<Link data-rr-ui-dropdown-item="" role="button" tabIndex="0" className="dropdown-item"
-														to={ `/admin/category/edit/${ item.id }` }>Chỉnh sửa</Link>
+														to={ `/admin/category/edit/${ item._id }` }>Chỉnh sửa</Link>
 
 													<Dropdown.Item onClick={ () => deleteCategory( item.id ) }>Xoá</Dropdown.Item>
 												</DropdownButton>

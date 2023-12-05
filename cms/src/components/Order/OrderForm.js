@@ -49,8 +49,8 @@ export const OrderForm = ( props ) =>
 	{
 		if ( params.id )
 		{
-			setId( Number( params.id ) );
-			getOrderInfo( Number( params.id ) );
+			setId( params.id );
+			getOrderInfo( params.id );
 		}
 	}, [ params.id ] );
 
@@ -99,7 +99,7 @@ export const OrderForm = ( props ) =>
 		const response = await updateOrder( id, e );
 		dispatch( toggleShowLoading( false ) );
 
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			message.success( 'Update order successfully!' );
 			window.location.href = '/order'

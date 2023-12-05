@@ -12,7 +12,7 @@ export const DASHBOARD_SERVICE = {
 			dispatch(toggleShowLoading(false))
 
 			// await timeDelay(2000);
-			if (response?.status === 'success') {
+			if (response?.status === 200) {
 				setData(response?.data);
 				return response
 			} else {

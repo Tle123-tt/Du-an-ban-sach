@@ -20,7 +20,7 @@ const categoryService = {
 
 	async findById(id) {
 		try {
-			const url = `category/show/${id}`;
+			const url = `category/${id}`;
 			const response = await axiosClient.get(url)
 
 			if (response.status === 200) {

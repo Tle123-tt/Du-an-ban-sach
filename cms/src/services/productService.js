@@ -13,7 +13,7 @@ export const getProducts = async ( params ) =>
 
 export const showProduct = async ( id, params ) =>
 {
-	return await getMethod( `/admin/product/show/${ id }`, params );
+	return await getMethod( `/admin/product/${ id }`, params );
 }
 
 export const Product = {
@@ -39,7 +39,7 @@ export const showProductDetail = async ( productId, setProductData ) =>
 	try
 	{
 		const response = await showProduct( productId );
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			setProductData( response?.data?.product );
 		} else
@@ -59,8 +59,8 @@ export const getProductsByFilter = async ( params, setProducts, setPaging, dispa
 	{
 		dispatch( toggleShowLoading( true ) )
 		const response = await getProducts( params );
-		await timeDelay( 2000 );
-		if ( response?.status === 'success' )
+		await timeDelay( 500 );
+		if ( response?.status === 200 )
 		{
 			setProducts( response?.data.products );
 			setPaging( response?.data.meta );
@@ -87,7 +87,7 @@ export const submitFormProduct = async ( id = null, files, e, dispatch, history 
 		dispatch( toggleShowLoading( true ) );
 		let avatar  = await uploadApi.uploadFile(files);
 		let fileImg = await uploadApi.uploadMultiFile(files);
-		await timeDelay( 2000 );
+		await timeDelay( 500 );
 		// return;
 		let formValue = { ...e };
 		
@@ -106,7 +106,7 @@ export const submitFormProduct = async ( id = null, files, e, dispatch, history 
 		{
 			response = await Product.create( formValue );
 		}
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			message.success( `${id && 'Update'|| 'Create'} product successfully!`);
 			history.push( '/product' );

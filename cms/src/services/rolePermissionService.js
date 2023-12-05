@@ -10,8 +10,8 @@ export const ROLE_SERVICE = {
 			let filter = buildFilter( params );
 			// dispatch( toggleShowLoading( true ) );
 			const response = await getMethod( '/admin/role', filter );
-			await timeDelay( 2000 );
-			if ( response?.status === 'success' )
+			await timeDelay( 500 );
+			if ( response?.status === 200 )
 			{
 				return response?.data;
 
@@ -31,10 +31,10 @@ export const ROLE_SERVICE = {
 		try
 		{
 			dispatch( toggleShowLoading( true ) );
-			const response = await getMethod( `/admin/role/show/${ id }`, {} );
+			const response = await getMethod( `/admin/role/${ id }`, {} );
 			await timeDelay( 1000 );
 			dispatch( toggleShowLoading( false ) );
-			if ( response?.status === 'success' )
+			if ( response?.status === 200 )
 			{
 				return response?.data;
 			}
@@ -90,7 +90,7 @@ export const getPermissions = async ( params ) =>
 	{
 		let filter = buildFilter( params );
 		const response = await getMethod( '/admin/permission', filter );
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			return response?.data;
 		}
@@ -106,7 +106,7 @@ export const getGroup = async (  ) =>
 	try
 	{
 		const response = await getMethod( '/admin/permission/config-type', {} );
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			return response?.data;
 		}

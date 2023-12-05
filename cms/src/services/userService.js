@@ -12,10 +12,10 @@ export const USER_SERVICE = {
 		{
 			let filter = buildFilter( params );
 			dispatch( toggleShowLoading( true ) );
-			const response = await getMethod( '/admin/user', filter );;
-			await timeDelay( 2000 );
+			const response = await getMethod( '/admin/user', filter );
+			await timeDelay( 500);
 			dispatch( toggleShowLoading( false ) );
-			if ( response?.status === 'success' )
+			if ( response?.status === 200 )
 			{
 				return response?.data;
 
@@ -32,10 +32,10 @@ export const USER_SERVICE = {
 		try
 		{
 			dispatch( toggleShowLoading( true ) );
-			const response = await getMethod( `/admin/user/show/${ id }` );
+			const response = await getMethod( `/admin/user/${ id }` );
 			await timeDelay( 1000 );
 			dispatch( toggleShowLoading( false ) );
-			if ( response?.status === 'success' )
+			if ( response?.status === 200 )
 			{
 				return response?.data?.user;
 			}
@@ -68,7 +68,7 @@ export const submitFormUser = async ( id = null, files, e, dispatch, history ) =
 		dispatch( toggleShowLoading( true ) );
 		let avatar = await uploadApi.uploadFile(files);
 		
-		await timeDelay( 2000 );
+		await timeDelay( 500 );
 		let formValue = { ...e };
 		delete formValue.image;
 		formValue.avatar = avatar;
@@ -81,7 +81,7 @@ export const submitFormUser = async ( id = null, files, e, dispatch, history ) =
 			response = await USER_SERVICE.create( formValue );
 		}
 		dispatch( toggleShowLoading( false ) );
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			message.success( `${ id && 'Update' || 'Create' } user successfully!` );
 			history.push( '/user' );

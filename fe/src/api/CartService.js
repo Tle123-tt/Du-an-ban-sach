@@ -52,7 +52,7 @@ const CartApi = {
     },
     async showTransaction(id) {
         try {
-            const url = `transaction/show/${id}`;
+            const url = `transaction/${id}`;
             const response = await axiosClient.get(url);
             if (response.status === 200 || response.status === 201) {
                 return response.data;

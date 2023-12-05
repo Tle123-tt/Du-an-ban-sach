@@ -22,7 +22,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await ContactService.show( req.param.id );
+		const response =  await ContactService.show( req.params.id );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -53,7 +53,7 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await ContactService.update( req.param.id, req.body );
+		const response =  await ContactService.update( req.params.id, req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -68,7 +68,7 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await ContactService.delete( req.param.id );
+		const response =  await ContactService.delete( req.params.id );
 		await buildResponse(res, response);
 	} catch (e) {
 		await buildResponseException(res, 400, {

@@ -11,7 +11,7 @@ export const getOrders = async (params) => {
 }
 
 export const showOrderInfo = async (id, params) => {
-	return await getMethod(`/admin/order/show/${id}`, params);
+	return await getMethod(`/admin/order/${id}`, params);
 }
 
 export const getOrdersByFilter = async (params, setOrders, setPaging, dispatch) => {
@@ -19,7 +19,7 @@ export const getOrdersByFilter = async (params, setOrders, setPaging, dispatch) 
 		dispatch(toggleShowLoading(true))
 		const response = await getOrders(params);
 		await timeDelay(2000);
-		if (response?.status === 'success') {
+		if (response?.status === 200) {
 			setOrders(response?.data.orders);
 			setPaging(response?.data.meta);
 
@@ -42,7 +42,7 @@ export const getOrderById = async (id, setOrderInfo, dispatch) => {
 		}
 		await timeDelay(1000)
 		const response = await showOrderInfo(id);
-		if(response?.status === 'success') {
+		if(response?.status === 200) {
 			setOrderInfo(response?.data);
 		} else {
 			setOrderInfo(null);

@@ -106,10 +106,10 @@ export const Orders = ( props ) =>
 														<SmallDashOutlined />
 													</DropdownToggle>
 													<DropdownMenu className="p-0">
-														<DropdownItem href={ `view/${ item.id }` } className="text-nowrap pt-2">
+														<DropdownItem href={ `view/${ item._id }` } className="text-nowrap pt-2">
 															Chi tiết
 														</DropdownItem>
-														<DropdownItem href={ `edit/${ item.id }` } className="text-nowrap pt-2">
+														<DropdownItem href={ `edit/${ item._id }` } className="text-nowrap pt-2">
 															Chỉnh sửa
 														</DropdownItem>
 														

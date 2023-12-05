@@ -24,7 +24,7 @@ const productService = {
 
 	async findById(id) {
 		try {
-			const url = `product/show/${id}`;
+			const url = `product/${id}`;
 			const response = await axiosClient.get(url)
 
 			if (response.status === 200) {

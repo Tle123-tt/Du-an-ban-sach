@@ -80,7 +80,7 @@ export const Categories = ( props ) =>
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={ `/category/edit/${ item.id }` } className="d-flex justify-content-center">
+												<Link to={ `/category/edit/${ item._id }` } className="d-flex justify-content-center">
 													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
 												</Link>
 											</td>

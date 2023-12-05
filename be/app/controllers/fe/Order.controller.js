@@ -24,7 +24,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response = await OrderService.show( req.param.id );
+		const response = await OrderService.show( req.params.id );
 		await buildResponse( req, response );
 	} catch ( e )
 	{
@@ -55,7 +55,7 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		const response = await OrderService.update( req.param.id, req.body );
+		const response = await OrderService.update( req.params.id, req.body );
 		await buildResponse( req, response );
 	} catch ( e )
 	{
@@ -70,7 +70,7 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		const response = await OrderService.delete( req.param.id );
+		const response = await OrderService.delete( req.params.id );
 		await buildResponse( req, response );
 	} catch ( e )
 	{
@@ -86,7 +86,7 @@ exports.webhook = async ( req, res ) =>
 {
 	try
 	{
-		const response = await OrderService.webhook( req.param.id );
+		const response = await OrderService.webhook( req.params.id );
 		await buildResponse( req, response );
 	} catch ( err )
 	{

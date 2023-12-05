@@ -44,7 +44,7 @@ function CreateCategoryPage()
             console.log('---------- e.target.files[0]', content);
             formData.append("file", content);
             const results = await productService.uploadFile(formData);
-            if (results.status === 'success') {
+            if (results.status === 200) {
                 setAvatar(results.data.destination);
             }
             console.log('---------- response upload: ', results)

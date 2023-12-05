@@ -23,7 +23,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await VoteService.show( req.param.id );
+		const response =  await VoteService.show( req.params.id );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -54,7 +54,7 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await VoteService.update( req.param.id, req.body );
+		const response =  await VoteService.update( req.params.id, req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -69,7 +69,7 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await VoteService.delete( req.param.id );
+		const response =  await VoteService.delete( req.params.id );
 		await buildResponse(res, response);
 	} catch (e) {
 		await buildResponseException(res, 400, {

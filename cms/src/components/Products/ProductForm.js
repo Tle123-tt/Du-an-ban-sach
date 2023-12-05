@@ -48,8 +48,8 @@ export const ProductForm = ( props ) =>
 	{
 		if ( params.id )
 		{
-			setId( Number( params.id ) );
-			getProduct( Number( params.id ) );
+			setId( params.id );
+			getProduct( params.id );
 		}
 	}, [ params.id ] );
 

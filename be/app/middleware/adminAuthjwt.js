@@ -11,8 +11,6 @@ exports.roleGuards = async ( req, res, next ) =>
 		let pathUrlRoute = req.route.path;
 
 		let accessTokenFromHeader = req.headers["authorization"];
-		console.log("token==========> ", accessTokenFromHeader);
-		console.log("token==========> ", req.headers["authorization"]);
 		if ( !accessTokenFromHeader )
 		{
 			throw { code: '401', message: 'Không tìm thấy access token!' };
@@ -26,7 +24,6 @@ exports.roleGuards = async ( req, res, next ) =>
 			accessTokenSecret,
 		);
 
-		console.log( 'verify admin-------> ', verified );
 
 		if ( !verified )
 		{

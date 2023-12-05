@@ -19,7 +19,7 @@ const productAdminService = {
 
 	async findById(id) {
 		try {
-			const url = `cms/product/show/${id}`;
+			const url = `cms/product/${id}`;
 			const response = await axiosClient.get(url)
 
 			if (response.status === 200) {

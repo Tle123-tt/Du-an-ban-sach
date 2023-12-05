@@ -22,7 +22,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await SlideService.show( req.param.id );
+		const response =  await SlideService.show( req.params.id );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -53,7 +53,7 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await SlideService.update( req.param.id, req.body );
+		const response =  await SlideService.update( req.params.id, req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -68,7 +68,7 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await SlideService.delete( req.param.id );
+		const response =  await SlideService.delete( req.params.id );
 		await buildResponse(res, response);
 	} catch (e) {
 		await buildResponseException(res, 400, {

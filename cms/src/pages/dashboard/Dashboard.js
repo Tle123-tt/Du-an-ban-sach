@@ -62,7 +62,7 @@ const Dashboard = () =>
 		setIsCheck (false);
 		const response = await DASHBOARD_SERVICE.getByFilter( filter, setData, dispatch );
 		console.log(response);
-		if(response?.status === 'success') {
+		if(response?.status === 200) {
 			let date = response?.data?.group_day?.map(item => item.day);
 			let total = response?.data?.group_day?.map(item => item.total_price);
 			setDataRevenue(total);

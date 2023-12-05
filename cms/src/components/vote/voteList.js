@@ -37,7 +37,7 @@ export const PageVoting = () =>
 			dispatch( toggleShowLoading( true ) );
 			const response = await VOTE_SERVICE_CMS.getLists( filters );
 			await timeDelay( 1000 );
-			if ( response?.status === 'success' || response?.status === 200 )
+			if ( response?.status === 200 || response?.status === 200 )
 			{
 				setDataList( response?.data?.votes );
 				setPaging( response?.data?.meta )
@@ -56,7 +56,7 @@ export const PageVoting = () =>
 		console.log(id);
 		dispatch( toggleShowLoading( true ) );
 		const response = await VOTE_SERVICE_CMS.delete( id );
-		if ( response?.status === 'success' || response?.status === 200 )
+		if ( response?.status === 200 || response?.status === 200 )
 		{
 			message.success( 'Delete review successfully!' );
 			getDataList( { page: 1, page_size: 20 } ).then( r => { } );

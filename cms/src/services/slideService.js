@@ -11,7 +11,7 @@ export const getSlides = async ( params ) =>
 
 export const show = async ( id, params ) =>
 {
-	return await getMethod( `/admin/slide/show/${ id }`, params );
+	return await getMethod( `/admin/slide/${ id }`, params );
 }
 
 export const SlideService = {
@@ -20,7 +20,7 @@ export const SlideService = {
 		return await getMethod( '/admin/slide', filter );
 	},
 	async show(id) {
-		return await getMethod( `/admin/slide/show/${ id }` );
+		return await getMethod( `/admin/slide/${ id }` );
 	},
 	async create ( data )
 	{
@@ -45,7 +45,7 @@ export const showData = async ( productId, setData ) =>
 	{
 
 		const response = await SlideService.show( productId );
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			setData( response?.data );
 		} else
@@ -66,7 +66,7 @@ export const getDataByFilter = async ( params, dispatch ) =>
 		dispatch( toggleShowLoading( true ) )
 		const response = await SlideService.getList( params );
 		
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			return response?.data;
 		} else
@@ -87,7 +87,7 @@ export const submitForms = async ( id = null, files, e, dispatch, history ) =>
 	{
 		dispatch( toggleShowLoading( true ) );
 		let avatar = await uploadApi.uploadFile(files)
-		await timeDelay( 2000 );
+		await timeDelay( 500 );
 		let formValue = { ...e };
 		delete formValue.image;
 		formValue.avatar = avatar;
@@ -100,7 +100,7 @@ export const submitForms = async ( id = null, files, e, dispatch, history ) =>
 		{
 			response = await SlideService.create( formValue );
 		}
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			message.success( `${id && 'Update' || 'Create'} slide successfully!` );
 			await timeDelay( 500 );

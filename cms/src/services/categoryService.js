@@ -12,7 +12,7 @@ export const getCategories = async ( params ) =>
 
 export const showCategory = async ( id, params ) =>
 {
-	return await getMethod( `/admin/category/show/${ id }`, params );
+	return await getMethod( `/admin/category/${ id }`, params );
 }
 
 export const Category = {
@@ -39,7 +39,7 @@ export const showCategoryDetail = async ( productId, setCategoryData ) =>
 	{
 
 		const response = await showCategory( productId );
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			setCategoryData( response?.data );
 		} else
@@ -60,7 +60,7 @@ export const getCategoriesByFilter = async ( params, dispatch ) =>
 		dispatch( toggleShowLoading( true ) )
 		const response = await getCategories( params );
 		
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			return response?.data;
 		} else
@@ -80,7 +80,7 @@ export const submitForms = async ( id = null, files, e, dispatch, history ) =>
 	{
 		dispatch( toggleShowLoading( true ) );
 		let avatar = await uploadApi.uploadFile(files)
-		await timeDelay( 2000 );
+		await timeDelay( 500 );
 		let formValue = { ...e };
 		delete formValue.image;
 		formValue.avatar = avatar;
@@ -93,7 +93,7 @@ export const submitForms = async ( id = null, files, e, dispatch, history ) =>
 		{
 			response = await Category.create( formValue );
 		}
-		if ( response?.status === 'success' )
+		if ( response?.status === 200 )
 		{
 			message.success( `${id && 'Update' || 'Create'} category successfully!` );
 			await timeDelay( 500 );

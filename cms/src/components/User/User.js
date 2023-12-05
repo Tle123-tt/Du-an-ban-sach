@@ -82,7 +82,7 @@ export const UserCpn = ( props ) =>
 											<td className="d-flex align-items-center">
 												<img width="70" height="70"
 													style={ { border: "0.5px solid gray", borderRadius: '5px' } }
-													src={ buildImage(item.avatar)} alt={ item.name } onError={ onErrorUser } />
+													src={ buildImage(item.avatar, true)} alt={ item.name } onError={ onErrorUser } />
 											</td>
 											<td className="text-gray-900">
 												<div className="d-flex">
@@ -127,7 +127,7 @@ export const UserCpn = ( props ) =>
 												{ item.created_at ? customDate( item.created_at, 'DD/MM/yyyy' ) : '' }
 											</td>
 											<td>
-												<Link to={ `/user/edit/${ item.id }` } className="d-flex justify-content-center">
+												<Link to={ `/user/edit/${ item._id }` } className="d-flex justify-content-center">
 													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
 												</Link>
 											</td>

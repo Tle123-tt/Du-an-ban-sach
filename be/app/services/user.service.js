@@ -39,6 +39,7 @@ exports.index = async ( filters) =>
 
 exports.show = async ( id ) =>
 {
+	console.log("object=====>? ", id);
 	const user = await User.findOne( { _id: id } )
 	return user;
 };

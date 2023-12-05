@@ -23,6 +23,7 @@ export const UserContainer = () =>
 	const getListData = async ( filter ) =>
 	{
 		const response = await USER_SERVICE.getListData( filter, dispatch );
+		console.log(response);
 		if(response) {
 			setListData(response.users);
 			setPaging(response.meta);

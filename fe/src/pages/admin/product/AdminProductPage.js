@@ -138,7 +138,7 @@ function AdminProductPage ()
 														variant={ 'Secondary' }
 														key={ item.id } title="...">
 														<Link data-rr-ui-dropdown-item="" role="button" tabIndex="0" className="dropdown-item"
-															to={ `/admin/product/edit/${ item.id }` }>Chỉnh sửa</Link>
+															to={ `/admin/product/edit/${ item._id }` }>Chỉnh sửa</Link>
 														<Dropdown.Item>Xoá</Dropdown.Item>
 													</DropdownButton>
 												</td>

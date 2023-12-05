@@ -7,7 +7,7 @@ const authMiddleware = require('../../app/middleware/userAuthjwt');
 
 router.get('/order/',OrderController.index);
 router.get('/order/webhook',OrderController.webhook);
-router.get('/order/show/:id',OrderController.show);
+router.get('/order/:id',OrderController.show);
 router.put('/order/update/:id',OrderController.update);
 router.delete('/order/:id',OrderController.delete);
 

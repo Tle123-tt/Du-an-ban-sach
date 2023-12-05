@@ -50,7 +50,7 @@ export const ContactPage = () =>
 			const response = await CONTACT_SERVICE.getList(params);
 			await timeDelay(500)
 			dispatch(toggleShowLoading(false));
-			if(response?.status === 'success') {
+			if(response?.status === 200) {
 				setData(response?.data?.results);
 				setPaging(response?.data?.meta);
 			}

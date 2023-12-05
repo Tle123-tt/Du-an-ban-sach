@@ -50,7 +50,7 @@ export const Roles = ( props ) =>
 		try
 		{
 			const rs = await ROLE_SERVICE.delete( id );
-			if ( rs && rs.status === 'success' )
+			if ( rs && rs.status === 200 )
 			{
 				message.success( 'Delete successfully!' );
 				await getListData( { page: 1, page_size: 20 } );
@@ -116,7 +116,7 @@ export const Roles = ( props ) =>
 											<td>
 
 												<div className="d-flex">
-													<Link to={ `/setting/role/edit/${ item.id }` } className="d-flex justify-content-center">
+													<Link to={ `/setting/role/edit/${ item._id }` } className="d-flex justify-content-center">
 														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
 													</Link>
 													{/* <DeleteOutlined onClick={ () => deleteData( item.id ) } 

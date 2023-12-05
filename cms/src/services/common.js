@@ -64,7 +64,7 @@ export const timeDelay = async ( delay ) =>
 
 
 export const RESPONSE_API = async (response, message, id = null, history, route = '') => {
-	if ( response?.status === 'success' )
+	if ( response?.status === 200 )
 		{
 			message.success( `${ id && 'Update' || 'Create' } successfully!`, 1 );
 			await timeDelay( 500 );
@@ -90,14 +90,14 @@ export const RESPONSE_API = async (response, message, id = null, history, route 
 		}
 }
 
-export const buildImage = ( img ) =>
+export const buildImage = ( img, is_user ) =>
 {
 	if ( img )
 	{
 		return process.env.REACT_APP_URL_UPLOAD + "/upload/" + img;
 
 	} 
-	else return DEFAUT_IMG
+	else return is_user ? DEFAULT_USER: DEFAUT_IMG
 }
 
 export const onErrorImage = (e)=> {
