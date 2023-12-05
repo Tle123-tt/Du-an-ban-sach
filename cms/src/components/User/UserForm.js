@@ -54,7 +54,7 @@ export const UserForm = ( props ) =>
 				uid: file.length,
 				name: data.avatar,
 				status: 'done',
-				url: buildImage( data.avatar ),
+				url: buildImage( data.avatar, true ),
 				default: true
 			} );
 			// let role = data.roles?.reduce( (role, item) =>

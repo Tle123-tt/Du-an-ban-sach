@@ -20,7 +20,7 @@ const productSchema = new Schema(
             type: Number,
         },
 		category_id: {
-            type: Number,
+            type: String,
         },
 		total_reviews: {
             type: Number,

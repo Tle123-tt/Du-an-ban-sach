@@ -19,7 +19,7 @@ exports.index = async ( filters ) =>
 	const meta = buildResponsePaging( paging.page, paging.page_size, count )
 	const status = 200;
 	const data = {
-		categories: categories
+		slides: categories
 	}
 	return {...data,meta};
 };

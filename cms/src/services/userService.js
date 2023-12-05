@@ -37,7 +37,7 @@ export const USER_SERVICE = {
 			dispatch( toggleShowLoading( false ) );
 			if ( response?.status === 200 )
 			{
-				return response?.data?.user;
+				return response?.data;
 			}
 			return null;
 		} catch ( error )

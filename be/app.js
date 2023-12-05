@@ -63,7 +63,6 @@ var storage =   multer.diskStorage({
 var upload = multer({ storage : storage}).single('file');
 
 app.post('/api/v1/upload-avatar',function(req,res){
-	console.log('req----------> ',req);
     upload(req,res,function(err) {
         if(err) {
 			console.log('error=========> ', err);
@@ -74,7 +73,7 @@ app.post('/api/v1/upload-avatar',function(req,res){
         return res.status(200).json({ data: image, status: 200 });
     });
 });
-app.get('/uploads/:image',function(req,res){
+app.get('/api/v1/upload/:image',function(req,res){
     let image = req.params.image;
     return res.sendFile(image, { root: './uploads' });
 });

@@ -46,7 +46,6 @@ export const SlidesPage = ( props ) =>
 								<th>ID</th>
 								<th className="text-nowrap">Image</th>
 								<th className="text-nowrap">Name</th>
-								<th className="text-nowrap">Link</th>
 								{/* <th className="text-nowrap">Hot</th> */}
 								<th className="text-nowrap">Status</th>
 								<th className="text-nowrap">Time</th>
@@ -68,9 +67,6 @@ export const SlidesPage = ( props ) =>
 											</td>
 											<td className="text-gray-900">
 												<span className="text-break" style={ { minWidth: '100px' } }>{ item.name }</span>
-											</td>
-											<td className="text-gray-900">
-												<a href={item.link || '#'} target="_blank" className="text-break" style={ { minWidth: '100px' } }>{ item.link }</a>
 											</td>
 											{/* <td className="text-gray-900">
 												{ item.hot === 1 && <span className="text-danger">Hot</span> }

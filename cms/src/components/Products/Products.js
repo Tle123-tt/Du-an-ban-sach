@@ -83,7 +83,7 @@ export const Products = ( props ) =>
 													<div className="ml-2 text-break" style={ { minWidth: '100px' } }>{ item.slug }</div>
 												</div>
 											</td>
-											<td className="text-gray-900">{ customNumber( item.number, '.', '' ) }</td>
+											<td className="text-gray-900">{ customNumber( item.quantity, '.', '' ) }</td>
 											<td className="text-gray-900">{ customNumber( item.price, '.', 'đ' ) }</td>
 											<td className="text-gray-900 text-break" style={ { minWidth: "100px" } }>{ item.category?.name || 'N/A' }</td>
 
@@ -92,7 +92,7 @@ export const Products = ( props ) =>
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={`/product/edit/${item.id}`} className="d-flex justify-content-center">
+												<Link to={`/product/edit/${item._id}`} className="d-flex justify-content-center">
 													<i className="eva eva-edit"style={{fontSize: "16px", border: "1px solid"}}></i>
 												</Link>
 											</td>

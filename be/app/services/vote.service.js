@@ -3,14 +3,14 @@ const Vote = require( "../models/Vote.model" );
 const ProductService = require( "./product.service" );
 
 
-exports.index = async ( req, res ) =>
+exports.index = async ( filters ) =>
 {
 	// destructure page and limit and set default values
-	const page = req.query.page || 1; const page_size = req.query.page_size || 10;
+	const page = filters?.page || 1; const page_size = filters?.page_size || 10;
 	const condition = {};
-	if ( req.query.user_id ) condition.user_id = req.query.user_id;
-	if ( req.query.room_id ) condition.room_id = req.query.room_id;
-	if ( req.query.vote_number ) condition.vote_number = req.query.vote_number;
+	if ( filters?.user_id ) condition.user_id = filters.user_id;
+	if ( filters?.product_id ) condition.product_id = filters.product_id;
+	if ( filters?.vote_number ) condition.vote_number = filters.vote_number;
 	// execute query with page and limit values
 	const votes = await Vote.find()
 		.populate( [ 'user' ] )
@@ -28,7 +28,7 @@ exports.index = async ( req, res ) =>
 		let obj = {
 			_id: i,
 			count: await Vote.count( { vote_number: i } ).where( {
-				product_id: req.query.product_id || 0
+				product_id: filters?.product_id || 0
 			} )
 		}
 		total_star.push( obj )

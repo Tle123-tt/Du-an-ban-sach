@@ -55,7 +55,6 @@ export const SlideForm = ( props ) =>
 			let formValue = {
 				name: data.name,
 				status: data.status,
-				link: data.link,
 				image: file
 			}
 			setFiles(file)
@@ -134,12 +133,6 @@ export const SlideForm = ( props ) =>
 							rules={ [ { required: true } ] }
 							className=' d-block'>
 							<Input className='form-control' placeholder='Enter name' />
-						</Form.Item>
-
-						<Form.Item name="link" label="Link"
-							rules={ [ { required: true } ] }
-							className=' d-block'>
-							<Input className='form-control' placeholder='Enter link' />
 						</Form.Item>
 						<Form.Item
 							label="Avatar"

@@ -8,12 +8,12 @@ exports.isAuth = async (req, res, next) => {
 	try
 	{
 
-		const accessTokenFromHeader = req.headers.x_authorization;
-
+		let accessTokenFromHeader = req.headers["authorization"];
 		if ( !accessTokenFromHeader )
 		{
 			throw { code: '401', message: 'Không tìm thấy access token!' };
 		}
+		accessTokenFromHeader = accessTokenFromHeader.replace("Bearer ", '')?.trim();
 
 
 		const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;

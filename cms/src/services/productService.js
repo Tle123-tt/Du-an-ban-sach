@@ -41,7 +41,7 @@ export const showProductDetail = async ( productId, setProductData ) =>
 		const response = await showProduct( productId );
 		if ( response?.status === 200 )
 		{
-			setProductData( response?.data?.product );
+			setProductData( response?.data );
 		} else
 		{
 			setProductData( null );
@@ -93,11 +93,11 @@ export const submitFormProduct = async ( id = null, files, e, dispatch, history 
 		
 		delete formValue.image;
 		formValue.avatar = avatar;
-		formValue.products_images = fileImg;
+		formValue.product_images = fileImg;
 		formValue.hot = formValue.hot ? 1 : -1;
-		formValue.category_id = Number( formValue.category_id );
+		formValue.category_id = formValue.category_id;
 		formValue.price = Number( formValue.price );
-		formValue.number = Number( formValue.number );
+		formValue.quantity = Number( formValue.quantity );
 		let response;
 		if ( id )
 		{
@@ -106,6 +106,7 @@ export const submitFormProduct = async ( id = null, files, e, dispatch, history 
 		{
 			response = await Product.create( formValue );
 		}
+		console.log("product-------> ", response);
 		if ( response?.status === 200 )
 		{
 			message.success( `${id && 'Update'|| 'Create'} product successfully!`);
@@ -129,7 +130,7 @@ export const submitFormProduct = async ( id = null, files, e, dispatch, history 
 		dispatch( toggleShowLoading( false ) );
 	} catch ( error )
 	{
-		message.error( error.message );
+		message.error( error?.message );
 		dispatch( toggleShowLoading( false ) );
 	}
 }

@@ -93,9 +93,8 @@ export const ProductForm = ( props ) =>
 				content: product.content,
 				description: product.description,
 				status: product.status,
-				sale: product.sale,
 				hot: product.hot === 1 ? true : false,
-				number: product.number,
+				quantity: product.quantity,
 				price: product.price,
 				sale_to: product.sale_to ? moment( product.sale_to ).format( 'yyyy-MM-DD' ) : null,
 				slug: product.slug,
@@ -118,7 +117,7 @@ export const ProductForm = ( props ) =>
 				if ( item )
 				{
 					newCate.push( {
-						value: item.id,
+						value: item._id,
 						label: item.name
 					} )
 				}
@@ -168,6 +167,7 @@ export const ProductForm = ( props ) =>
 			let fieldValue = {
 				[ String( e[ 0 ].name[ 0 ] ) ]: value
 			}
+			console.log(fieldValue);
 			form.setFieldsValue( fieldValue );
 		}
 	}
@@ -215,8 +215,8 @@ export const ProductForm = ( props ) =>
 							rules={ [ { required: true } ] } className='d-block'>
 							<Select
 								placeholder="Select category"
-								showSearch
-								filterOption={ ( input, option ) => ( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
+								// showSearch
+								// filterOption={ ( input, option ) => ( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
 
 								style={ { width: '100%' } }
 								options={ categories }
@@ -329,24 +329,24 @@ export const ProductForm = ( props ) =>
 								</Form.Item>
 							</div>
 							<div className='col-md-4'>
-								<Form.Item name="number" label="Product quantity"
+								<Form.Item name="quantity" label="Product quantity"
 									rules={ [ { required: true } ] }
 									className='d-block'>
 									<Input className='form-control' placeholder='Enter quantity' />
 								</Form.Item>
 							</div>
-							<div className='col-md-4'>
+							{/* <div className='col-md-4'>
 								<Form.Item name="sale" label="Discount"
 									className=' d-block'>
 									<Input className='form-control' placeholder='Enter discount (%)' />
 								</Form.Item>
-							</div>
-							<div className='col-md-4'>
+							</div> */}
+							{/* <div className='col-md-4'>
 								<Form.Item name="sale_to" label="Discount to date"
 									className=' d-block'>
 									<Input type='date' className='form-control' placeholder='Choose time to end discount' />
 								</Form.Item>
-							</div>
+							</div> */}
 
 							<div className='col-md-4'>
 								<Form.Item name="status" label="Status"

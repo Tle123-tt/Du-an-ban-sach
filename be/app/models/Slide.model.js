@@ -11,6 +11,7 @@ const modelSchema = new Schema(
 		avatar: {
             type: String
         },
+		
 		status: {
             type: Number
         },

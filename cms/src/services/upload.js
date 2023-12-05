@@ -13,7 +13,7 @@ const uploadApi = {
 				{
 					const formData = new FormData();
 					formData.append( 'file', files[ 0 ].originFileObj );
-					const res = await axios.post( `${ process.env.REACT_APP_URL_UPLOAD }/upload/image`,
+					const res = await axios.post( `${ process.env.REACT_APP_URL_UPLOAD }/upload-avatar`,
 						formData, { headers: { 'Accept': 'multipart/form-data' } } );
 					let data = res.data;
 					if ( data?.status === 200 )
@@ -49,7 +49,7 @@ const uploadApi = {
 						{
 							const formData = new FormData();
 							formData.append( 'file', item.originFileObj );
-							const res = await axios.post( `${ process.env.REACT_APP_URL_UPLOAD }/upload/image`,
+							const res = await axios.post( `${ process.env.REACT_APP_URL_UPLOAD }/upload-avatar`,
 								formData, { headers: { 'Accept': 'multipart/form-data' } } );
 							let data = res.data;
 							console.log(data);

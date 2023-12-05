@@ -29,11 +29,7 @@ exports.index = async ( filters ) =>
 		const data = {
 			roles: roles
 		}
-		return {
-			data,
-			meta,
-			status
-		};
+		return { ...data, meta };
 	} catch ( err )
 	{
 		console.error( err.message );
