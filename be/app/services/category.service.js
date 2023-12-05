@@ -22,9 +22,8 @@ exports.index = async ( filters ) =>
 		categories: categories
 	}
 	return {
-		data,
-		meta,
-		status
+		...data,
+		meta
 	};
 };
 

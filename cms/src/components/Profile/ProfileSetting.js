@@ -77,7 +77,7 @@ export const ProfileSetting = (props) => {
 			formData.avatar = avatar;
 		}
         const response = await AUTH_SERVICE.update(formData);
-        if (response?.status == 'success') {
+        if (response?.status === 200) {
             message.success('Update profile successfully!');
 			if(avatar) {
 				setItem('avatar', avatar);

@@ -37,9 +37,9 @@ const Login = ( props ) =>
 	const submitForm = async ( e ) =>
 	{
 		dispatch( toggleShowLoading( true ) );
-		const response = await AUTH_SERVICE.login(e, dispatch);
+		const response = await AUTH_SERVICE.login(e);
 		console.log(response);
-		if(response?.status == 'success') {
+		if(response?.status === 200) {
 			localStorage.setItem('access_token_cms', response?.data?.token_info?.access_token);
 			localStorage.setItem('full_name', response?.data?.user?.name);
 			localStorage.setItem('email', response?.data?.user?.email);
@@ -73,7 +73,7 @@ const Login = ( props ) =>
 								validateMessages={ VALIDATE_FORM }
 							>
 								<div className='mb-3 form-group'>
-									<Form.Item name="username" label="Email"
+									<Form.Item name="email" label="Email"
 										rules={ [ { required: true } ] }
 										className=' d-block'>
 										<Input className='form-control' style={ { height: '40px', borderRadius: '10px' } } placeholder='Enter Email' />

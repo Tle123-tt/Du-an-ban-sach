@@ -36,7 +36,7 @@ export const ChangePassword = (props) => {
     const submitForm = async (e) => {
         if (checkPassword(e.password, e.retypeNewPassword)) {
             const response = await AUTH_SERVICE.update({ password: e.password });
-            if (response?.status == 'success') {
+            if (response?.status === 200) {
                 message.success('Change password successfully!');
             } else {
                 message.error(response.message || 'error');

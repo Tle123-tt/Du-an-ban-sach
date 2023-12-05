@@ -5,7 +5,7 @@ const staticBuilder = require('../../app/controllers/cms/Static.controller');
 const authMiddleware = require('./../../app/middleware/adminAuthJwt');
 const isAuth = authMiddleware.roleGuards;
 
-router.route('/monthly-statistics').get(staticBuilder.monthlyStatistics);
+router.route('/statistical').get(staticBuilder.monthlyStatistics);
 
 
 module.exports = router;

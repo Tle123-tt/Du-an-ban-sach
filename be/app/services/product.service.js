@@ -32,10 +32,9 @@ exports.index = async ( filters ) =>
 		products: products
 	}
 	return  {
-		data,
-		meta,
-		status
-	} ;
+		...data,
+		meta
+	};
 };
 
 exports.show = async ( id ) =>

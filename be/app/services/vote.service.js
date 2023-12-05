@@ -43,9 +43,8 @@ exports.index = async ( req, res ) =>
 		total_star: total_star
 	}
 	return {
-		data,
-		meta,
-		status
+		...data,
+		meta
 	};
 };
 

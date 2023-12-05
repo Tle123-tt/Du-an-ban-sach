@@ -18,7 +18,7 @@ export const ProfileContainer = () => {
 
 	const getProfile = async () => {
 		const response = await AUTH_SERVICE.getProfile();
-        if (response?.status == 'success') {
+        if (response?.status === 200) {
             setProfileData(response?.data);
         } else {
             message.error(response?.message || 'error');

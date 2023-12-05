@@ -32,10 +32,9 @@ exports.index = async ( filters ) =>
 		orders: orders
 	}
 	return  {
-		data,
-		meta,
-		status
-	} ;
+		...data,
+		meta
+	};
 };
 
 exports.show = async ( req, res ) =>

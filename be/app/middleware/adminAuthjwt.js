@@ -10,13 +10,14 @@ exports.roleGuards = async ( req, res, next ) =>
 	{
 		let pathUrlRoute = req.route.path;
 
-		const accessTokenFromHeader = req.headers.x_authorization;
-
+		let accessTokenFromHeader = req.headers["authorization"];
+		console.log("token==========> ", accessTokenFromHeader);
+		console.log("token==========> ", req.headers["authorization"]);
 		if ( !accessTokenFromHeader )
 		{
 			throw { code: '401', message: 'Không tìm thấy access token!' };
 		}
-
+		accessTokenFromHeader = accessTokenFromHeader.replace("Bearer ", '')?.trim();
 
 		const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
@@ -32,7 +33,8 @@ exports.roleGuards = async ( req, res, next ) =>
 			throw { message: 'Vui lòng đăng nhập lại!', status: 401, code: '401' };
 		}
 
-		let user = await User.findOne( { email: verified.payload.email } ).populate( [ 'roles' ] );
+		let user = await User.findOne( 
+			{ email: verified.payload.email } );
 		req.user = user;
 		// console.log('------------- ADMIN LOGIN  => ', user);
 		// console.log( '------------- req.path admin => ', req.path );
@@ -45,32 +47,32 @@ exports.roleGuards = async ( req, res, next ) =>
 			throw { message: 'Bạn không có quyền truy cập vào tính năng này!', status: 403, code: '403' };
 		}
 		return next();
-		let roles = user?.roles;
+		// let roles = user?.roles;
 		// console.log( 'roles admin--------> ', roles );
 		// console.log('=========> CHECK ROLES <=============', roles);
-		if ( roles?.length > 0 )
-		{
-			for ( let i = 0; i < roles.length; i++ )
-			{
-				let permissions = roles[ i ].permissions;
-				// console.log( '=========> ROLE  <=============', roles[ i ].name );
-				for ( let j = 0; j < permissions.length; j++ )
-				{
-					let permissionDB = await Permission.findOne( { _id: permissions[ j ] } )
-					if ( permissionDB )
-					{
-						let checkPath = permissionDB.path;
-						if ( checkPath.includes( pathUrlRoute ) )
-						{
-							// console.log( '============= PERMISSION PATH: ', checkPath );
-							// console.log( '============= PERMISSION pathUrlRoute: ', pathUrlRoute );
-							return next();
-						}
-					}
-				}
-			}
-			console.log( '=========> KHÔNG CÓ QUYỀN TRUY CẬP <=============' );
-		}
+		// if ( roles?.length > 0 )
+		// {
+		// 	for ( let i = 0; i < roles.length; i++ )
+		// 	{
+		// 		let permissions = roles[ i ].permissions;
+		// 		// console.log( '=========> ROLE  <=============', roles[ i ].name );
+		// 		for ( let j = 0; j < permissions.length; j++ )
+		// 		{
+		// 			let permissionDB = await Permission.findOne( { _id: permissions[ j ] } )
+		// 			if ( permissionDB )
+		// 			{
+		// 				let checkPath = permissionDB.path;
+		// 				if ( checkPath.includes( pathUrlRoute ) )
+		// 				{
+		// 					// console.log( '============= PERMISSION PATH: ', checkPath );
+		// 					// console.log( '============= PERMISSION pathUrlRoute: ', pathUrlRoute );
+		// 					return next();
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	console.log( '=========> KHÔNG CÓ QUYỀN TRUY CẬP <=============' );
+		// }
 		throw { message: 'Bạn không có quyền truy cập vào tính năng này!', status: 403, code: '403' }
 	} catch ( error )
 	{
@@ -85,6 +87,7 @@ exports.verifyToken = async ( token, secretKey ) =>
 {
 	try
 	{
+		console.error("Token----------> ", token, secretKey);
 		return await verify( token, secretKey );
 	} catch ( error )
 	{

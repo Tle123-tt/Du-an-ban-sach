@@ -21,11 +21,7 @@ exports.index = async ( filters ) =>
 	const data = {
 		categories: categories
 	}
-	return {
-		data,
-		meta,
-		status
-	};
+	return {...data,meta};
 };
 
 exports.show = async ( id ) =>

@@ -48,6 +48,7 @@ exports.login = async ( req, res ) =>
 	{
 		const email = req.body.email.toLowerCase();
 		const user = await User.findOne( { email: email } );
+		console.log(user);
 		if ( !user ) return res.status( 200 ).json( { message: 'Tài khoản không tồn tại', status: 400 } );
 
 		const isPasswordValid = bcrypt.compareSync( req.body.password, user.password );
@@ -72,12 +73,15 @@ exports.login = async ( req, res ) =>
 			throw { message: 'Đăng nhập không thành công, vui lòng thử lại.' };
 		}
 		const response = {
-			accessToken: accessToken,
+			token_info: {
+				access_token: accessToken
+			},
 			user: user
 		}
 		return res.status( 200 ).json( { data: response, status: 200 } );
 	} catch ( e )
 	{
+		console.log('error login------> ', e);
 		await buildResponseException(res, 400, {
 			status: 400,
 			message:  e?.message || "Không có dữ liệu"

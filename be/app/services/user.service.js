@@ -32,10 +32,9 @@ exports.index = async ( filters) =>
 		users: users
 	}
 	return {
-		data,
-		meta,
-		status
-	}
+		...data,
+		meta
+	};
 };
 
 exports.show = async ( id ) =>
@@ -53,6 +52,7 @@ exports.store = async ( data ) =>
 		avatar: data.avatar || null,
 		email: data.email,
 		phone: data.phone,
+		password: data.password,
 		birthday: data.birthday ? new Date(data.birthday) : null,
 		gender: data.gender,
 		status: data.status || 1,
@@ -73,6 +73,10 @@ exports.update = async ( id, data ) =>
 	if ( data.name )
 	{
 		user.name = data.name;
+	}
+	if ( data.password )
+	{
+		user.password = data.password;
 	}
 	if ( data.phone )
 	{

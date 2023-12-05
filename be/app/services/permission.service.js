@@ -23,11 +23,7 @@ exports.index = async ( filters ) =>
 	const data = {
 		permissions: permissions
 	}
-	return  {
-		data,
-		meta,
-		status
-	} ;
+	return  {...data, meta};
 };
 
 exports.show = async ( id ) =>

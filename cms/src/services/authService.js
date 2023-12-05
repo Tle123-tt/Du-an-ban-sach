@@ -5,7 +5,7 @@ import { message } from "antd";
 import uploadApi from "./upload";
 
 export const AUTH_SERVICE = {
-	async login ( data, dispatch )
+	async login ( data )
 	{
 		try
 		{

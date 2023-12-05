@@ -23,9 +23,8 @@ exports.index = async ( filters ) =>
 		contacts: contact
 	}
 	return {
-		data,
-		meta,
-		status
+		...data,
+		meta
 	};
 };
 
