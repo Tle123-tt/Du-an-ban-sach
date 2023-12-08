@@ -9,7 +9,7 @@ exports.index = async ( req, res ) =>
 	{
 		const filters = req.query;
 		const response = await OrderService.index( filters );
-		await buildResponse( req, response )
+		await buildResponse( res, response )
 	} catch ( e )
 	{
 		await buildResponseException( res, 400, {
@@ -25,7 +25,7 @@ exports.show = async ( req, res ) =>
 	try
 	{
 		const response = await OrderService.show( req.params.id );
-		await buildResponse( req, response );
+		await buildResponse( res, response );
 	} catch ( e )
 	{
 		buildResponseException( res, 400, {
@@ -40,7 +40,8 @@ exports.store = async ( req, res ) =>
 	try
 	{
 		const response = await OrderService.store( req.body );
-		await buildResponse( req, response );
+		console.log('---------------- response ', response);
+		await buildResponse( res, response );
 	} catch ( e )
 	{
 		await buildResponseException( res, 400, {

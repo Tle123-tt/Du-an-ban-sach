@@ -115,7 +115,7 @@ exports.store = async ( data ) =>
 		receiver_address: data.receiver_address,
 		receiver_email: data.receiver_email,
 		receiver_phone: data.receiver_phone,
-		receiver_name: data.receiver_name,
+		receiver_name: data.name,
 		status: 0,
 		shipping_status: 0,
 		payment_type: data.payment_type,
@@ -131,12 +131,15 @@ exports.store = async ( data ) =>
 				name: item.name,
 				quantity: Number(item.quantity),
 				price: Number(item.price),
-				total_price: Number(item.price) * Number(item.quantity) - Number(item.discount),
+				total_price: Number(item.price) * Number(item.quantity) - Number(0),
+				// total_price: Number(item.price) * Number(item.quantity) - Number(item.discount),
 				order_id: order._id,
-				discount: Number(item.discount)
+				discount: Number(0)
+				// discount: Number(item.discount)
 			});
 			await transaction.save();
 		}
 	}
+	console.log('---------- OK');
 	return order;
 };
