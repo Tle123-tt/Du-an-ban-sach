@@ -49,6 +49,13 @@ const productSchema = new Schema(
 		product_images: {
             type: Array
         },
+		author_id: {
+			type: String
+		},
+		author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Author"
+        },
         created_at : { type: Date, default: Date.now }
     },
     { collection: 'products' }
