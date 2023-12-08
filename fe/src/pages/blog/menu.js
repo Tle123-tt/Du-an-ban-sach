@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 import ProductItem from '../../components/product/_inc_product_item';
@@ -101,7 +101,7 @@ function MenuPage ()
                                     <div className="small text-muted">January 1, 2023</div>
                                     <h2 className="card-title">Featured Post Title</h2>
                                     <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                                    <a className="btn btn-primary" href="">Read more →</a>
+                                    <Link className="btn btn-primary" to={`/bai-viet/huong-dan-doc-sach-hieu-qua`}>Xem thêm</Link>
                                 </div>
                             </div>
                             <div className="row">
@@ -112,7 +112,7 @@ function MenuPage ()
                                             <div className="small text-muted">January 1, 2023</div>
                                             <h2 className="card-title h4">Post Title</h2>
                                             <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                                            <a className="btn btn-primary" href="">Read more →</a>
+                                            <Link className="btn btn-primary" to={`/bai-viet/huong-dan-doc-sach-hieu-qua`}>Xem thêm</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@ function MenuPage ()
                                             <div className="small text-muted">January 1, 2023</div>
                                             <h2 className="card-title h4">Post Title</h2>
                                             <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                                            <a className="btn btn-primary" href="">Read more →</a>
+                                            <Link className="btn btn-primary" to={`/bai-viet/huong-dan-doc-sach-hieu-qua`}>Xem thêm</Link>
                                         </div>
                                     </div>
                                 </div>

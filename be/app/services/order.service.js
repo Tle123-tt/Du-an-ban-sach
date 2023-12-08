@@ -126,10 +126,12 @@ exports.store = async ( data ) =>
 	await order.save();
 	if(order && data.products?.length > 0) {
 		for(let item of data.products) {
+			console.log('------------ item: ', item);
 			let transaction = new TransactionModel({
 				code: makeId(10),
 				product_id: item.id,
 				name: item.name,
+				avatar: item.avatar,
 				quantity: Number(item.quantity),
 				price: Number(item.price),
 				user_id: order.user_id,
@@ -140,6 +142,8 @@ exports.store = async ( data ) =>
 				// discount: Number(item.discount)
 			});
 			await transaction.save();
+			await order.transactions.push(transaction);
+			await order.save();
 		}
 	}
 	console.log('---------- OK');

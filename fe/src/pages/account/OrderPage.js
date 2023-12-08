@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import AuthApi from "../../api/AuthApi";
 import ModalVote from "./include/_inc_modal_vote";
 import Button from "react-bootstrap/Button";
+import {buildImage, onErrorImage} from "../utils/util_price";
 
 function OrderPage()
 {
@@ -100,31 +101,33 @@ function OrderPage()
                                             <span><b style={{paddingRight: "4px"}}>Đơn hàng #{item._id}</b>
                                             Ngày tạo <Moment date={item.created_at}  format="YYYY/MM/DD"/></span>
                                             <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
-                                            <span className={`badge badge-` + getStatus(item.status)?.class}>{getStatus(item.status)?.name}</span>
                                         </p>
                                         {item.transactions.length && (
                                             <>
                                                 <div className='list-carts'>
-                                                    {item.transactions.map((order, key) => (
+                                                    {item.transactions.map((transaction, key) => (
                                                         <div className="items" key={key}>
                                                             <div className="image">
-                                                                <Link to={`/san-pham/${order.slug}`}>
-                                                                    <img src={order.product.avatar} />
+                                                                <Link to={`/san-pham/${transaction.slug}`}>
+                                                                    {/*<img src={transaction.avatar} />*/}
+                                                                    <img src={ buildImage(transaction.avatar) } alt={ transaction.name } onError={ onErrorImage } />
                                                                 </Link>
                                                             </div>
                                                             <div className="info">
-                                                                <Link to={`/san-pham/${order.product.slug}`}>
-                                                                    <h4>{order.product.name}</h4>
+                                                                <Link to={`/san-pham/${transaction.product.slug}`}>
+                                                                    <h4>{transaction.name}</h4>
                                                                 </Link>
-                                                                {/*<span className='item-delete' >*/}
-                                                                {/*    <FaTrash /> huỷ bỏ*/}
-                                                                {/*</span>*/}
-                                                                <span className='item-delete' onClick={() => handleVote(order.product)} >
-                                                                    <FaStar /> Viết đánh giá
-                                                                </span>
+                                                                <div className={'d-flex'}>
+                                                                    <span className='item-delete text-danger' >
+                                                                        <FaTrash /> huỷ bỏ
+                                                                    </span>
+                                                                    <span className='item-delete m-lg-2' onClick={() => handleVote(transaction.product)} >
+                                                                        <FaStar /> Viết đánh giá
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                             <div className="price">
-                                                                <span>{order.od_qty} x {order.total_price.toLocaleString()} đ</span>
+                                                                <span>{transaction.quantity} x {transaction.price.toLocaleString()} đ</span>
                                                                 {/*<span><sub className='discount'>20.000.000 đ</sub></span>*/}
                                                             </div>
                                                         </div>

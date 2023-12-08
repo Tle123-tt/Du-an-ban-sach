@@ -13,6 +13,7 @@
         word-break: break-word;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+        height: 42px;
         // color: #364a63;
         display: -webkit-box!important;
     }
@@ -50,8 +51,8 @@
         .price {
             color: rgb(56, 56, 61);
         }
-        .sale { 
-            color: rgb(255, 66, 78);           
+        .sale {
+            color: rgb(255, 66, 78);
         }
     }
 

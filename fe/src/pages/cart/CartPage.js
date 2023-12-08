@@ -50,6 +50,7 @@ function CartPage() {
                 id: item._id,
                 name: item.name,
                 quantity: item.quantity,
+                avatar: item.avatar,
                 discount_type: "money",
                 discount_value: 0,
                 price: item.price,
