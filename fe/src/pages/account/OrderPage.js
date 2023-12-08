@@ -24,15 +24,18 @@ function OrderPage()
         let page = 1;
         let page_size = 10;
         const response = await CartApi.getTransaction(page, page_size);
+        console.log('------------- response@getTransaction');
         if (response.status === 200) {
             setLoadingOrder(false);
-            setOrders(response.data);
+            setOrders(response.data?.orders);
         }
     }
 
     const configStatusTransaction = async () => {
         const response = await CartApi.showConfig();
+        console.log("===============response: configStatusTransaction ", response.data.status);
         if (response.status === 200) {
+            console.log('=============== SET');
             setConfigStatus(response.data.status);
         }
     }
@@ -94,15 +97,15 @@ function OrderPage()
                                 {orders && orders.map((item, index) => (
                                     <div className="order-items" key={index}>
                                         <p className="item-header">
-                                            <span><b style={{paddingRight: "4px"}}>Đơn hàng #{item.id}</b>
+                                            <span><b style={{paddingRight: "4px"}}>Đơn hàng #{item._id}</b>
                                             Ngày tạo <Moment date={item.created_at}  format="YYYY/MM/DD"/></span>
-                                            <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.t_status)?.text} bg={getStatus(item.t_status)?.class}>{getStatus(item.t_status)?.name}</Badge>
-                                            {/*<span className={`badge badge-` + getStatus(item.t_status)?.class}>{getStatus(item.t_status)?.name}</span>*/}
+                                            <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
+                                            <span className={`badge badge-` + getStatus(item.status)?.class}>{getStatus(item.status)?.name}</span>
                                         </p>
-                                        {item.orders.length && (
+                                        {item.transactions.length && (
                                             <>
                                                 <div className='list-carts'>
-                                                    {item.orders.map((order, key) => (
+                                                    {item.transactions.map((order, key) => (
                                                         <div className="items" key={key}>
                                                             <div className="image">
                                                                 <Link to={`/san-pham/${order.slug}`}>
@@ -121,7 +124,7 @@ function OrderPage()
                                                                 </span>
                                                             </div>
                                                             <div className="price">
-                                                                <span>{order.od_qty} x {order.od_total_price.toLocaleString()} đ</span>
+                                                                <span>{order.od_qty} x {order.total_price.toLocaleString()} đ</span>
                                                                 {/*<span><sub className='discount'>20.000.000 đ</sub></span>*/}
                                                             </div>
                                                         </div>

@@ -63,12 +63,48 @@ const CartApi = {
     },
     async showConfig() {
         try {
-            const url = `transaction/config`;
-            return [];
-            const response = await axiosClient.get(url);
-            if (response.status === 200 || response.status === 201) {
-                return response.data;
+
+            const data = {
+                "status" : [
+                    {
+                        'value' : -1,
+                        'name' : 'Huỷ hàng',
+                        'class' : 'danger'
+                    },
+                    {
+                        'value' : 0,
+                        'name' : 'Khởi tạo',
+                        'class' : 'light',
+                        'text' : 'text-dark'
+                    },
+                    {
+                        'value' : 2,
+                        'name' : 'Chờ xử lý',
+                        'class' : 'warning'
+                    },
+                    {
+                        'value' : 3,
+                        'name' : 'Chờ lấy hàng',
+                        'class': 'secondary'
+                    },
+                    {
+                        'value' : 4,
+                        'name' : 'Hoàn thành',
+                        'class': 'primary'
+                    },
+                ]
             }
+            return {
+                data: data,
+                status: 200
+            };
+
+            // const url = `transaction/config`;
+            // return [];
+            // const response = await axiosClient.get(url);
+            // if (response.status === 200 || response.status === 201) {
+            //     return response.data;
+            // }
         } catch (e) {
             console.log('---------------showTransaction@Error ', e);
         }

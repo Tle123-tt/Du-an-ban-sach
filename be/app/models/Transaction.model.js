@@ -10,14 +10,16 @@ const transactionSchema = new Schema(
         product_id: {
             type: String,
         },
-        
+        user_id: {
+            type: String,
+        },
         name: {
             type: String,
         },
 		avatar: {
             type: String,
         },
-		
+
 		price: {
             type: Number,
         },
@@ -35,6 +37,12 @@ const transactionSchema = new Schema(
 		code: {
             type: String
         },
+        product: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Product"
+            }
+        ],
         created_at : { type: Date, default: Date.now }
     },
     { collection: 'transactions' }

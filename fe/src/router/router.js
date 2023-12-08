@@ -16,6 +16,8 @@ import CartPage from "../pages/cart/CartPage";
 import UpdateProductPage from "../pages/admin/product/UpdateProductPage";
 import UpdateCategoryPage from "../pages/admin/category/UpdateCategoryPage";
 import CreateCategoryPage from "../pages/admin/category/CreateCategoryPage";
+import MenuPage from "../pages/blog/menu";
+import ArticlePage from "../pages/blog/article";
 
 export const routes = () => {
     return [
@@ -48,6 +50,32 @@ export const routes = () => {
                 {
                     path: "*",
                     element: <CategoryPage />,
+                }
+            ]
+        },
+        {
+            path: "/tin-tuc-chuyen-muc",
+            children: [
+                {
+                    path: ":slug",
+                    element: <MenuPage />,
+                },
+                {
+                    path: "*",
+                    element: <MenuPage />,
+                }
+            ]
+        },
+        {
+            path: "/bai-viet",
+            children: [
+                {
+                    path: ":slug",
+                    element: <ArticlePage />,
+                },
+                {
+                    path: "*",
+                    element: <ArticlePage />,
                 }
             ]
         },

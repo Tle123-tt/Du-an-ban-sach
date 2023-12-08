@@ -53,6 +53,10 @@ function HeaderCpn()
                     <Nav className="me-auto">
                         <Link to={`/san-pham`} className='nav-item'>Sản phẩm</Link>
                         {/*<Link to="/admin/category" className='nav-item'> [-> Admin]</Link>*/}
+                        <NavDropdown title={"Tin tức"} id="collasible-nav-dropdown2">
+                            <Link data-rr-ui-dropdown-item className={"dropdown-item"} role="button" to={`tin-tuc-chuyen-muc/noi-bat`}>Nổi bật</Link>
+                            <Link data-rr-ui-dropdown-item className={"dropdown-item"} role="button" to={`tin-tuc-chuyen-muc/su-kien`}>Sự kiện</Link>
+                        </NavDropdown>
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control

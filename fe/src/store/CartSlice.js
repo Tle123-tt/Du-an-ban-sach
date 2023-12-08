@@ -16,7 +16,7 @@ export const CartSlice = createSlice({
         },
         addToCart: (state, action) => {
             console.log('----------- action: ', action);
-            const itemInCart = state.listCart.find((item) => item.id === action.payload.id);
+            const itemInCart = state.listCart.find((item) => item._id === action.payload._id);
             if (itemInCart) {
                 itemInCart.quantity += action.payload.quantity;
                 console.log('if itemInCart')
@@ -28,12 +28,12 @@ export const CartSlice = createSlice({
             console.log('done')
         },
         incrementQuantity: (state, action) => {
-            const item = state.listCart.find((item) => item.id === action.payload.id);
+            const item = state.listCart.find((item) => item._id === action.payload._id);
             item.quantity++;
             localStorage.setItem('cart', JSON.stringify(state.listCart))
         },
         decrementQuantity: (state, action) => {
-            const item = state.listCart.find((item) => item.id === action.payload.id)
+            const item = state.listCart.find((item) => item._id === action.payload._id)
             if (item.quantity === 1) {
                 item.quantity = 1;
             } else {
@@ -43,7 +43,7 @@ export const CartSlice = createSlice({
             localStorage.setItem('cart', JSON.stringify(state.listCart));
         },
         removeItem: (state, action) => {
-            state.listCart = state.listCart.filter((item) => item.id !== action.payload.id);
+            state.listCart = state.listCart.filter((item) => item._id !== action.payload._id);
             localStorage.setItem('cart', JSON.stringify(state.listCart))
         },
         removeCartAll: (state, action) => {

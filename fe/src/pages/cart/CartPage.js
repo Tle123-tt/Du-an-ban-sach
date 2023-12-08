@@ -47,7 +47,7 @@ function CartPage() {
 
         carts.forEach((item, index) => {
             transactions.push({
-                id: item.id,
+                id: item._id,
                 name: item.name,
                 quantity: item.quantity,
                 discount_type: "money",
@@ -65,7 +65,7 @@ function CartPage() {
         order.products = transactions;
         order.note = "abc";
         order.total_price = total;
-        order.t_user_id = user_id;
+        order.user_id = user_id;
 
         console.log('------------ order: ', order);
         const createCart = await CartApi.createTransaction(order);
@@ -136,7 +136,7 @@ function CartPage() {
             let response = await AuthApi.getProfile();
             if(response.status === 200)
             {
-                setUserId(response.data.id);
+                setUserId(response.data._id);
                 setName(response.data.name);
                 setPhone(response.data.phone);
                 console.log('------------ response.data.name: ', response.data.name);
