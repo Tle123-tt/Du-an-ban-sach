@@ -41,7 +41,7 @@ const productService = {
 
     async findBySlug(slug) {
 		try {
-			const url = `product/show-slug/${slug}`;
+			const url = `product/show/${slug}`;
 			const response = await axiosClient.get(url)
 
 			if (response.status === 200) {

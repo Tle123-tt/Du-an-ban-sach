@@ -34,7 +34,7 @@ const categoryService = {
 
     async findBySlug(slug) {
 		try {
-			const url = `category/showBySlug/${slug}`;
+			const url = `category/show/${slug}`;
 			const response = await axiosClient.get(url)
 
 			if (response.status === 200) {

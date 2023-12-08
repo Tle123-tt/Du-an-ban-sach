@@ -14,7 +14,7 @@ import Skeleton from "react-loading-skeleton";
 import {useDispatch} from "react-redux";
 import {addToCart} from "../../store/CartSlice";
 import Swal from "sweetalert2";
-import formatPrice from "../utils/util_price";
+import formatPrice, {buildImage, onErrorImage} from "../utils/util_price";
 
 function ProductPage(){
     let { slug } = useParams();
@@ -30,15 +30,24 @@ function ProductPage(){
 
     const findProductsDetailBySlug = async () => {
         const response = await productService.findBySlug(slug);
-        console.log("--------------- response: ", response);
+        console.log("--------------- response:findProductsDetailBySlug ", response);
         if (response.status === 200) {
             setProductDetail(response.data);
-            let image = {
-                original: response.data.avatar,
-                thumbnail : response.data.avatar
-            }
-            images.push(image);
-
+            let arrImages = [];
+            response.data?.product_images.map((item, index) => {
+                console.log('----------- item: ', item);
+                images.push({
+                    original: buildImage(item.path),
+                    thumbnail : buildImage(item.path)
+                });
+                // <img src={ buildImage(product.avatar) } alt={ product.name } onError={ onErrorImage } />
+            })
+            // let image = {
+            //     original: response.data.avatar,
+            //     thumbnail : response.data.avatar
+            // }
+            // images.push(image);
+            console.log('------ images: ', images);
             setImages(images);
         }
         setLoadingProductDetail(false);
@@ -51,7 +60,7 @@ function ProductPage(){
             page_size: 18
         });
         if (response.status === 200) {
-            setProductsSuggest(response.data);
+            setProductsSuggest(response.data?.products);
             setLoadingProductSuggest(false);
         }
     }

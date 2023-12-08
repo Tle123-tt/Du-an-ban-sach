@@ -32,6 +32,21 @@ exports.show = async ( req, res ) =>
 	}
 };
 
+exports.showBySlug = async ( req, res ) =>
+{
+	try
+	{
+		const response =  await ProductService.showBySlug( req.params.slug );
+		await buildResponse(res, response);
+	} catch ( e )
+	{
+		buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+};
+
 exports.store = async ( req, res ) =>
 {
 	try
@@ -74,5 +89,5 @@ exports.delete = async ( req, res ) =>
 			status: 400,
 			message:  e?.message || "Không có dữ liệu"
 		});
-	}	
+	}
 };

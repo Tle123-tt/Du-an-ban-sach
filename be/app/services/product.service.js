@@ -46,6 +46,14 @@ exports.show = async ( id ) =>
 	return  data;
 };
 
+exports.showBySlug = async ( slug ) =>
+{
+	return  await ProductModel.findOne(
+		{
+			slug: slug
+		}).populate(['category']);
+};
+
 exports.store = async ( data ) =>
 {
 	const category = await CategoryModel.findOne( {
