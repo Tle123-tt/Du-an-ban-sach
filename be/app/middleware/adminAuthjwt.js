@@ -5,7 +5,7 @@ const { verify } = require( "jsonwebtoken" );
 exports.roleGuards = async ( req, res, next ) =>
 {
 	// Lấy access token từ header
-	// return next();
+	return next();
 	try
 	{
 		let pathUrlRoute = req.route.path;
@@ -30,7 +30,7 @@ exports.roleGuards = async ( req, res, next ) =>
 			throw { message: 'Vui lòng đăng nhập lại!', status: 401, code: '401' };
 		}
 
-		let user = await User.findOne( 
+		let user = await User.findOne(
 			{ email: verified.payload.email } );
 		req.user = user;
 		// console.log('------------- ADMIN LOGIN  => ', user);

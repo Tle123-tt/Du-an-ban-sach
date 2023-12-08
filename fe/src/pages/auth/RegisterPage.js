@@ -102,7 +102,7 @@ function RegisterPage()
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
-                    title: 'Đăng nhập thất bại? Mời bạn kiểm tra lại thông tin',
+                    title: 'Có lỗi xẩy ra, xin vui lòng thử lại',
                     showConfirmButton: false,
                     timer: 1500
                 })

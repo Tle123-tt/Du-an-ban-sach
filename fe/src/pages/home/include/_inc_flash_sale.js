@@ -9,7 +9,7 @@ import 'swiper/css';
 import productService from "./../../../api/productService";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import formatPrice from "../../utils/util_price";
+import formatPrice, {buildImage, onErrorImage} from "../../utils/util_price";
 import ImageDefailt from "../../../assets/image/default-image.png";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 
@@ -24,7 +24,7 @@ function FlashSaleCpn()
             sort: 'pay,desc'
         });
         if (response.status === 200) {
-            setProductsFlash(response.data);
+            setProductsFlash(response.data?.products);
             setLoadingProduc(false);
         }
     }
@@ -82,11 +82,12 @@ function FlashSaleCpn()
                                             </div>
                                             <Link to={`/san-pham/${product.slug}`} className='product-item-image'>
                                                 {/*<img src={product.avatar}  alt={product.name}/>*/}
-                                                <LazyLoadImage src={product.avatar}
-                                                               alt={product.name}
-                                                               height={165}
-                                                               placeholderSrc={ImageDefailt}
-                                                />
+                                                {/*<LazyLoadImage src={product.avatar}*/}
+                                                {/*               alt={product.name}*/}
+                                                {/*               height={165}*/}
+                                                {/*               placeholderSrc={ImageDefailt}*/}
+                                                {/*/>*/}
+                                                <img src={ buildImage(product.avatar) } alt={ product.name } onError={ onErrorImage } />
                                             </Link>
                                             {/* <h3 className='product-item-title'>
                                                 <Link to='/san-pham'>{product.name}</Link>

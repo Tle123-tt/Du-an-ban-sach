@@ -26,7 +26,6 @@ function HeaderCpn()
 
     const logout = (e) => {
         e.preventDefault();
-        localStorage.removeItem("accessToken");
         localStorage.removeItem("user");
         window.location.reload();
         navigate("/");
@@ -53,7 +52,7 @@ function HeaderCpn()
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <Link to={`/san-pham`} className='nav-item'>Sản phẩm</Link>
-                        <Link to="/admin/category" className='nav-item'> [-> Admin]</Link>
+                        {/*<Link to="/admin/category" className='nav-item'> [-> Admin]</Link>*/}
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control

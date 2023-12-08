@@ -9,9 +9,12 @@ const axiosClient = axios.create({
 	body: JSON.stringify(),
 })
 
+const user = localStorage.getItem("user");
+const tokenString = JSON.parse(user);
+let token = tokenString?.token_info?.access_token
 
-if (localStorage.getItem('accessToken')) {
-	axiosClient.defaults.headers.common['Authorization'] =  'Bearer ' + localStorage.getItem('accessToken');
+if (token) {
+	axiosClient.defaults.headers.common['Authorization'] =  'Bearer ' + token;
 }
 
 export default axiosClient;

@@ -13,6 +13,7 @@ import LoadingCategory from './include/_inc_loading_category';
 import FlashSaleCpn from './include/_inc_flash_sale';
 
 import "./../../assets/pages/home.scss";
+import {buildImage, onErrorImage} from "../utils/util_price";
 
 function HomePage () {
     const [productsNew, setProductsNew] = useState([]);
@@ -25,8 +26,9 @@ function HomePage () {
         const response = await productService.getListsProducts({
             page_size: 18
         });
+        console.log('-------- response:getListsProductsNew ', response);
         if (response.status === 200) {
-            setProductsNew(response.data);
+            setProductsNew(response.data?.products);
             setLoadingProductNew(false);
         }
     }
@@ -35,13 +37,14 @@ function HomePage () {
         const response = await categoryService.getListsCategory({
             page_size: 8
         });
+        console.log('-------- response:getListsCategory ', response);
         if (response.status === 200) {
-            setCategories(response.data);
+            setCategories(response.data?.categories);
             setLoadingCategory(false);
         }
     }
 
-    
+
 
     useEffect(() => {
         getListsProductsNew();
@@ -67,7 +70,7 @@ function HomePage () {
                                     <div className='lists-category-home-item' key={index}>
                                         <div className='lists-category-home-box'>
                                             <Link to={`/danh-muc/${category.slug}`}>
-                                                <img src={category.avatar}  alt={category.name} />
+                                                <img src={ buildImage(category.avatar) } alt={ category.name } onError={ onErrorImage } />
                                             </Link>
                                             <Link className='pt-2 pb-2'  to={`/danh-muc/${category.slug}-${category.id}`} title={category.name}>{category.name}</Link>
                                         </div>
@@ -76,7 +79,7 @@ function HomePage () {
                             </div>
                         </>
                     )}
-                    
+
                 </Row>
             </Container>
             <FlashSaleCpn />
@@ -98,10 +101,10 @@ function HomePage () {
                             ))}
                         </>
                     )}
-                    
+
                 </Row>
             </Container>
-        </div>  
+        </div>
     );
 }
 

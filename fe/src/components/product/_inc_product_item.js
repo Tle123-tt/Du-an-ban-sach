@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ImageDefailt from "../../assets/image/default-image.png";
-import formatPrice from "../../pages/utils/util_price";
+import formatPrice, {buildImage, onErrorImage} from "../../pages/utils/util_price";
 
 function ProductItem({product, loading}) {
     const renderAge = () => {
@@ -20,10 +20,7 @@ function ProductItem({product, loading}) {
         ) : (
             <div className='product-item mb-3'>
                 <Link to={`/san-pham/${product.slug}`} className='product-item-image'>
-                    <LazyLoadImage src={product.avatar}
-                                   alt={product.name}
-                                   placeholderSrc={ImageDefailt}
-                    />
+                    <img src={ buildImage(product.avatar) } alt={ product.name } onError={ onErrorImage } />
                 </Link>
                 <h3 className='product-item-title'>
                     <Link to={`/san-pham/${product.slug}`}>{product.name}</Link>

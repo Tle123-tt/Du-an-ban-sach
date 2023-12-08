@@ -3,7 +3,9 @@ import axiosClient from "./axiosClient";
 const AuthApi = {
     async getProfile() {
         try {
-            let token = localStorage.getItem('accessToken');
+            const user = localStorage.getItem("user");
+            const tokenString = JSON.parse(user);
+            let token = tokenString.token_info.access_token
             if (!token) return [];
             const url = `auth/profile`;
             const response = await axiosClient.get(url)
@@ -54,6 +56,10 @@ const AuthApi = {
             }
         } catch (e) {
             console.log('--------------- E ', e);
+            return {
+                status: 501,
+                message: 'Có lỗi xẩy ra, xin vui lòng thử lại'
+            };
         }
     },
 

@@ -5,7 +5,7 @@ const categoryService = {
     async getListsCategory(params) {
 		try {
 			const newParams = { ...params }
-			const url = `category/lists`;
+			const url = `category`;
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})

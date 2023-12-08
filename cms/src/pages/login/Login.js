@@ -62,7 +62,7 @@ const Login = ( props ) =>
 								<p className="auth-header mb-0">Login</p>
 								<div className="logo-block">
 									<SofiaLogo />
-									<p className="mb-0">[Cửa hàng trái cây] CMS</p>
+									<p className="mb-0">[Cửa hàng bán sách] CMS</p>
 								</div>
 							</div>
 							<Form

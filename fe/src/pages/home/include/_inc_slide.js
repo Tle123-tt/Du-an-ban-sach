@@ -9,7 +9,7 @@ class HomeSlideCpn extends Component {
                 <Carousel.Item>
                     <img
                     className="d-block w-100"
-                    src="https://theme.hstatic.net/200000301138/1000730318/14/bannerhome.png?v=409"
+                    src="https://bookbuy.vn/Res/Images/Album/dfd4af60-b376-4530-bc6e-f611ff6e3859.jpg?w=880&scale=both&h=320&mode=crop"
                     alt="First slide"
                     />
                     <Carousel.Caption>
@@ -20,7 +20,7 @@ class HomeSlideCpn extends Component {
                 <Carousel.Item>
                     <img
                     className="d-block w-100"
-                    src="https://theme.hstatic.net/200000301138/1000730318/14/bannerhome.png?v=409"
+                    src="https://bookbuy.vn/Res/Images/Album/b0559867-9eea-409e-86c9-7dd647521478.jpg?w=880&scale=both&h=320&mode=crop"
                     alt="Second slide"
                     />
 
@@ -29,7 +29,7 @@ class HomeSlideCpn extends Component {
                     <p>Nhận liền tay, khởi sắc </p>
                     </Carousel.Caption>
                 </Carousel.Item>
-            </Carousel>  
+            </Carousel>
         );
     }
 }

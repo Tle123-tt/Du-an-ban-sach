@@ -5,7 +5,7 @@ const productService = {
 	async getListsProducts(params) {
 		try {
 			const newParams = { ...params }
-			const url = `product/lists`;
+			const url = `product`;
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})

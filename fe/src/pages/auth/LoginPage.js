@@ -24,17 +24,17 @@ function LoginPage()
     const handleValidation = async (event)  => {
         console.log('=============== CHECK');
         let formIsValid = true;
-        if (!username.match(/^[a-z0-9]{5,22}$/)) {
-            formIsValid = false;
-            setUsernameError(
-                "Username phải có độ dài từ 5 đến 22 ký tự"
-            );
-            return false;
-        } else {
-            console.log('----------- username: ', username);
-            setUsernameError("");
-            formIsValid = true;
-        }
+        // if (!username.match(/^[a-z0-9]{5,22}$/)) {
+        //     formIsValid = false;
+        //     setUsernameError(
+        //         "Username phải có độ dài từ 5 đến 22 ký tự"
+        //     );
+        //     return false;
+        // } else {
+        //     console.log('----------- username: ', username);
+        //     setUsernameError("");
+        //     formIsValid = true;
+        // }
 
         if (!password.match(/^[a-z0-9]{5,22}$/)) {
             formIsValid = false;
@@ -53,7 +53,7 @@ function LoginPage()
         if (formIsValid === true) {
             console.log('------------- LOGIN');
             let results = await AuthApi.login({
-                username: username,
+                email: username,
                 password: password
             });
 
@@ -62,7 +62,7 @@ function LoginPage()
                 localStorage.setItem("user", JSON.stringify(results.data));
                 const token = localStorage.getItem("user");
                 const tokenString = JSON.parse(token);
-                localStorage.setItem("accessToken", tokenString.accessToken);
+                localStorage.setItem("accessToken", tokenString.token_info.access_token);
                 dispatch(setTokenLogin(results.data));
                 window.location.href = '/';
             } else {
@@ -98,8 +98,8 @@ function LoginPage()
                             <input
                                 type="text"
                                 className="form-control"
-                                name="username"
-                                placeholder="Username"
+                                name="email"
+                                placeholder="email"
                                 onChange={(event) => setUsername(event.target.value)}
                             />
                             <small id="emailHelp" className="text-danger form-text">
