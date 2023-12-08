@@ -45,9 +45,10 @@ function CategoryPage ()
 		delete newParams.total_page;
 		const response = await productService.getListsProducts( newParams );
 		await timeDelay(1000)
+		console.log('--------------- response:getListsProducts ', response);
 		if ( response.status === 200 )
 		{
-			setProducts( response.data );
+			setProducts( response.data?.products );
 			setPaging( { ...response.meta } );
 		}
 		setLoadingProduct( false );

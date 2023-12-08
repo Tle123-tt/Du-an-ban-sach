@@ -33,6 +33,12 @@ exports.show = async ( id ) =>
 	return category;
 };
 
+exports.showBySlug = async ( slug ) =>
+{
+	const category = await Category.findOne( { slug: slug } )
+	return category;
+};
+
 exports.store = async ( data ) =>
 {
 	data.slug = toSlug(data.name);
