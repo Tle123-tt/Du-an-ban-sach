@@ -1,5 +1,5 @@
 const { buildParamPaging, buildResponsePaging, toSlug } = require( "../helpers/buildData.helper" );
-const ModelData = require( "../models/Blog.model" );
+const ModelData = require( "../models/Author.model" );
 
 exports.index = async ( filters ) =>
 {
