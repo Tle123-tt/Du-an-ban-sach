@@ -95,7 +95,7 @@ function HomePage () {
                     ) : (
                         <>
                             {productsNew && productsNew.map((product, index) => (
-                                <Col xs={6} xl={2}  key={product.id}>
+                                <Col xs={6} xl={2}  key={product._id}>
                                     <ProductItem  product={product} loading={loadingProductNew} />
                                 </Col>
                             ))}
