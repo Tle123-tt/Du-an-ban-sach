@@ -4,9 +4,9 @@ const CartApi = {
 
     async getTransaction(page, page_size) {
         try {
-			const url = `transaction/lists?${page && `page=${page}`}${page_size && `&page_size=${page_size}`}`;
+			const url = `order?${page && `page=${page}`}${page_size && `&page_size=${page_size}`}`;
 			const response = await axiosClient.get(url)
-
+            console.log('------------- getTransaction@response: ', response);
 			if (response.status === 200) {
 				return response.data;
 			}
@@ -20,7 +20,7 @@ const CartApi = {
     },
     async createTransaction(data) {
         try {
-            const url = `transaction/create`;
+            const url = `order/store`;
             const response = await axiosClient.post(url, data);
             console.log('------------- createTransaction@response: ', response);
             if (response.status === 200 || response.status === 201) {
@@ -64,6 +64,7 @@ const CartApi = {
     async showConfig() {
         try {
             const url = `transaction/config`;
+            return [];
             const response = await axiosClient.get(url);
             if (response.status === 200 || response.status === 201) {
                 return response.data;

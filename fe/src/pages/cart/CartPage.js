@@ -14,6 +14,7 @@ import {
 import Swal from "sweetalert2";
 import CartApi from "../../api/CartService";
 import AuthApi from "../../api/AuthApi";
+import formatPrice, {buildImage, onErrorImage} from "../utils/util_price";
 
 function CartPage() {
     const dispatch = useDispatch();
@@ -168,7 +169,8 @@ function CartPage() {
                                     <div className="items" key={index}>
                                         <div className="image">
                                             <Link to={`/san-pham/${item.slug}`}>
-                                                <img src={item.avatar} />
+                                                {/*<img src={item.avatar} />*/}
+                                                <img src={ buildImage(item.avatar) } alt={ item.name } onError={ onErrorImage } />
                                             </Link>
                                             <span className='item-delete' onClick={() => deleteCart(item)}>
                                                 <FaTrash /> Xoá
@@ -180,7 +182,8 @@ function CartPage() {
                                             </Link>
                                         </div>
                                         <div className="price">
-                                            <span>120.000 đ</span> <span><sub className='discount'>20.000.000 đ</sub></span>
+                                            <span>{formatPrice(item?.price)} <sup>đ</sup></span>
+                                            {/*<span>120.000 đ</span> <span><sub className='discount'>20.000.000 đ</sub></span>*/}
                                             <div className="box-qty-add-cart">
                                                 <div className="box">
                                                     <button onClick={() => reduceQty(item)}>-</button>
