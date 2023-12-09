@@ -35,6 +35,12 @@ exports.show = async ( id ) =>
 	return data;
 };
 
+exports.showByCode = async ( code ) =>
+{
+	const data = await ModelData.findOne( { code: code } )
+	return data;
+};
+
 exports.store = async ( dataForm ) =>
 {
 	

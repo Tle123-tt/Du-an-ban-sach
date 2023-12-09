@@ -90,6 +90,7 @@ export const DiscountForm = ( props ) =>
 
 	const submitForm = async ( e ) =>
 	{
+		e.code =e.code.replaceAll(' ', '')
 		await submitDiscountForm( id, e, dispatch, history );
 	}
 
@@ -103,10 +104,10 @@ export const DiscountForm = ( props ) =>
 		if ( e.length > 0 )
 		{
 			let value = typeof e[ 0 ].value === 'string' ? e[ 0 ].value : e[ 0 ].value;
-			if ( e[ 0 ].name[ 0 ] === 'title' && value != '' )
+			console.log(e);
+			if ( e[ 0 ].name[ 0 ] === 'code' && value != '' && value != null )
 			{
-				let slug = toSlug( value );
-				form.setFieldsValue( { slug: slug } );
+				form.setFieldsValue( { code: value.trim() } );
 			}
 			let fieldValue = {
 				[ String( e[ 0 ].name[ 0 ] ) ]: value
@@ -114,6 +115,7 @@ export const DiscountForm = ( props ) =>
 			form.setFieldsValue( fieldValue );
 		}
 	}
+
 
 	return (
 		<div className="w-75 mx-auto">

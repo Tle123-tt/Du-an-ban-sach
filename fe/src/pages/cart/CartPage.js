@@ -24,9 +24,8 @@ function CartPage ()
 	const dispatch = useDispatch();
 	const [ name, setName ] = useState( '' );
 	const [ phone, setPhone ] = useState( '' );
-	const [ discount, setDiscount ] = useState( [] );
-	const [ discountSelect, setDiscountSelect ] = useState( [] );
 	const [ discountValue, setDiscountValue ] = useState( null );
+	const [ discountPrice, setDiscountPrice ] = useState( 0 );
 	const navigate = useNavigate();
 	const [ user_id, setUserId ] = useState( 0 );
 	const carts = useSelector( ( state ) => state.cartReduce.listCart );
@@ -53,7 +52,6 @@ function CartPage ()
 	{
 		console.log( '--------------- Mua hàng ' );
 		let total = 0;
-		let total_discount = 0;
 		let order = {};
 		let transactions = [];
 
@@ -71,20 +69,18 @@ function CartPage ()
 				total_price: item.price,
 			} );
 
-			total += (item.price * item.quantity - (item?.discount || 0));
-			let discountPrice = item?.discount || 0;
-			if(discountPrice >= item.price * item.quantity) discountPrice = item.price * item.quantity;
-			total_discount += discountPrice;
-			if(total < 0) total = 0
+			total += ( item.price * item.quantity );
+
 		} );
 
 		order.name = name;
 		order.phone = phone;
-		order.total_discount = total_discount;
+		order.total_discount = discountPrice || 0;
+
 
 		order.products = transactions;
 		order.note = "abc";
-		order.total_price = total;
+		order.total_price = total - discountPrice;
 		order.user_id = user_id;
 
 		console.log( '------------ order: ', order );
@@ -156,12 +152,17 @@ function CartPage ()
 
 		carts.map( ( item ) =>
 		{
-			let discount = item?.discount || 0;
-			if(discount >= item.quantity * item.price) discount = item.quantity * item.price;
-			price_total += item.quantity * item.price - discount;
+			price_total += item.quantity * item.price;
 
 		} );
-		if(price_total < 0) price_total = 0
+		if ( discountValue?.price )
+		{
+			
+			price_total -= discountValue?.price
+		}
+		if ( price_total < 0 ) {
+			price_total = 0;
+		}
 		return price_total.toLocaleString();
 	}
 
@@ -188,41 +189,34 @@ function CartPage ()
 	useEffect( () =>
 	{
 		getUser().then( r => { } );
-		getDiscount();
 	}, [] );
 
-	const getDiscount = async () =>
+
+	const selectDiscount = async ( e ) =>
 	{
-		const response = await DiscountService.getList( { page: 1, page_size: 1000, status: 1 } );
-		if ( response?.status === 200 )
+		if ( e?.target?.value != '' && e?.target?.value != null )
 		{
-			setDiscount( response?.data?.discounts );
-			if ( response?.data?.discounts?.length > 0 )
+			const response = await DiscountService.findBySlug( e?.target?.value, {} );
+			if ( response?.status === 200 )
 			{
-				let discountData = response?.data?.discounts.reduce( ( newData, item ) =>
-				{
-					let obj = {
-						id: item._id,
-						label: `${ item.code } - ${ item.price }`
+				setDiscountValue( response?.data );
+				if(response?.data) {
+					let price = response?.data?.price || 0;
+					let total = 0;
+					carts.forEach(item => {
+						total += item.quantity * item.price;
+					});
+					console.log(total);
+					if(total > price) {
+						setDiscountPrice(price)
+					} else {
+						setDiscountPrice(total);
 					}
-					newData.push( obj );
-					return newData;
-				}, [] );
-				setDiscountSelect( discountData )
+				}
+			} else {
+				setDiscountValue(null)
 			}
-
 		}
-	}
-
-
-	const selectDiscount = ( id, item ) =>
-	{
-		let discountData = discount.find( item => item._id === id );
-		const objProduct = { ...item };
-		objProduct.discount_id = id;
-		objProduct.discount_price = discountData?.price || 0;
-		console.log(item, id);
-		dispatch( addDiscount( objProduct ) )
 	}
 
 	return (
@@ -267,30 +261,22 @@ function CartPage ()
 												</div>
 											</div>
 										</div>
-										<div className="my-3 d-flex justify-content-between total-cart">
-											<span>Mã giảm giá</span>
-											<Form.Select aria-label="Default select example" className="w-50"
-												onChange={ ( e ) =>
-												{
-													if ( e?.target?.value != '' && e?.target?.value != null )
-													{
-														selectDiscount( e?.target?.value, item )
-													} else {
-														dispatch( addDiscount( {...item, discount_id: null} ) )
-													}
-												} }
-											>
-												<option value="">Chọn mã giảm giá</option>
-												{ discountSelect?.length > 0 && discountSelect.map( ( item ) =>
-												{
-													return <option value={ item.id }>{ item.label }</option>
-												} ) }
-											</Form.Select>
-										</div>
+
 									</>
 
 								) ) }
-
+								<div className="my-3 d-flex justify-content-between total-cart">
+									<span>Mã giảm giá</span>
+									<input type="text" className="form-control w-50"
+										onChange={ selectDiscount }
+										placeholder="Nhập mã giảm giá" />
+								</div>
+								{
+									discountValue && <div className="my-3 d-flex justify-content-between total-cart">
+										<span>Giảm giá</span>
+										<span>{ discountPrice.toLocaleString()  } vnđ</span>
+									</div>
+								}
 								<div className='total-cart'>
 									<span>Tạm tính ({ ( carts && carts.length ) ? carts.length : 0 } sản phẩm)</span>
 									<span>{ getTotal() } vnđ</span>

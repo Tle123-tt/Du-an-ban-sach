@@ -5,7 +5,8 @@ const discountBuilder = require('../../app/controllers/fe/Discount.controller');
 
 
 
-router.get('/discount/', discountBuilder.index);
+router.get('/discount', discountBuilder.index);
+router.get('/discount/show/:slug', discountBuilder.showByCode);
 router.get('/discount/:id',discountBuilder.show);
 
 
