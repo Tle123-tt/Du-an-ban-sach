@@ -56,6 +56,24 @@ export const SIDE_BARS = [
 			},
 		]
 	},
+
+	{
+		path: '/discount',
+		icon: 'eva eva-flash',
+		title: 'Discount',
+		children: [
+			{
+				path: '/discount/list',
+				title: 'list ',
+				icon: '',
+			},
+			{
+				path: '/discount/create',
+				icon: '',
+				title: 'Add new',
+			},
+		]
+	},
 	{
 		path: '/category',
 		icon: 'eva eva-sun',

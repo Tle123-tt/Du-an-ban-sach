@@ -2,6 +2,7 @@ import { AuthorForm } from "./components/Author/AuthorForm";
 import { BlogForm } from "./components/Blog/BlogForm";
 import { CategoryForm } from "./components/Category/CategoryForm";
 import { ContactPage } from "./components/Contact/Contact";
+import { DiscountForm } from "./components/Discount/DiscountForm";
 import { MenuForm } from "./components/Menu/MenuForm";
 import { OrderForm } from "./components/Order/OrderForm";
 import { ProductForm } from "./components/Products/ProductForm";
@@ -15,6 +16,7 @@ import { AuthorContainer } from "./pages/author/AuthorContainer";
 import { BlogContainer } from "./pages/blog/BlogContainer";
 import { CategoryContainer } from "./pages/category/CategoryContainer";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { DiscountContainer } from "./pages/discount/DiscountContainer";
 import { MenuContainer } from "./pages/menu/MenuContainer";
 import { OrderContainer } from "./pages/order/OrderContainer";
 import { ProductContainer } from "./pages/products/ProductContainer";
@@ -232,6 +234,29 @@ export const ROUTERS = [
 		redirectFrom: null, 
 		title: 'Update Menu',
 		component: MenuForm,
+	},
+
+
+	{
+		path: '/discount/list',
+		exact: true,
+		redirectFrom: '/discount', 
+		title: 'Discount',
+		component: DiscountContainer,
+	},
+	{
+		path: '/discount/create',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Create Discount',
+		component: DiscountForm,
+	},
+	{
+		path: '/discount/edit/:id',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Update Discount',
+		component: DiscountForm,
 	},
 
 	{

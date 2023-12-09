@@ -10,7 +10,7 @@ import { toSlug } from '../../helpers/common/common';
 import { PlusOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { submitForms } from '../../services/blogService';
-import { buildImage } from '../../services/common';
+import { buildImage, getItem } from '../../services/common';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -44,6 +44,10 @@ export const BlogForm = ( props ) =>
 		{
 			setId( params.id );
 			getData( params.id );
+		} else {
+			form.setFieldValue('author_name', getItem('full_name'));
+			form.setFieldValue('author_email', getItem('email'));
+			form.setFieldValue('author_avatar', getItem('avatar'));
 		}
 	}, [ params.id ] );
 

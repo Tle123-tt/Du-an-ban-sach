@@ -46,6 +46,7 @@ const App = ( props ) =>
 				<Route path="/slide" exact render={ () => <Redirect to="/slide/list" /> } />
 				<Route path="/author" exact render={ () => <Redirect to="/author/list" /> } />
 				<Route path="/blog" exact render={ () => <Redirect to="/blog/list" /> } />
+				<Route path="/discount" exact render={ () => <Redirect to="/discount/list" /> } />
 				<Route path="/menu" exact render={ () => <Redirect to="/menu/list" /> } />
 				<Route path="/setting" exact render={ () => <Redirect to="/setting/role/list" /> } />
 				<Route path="/setting/role" exact render={ () => <Redirect to="/setting/role/list" /> } />
