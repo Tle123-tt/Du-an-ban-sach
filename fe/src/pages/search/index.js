@@ -27,8 +27,8 @@ function SearchPage()
 
         const response = await productService.getListsProducts(params);
 
-        if (response.status === 200) {
-            setProducts(response.data);
+        if (response?.status === 200) {
+            setProducts(response?.data);
             setLoadingProduct(false);
         }
     }

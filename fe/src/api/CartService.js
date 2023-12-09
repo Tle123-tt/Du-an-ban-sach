@@ -7,8 +7,8 @@ const CartApi = {
 			const url = `order?${page && `page=${page}`}${page_size && `&page_size=${page_size}`}`;
 			const response = await axiosClient.get(url)
             console.log('------------- getTransaction@response: ', response);
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- getOrderList@Error ', e);
@@ -23,8 +23,8 @@ const CartApi = {
             const url = `order/store`;
             const response = await axiosClient.post(url, data);
             console.log('------------- createTransaction@response: ', response);
-            if (response.status === 200 || response.status === 201) {
-                return response.data;
+            if (response?.status === 200 || response?.status === 201) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- createTransaction@Error ', e);
@@ -39,8 +39,8 @@ const CartApi = {
             const url = `transaction/delete/${id}`;
             const response = await axiosClient.delete(url);
             console.log('------------- deleteTransaction@response: ', response);
-            if (response.status === 200 || response.status === 201) {
-                return response.data;
+            if (response?.status === 200 || response?.status === 201) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- deleteTransaction@Error ', e);
@@ -54,8 +54,8 @@ const CartApi = {
         try {
             const url = `transaction/${id}`;
             const response = await axiosClient.get(url);
-            if (response.status === 200 || response.status === 201) {
-                return response.data;
+            if (response?.status === 200 || response?.status === 201) {
+                return response?.data;
             }
         } catch (e) {
             console.log('---------------showTransaction@Error ', e);
@@ -102,8 +102,8 @@ const CartApi = {
             // const url = `transaction/config`;
             // return [];
             // const response = await axiosClient.get(url);
-            // if (response.status === 200 || response.status === 201) {
-            //     return response.data;
+            // if (response?.status === 200 || response?.status === 201) {
+            //     return response?.data;
             // }
         } catch (e) {
             console.log('---------------showTransaction@Error ', e);
@@ -113,8 +113,8 @@ const CartApi = {
         try {
             const url = `vote/store`;
             const response = await axiosClient.post(url, data);
-            if (response.status === 200 || response.status === 201) {
-                return response.data;
+            if (response?.status === 200 || response?.status === 201) {
+                return response?.data;
             }
         } catch (e) {
             console.log('---------------vote@Error ', e);

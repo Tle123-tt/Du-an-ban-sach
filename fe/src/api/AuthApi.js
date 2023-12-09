@@ -9,12 +9,12 @@ const AuthApi = {
             if (!token) return [];
             const url = `auth/profile`;
             const response = await axiosClient.get(url)
-            if (response.status === 200) {
-                return response.data;
+            if (response?.status === 200) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- getProfile@Error ', e);
-            if (e.response && e.response.status && e.response.status === 401) {
+            if (e.response && e.response?.status && e.response?.status === 401) {
                 // window.location.href = '/auth/login';
             }
             return {
@@ -29,8 +29,8 @@ const AuthApi = {
             const url = `auth/login`;
             const response = await axiosClient.post(url, data)
             console.log('----------- login: ', response);
-            if (response.status === 200 || response.status === 201) {
-                return response.data;
+            if (response?.status === 200 || response?.status === 201) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- login@E ', e);
@@ -47,12 +47,12 @@ const AuthApi = {
             const url = `auth/register`;
             const response = await axiosClient.post(url, data)
 
-            if (response.data.status === 200) {
-                return response.data;
+            if (response?.data.status === 200) {
+                return response?.data;
             }
 
-            if (response.data.status === 501) {
-                return response.data;
+            if (response?.data.status === 501) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- E ', e);
@@ -68,8 +68,8 @@ const AuthApi = {
             const url = `user/update-email`;
             const response = await axiosClient.put(url, data)
 
-            if (response.data.status === 200) {
-                return response.data;
+            if (response?.data.status === 200) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- E ', e);
@@ -81,8 +81,8 @@ const AuthApi = {
             const url = `user/update-password`;
             const response = await axiosClient.put(url, data)
 
-            if (response.data.status === 200) {
-                return response.data;
+            if (response?.data.status === 200) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- E ', e);
@@ -94,8 +94,8 @@ const AuthApi = {
             const url = `user/update-phone`;
             const response = await axiosClient.put(url, data)
 
-            if (response.data.status === 200) {
-                return response.data;
+            if (response?.data.status === 200) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- E ', e);
@@ -107,8 +107,8 @@ const AuthApi = {
             const url = `user/update-info`;
             const response = await axiosClient.put(url, data)
 
-            if (response.data.status === 200) {
-                return response.data;
+            if (response?.data.status === 200) {
+                return response?.data;
             }
         } catch (e) {
             console.log('--------------- E ', e);

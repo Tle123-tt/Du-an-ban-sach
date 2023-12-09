@@ -31,7 +31,7 @@ export const AuthorService = {
 		return await deleteMethod( `/admin/author/${ id }` );
 	}
 }
-export const submitForms = async ( id = null, files, e, dispatch, history ) =>
+export const submitFormAuthor = async ( id = null, files, e, dispatch, history ) =>
 {
 	try
 	{

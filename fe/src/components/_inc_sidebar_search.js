@@ -66,8 +66,8 @@ function SidebarSearch({queryParameters, category}) {
 
     const getListsCategory = async () => {
         const response = await categoryService.getListsCategory();
-        if (response.status === 200) {
-            setCategories(response.data);
+        if (response?.status === 200) {
+            setCategories(response?.data);
             setLoadingCategory(false);
         }
     }

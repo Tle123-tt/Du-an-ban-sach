@@ -14,8 +14,8 @@ function HeaderCpn()
     const getUser = async() => {
         try {
             let response = await AuthApi.getProfile();
-            if(response.status === 200)
-                setUser(response.data);
+            if(response?.status === 200)
+                setUser(response?.data);
 
         } catch (e) {
             console.log("-----Expired");

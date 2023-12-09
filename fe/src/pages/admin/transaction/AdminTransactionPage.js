@@ -27,9 +27,9 @@ function AdminTransactionPage() {
         let page_size = 10;
         const response = await CartApi.getTransaction(page, page_size);
         console.log('------------ response: ', response);
-        if (response.status === 200) {
+        if (response?.status === 200) {
             setLoadingOrder(false);
-            setOrders(response.data);
+            setOrders(response?.data);
         }
     }
 
@@ -46,8 +46,8 @@ function AdminTransactionPage() {
 
     const configStatusTransaction = async () => {
         const response = await CartApi.showConfig();
-        if (response.status === 200) {
-            setConfigStatus(response.data.status);
+        if (response?.status === 200) {
+            setConfigStatus(response?.data.status);
         }
     }
 
@@ -55,7 +55,7 @@ function AdminTransactionPage() {
         const response = await TransactionAdminService.updateStatus(item.id, {
             status: 4
         });
-        if (response.status === 200) {
+        if (response?.status === 200) {
             await getOrderList();
         }
     }
@@ -64,7 +64,7 @@ function AdminTransactionPage() {
         const response = await TransactionAdminService.updateStatus(item.id, {
             status: -1
         });
-        if (response.status === 200) {
+        if (response?.status === 200) {
             await getOrderList();
         }
     }

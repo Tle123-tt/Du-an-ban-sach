@@ -9,8 +9,8 @@ const transactionAdminService = {
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- E ', e);
@@ -24,8 +24,8 @@ const transactionAdminService = {
 		try {
 			const url = `transaction/update-status/${id}`;
 			const response = await axiosClient.put(url, formData);
-			if (response.status === 200 || response.status === 201) {
-				return response.data;
+			if (response?.status === 200 || response?.status === 201) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('---------------showTransaction@Error ', e);

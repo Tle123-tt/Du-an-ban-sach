@@ -47,9 +47,9 @@ function MenuPage ()
         const response = await productService.getListsProducts( newParams );
         await timeDelay(1000)
         console.log('--------------- response:getListsProducts ', response);
-        if ( response.status === 200 )
+        if ( response?.status === 200 )
         {
-            setProducts( response.data?.products );
+            setProducts( response?.data?.products );
             setPaging( { ...response.meta } );
         }
         setLoadingProduct( false );
@@ -59,11 +59,11 @@ function MenuPage ()
     const findOneCategoryBySlug = async () =>
     {
         const response = await categoryService.findBySlug( slug );
-        if ( response.status === 200 && response.data )
+        if ( response?.status === 200 && response?.data )
         {
-            setCategoryId( response.data?.id );
+            setCategoryId( response?.data?.id );
             setLoadingProduct( true );
-            setCategory( response.data );
+            setCategory( response?.data );
             getListsProducts( { page: 1, page_size: 4 } ).then( r => { } );
         }
     }

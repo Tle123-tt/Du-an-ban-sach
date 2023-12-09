@@ -10,8 +10,8 @@ const categoryService = {
 				params: {...newParams},
 			})
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- E ', e);
@@ -23,8 +23,8 @@ const categoryService = {
 			const url = `category/${id}`;
 			const response = await axiosClient.get(url)
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- findById@Error ', e);
@@ -37,8 +37,8 @@ const categoryService = {
 			const url = `category/show/${slug}`;
 			const response = await axiosClient.get(url)
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- findById@Error ', e);

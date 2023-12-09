@@ -16,13 +16,13 @@ function UpdateCategoryPage() {
 
     const findOneCategoryById = async () => {
         const response = await categoryService.findById(id);
-        if (response.status === 200) {
-            console.log('---------- response.data', response.data);
-            setName(response.data.name);
-            setAvatar(response.data.avatar);
-            setDesc(response.data.description);
-            setStatus(response.data.status);
-            setHot(response.data.hot);
+        if (response?.status === 200) {
+            console.log('---------- response?.data', response?.data);
+            setName(response?.data.name);
+            setAvatar(response?.data.avatar);
+            setDesc(response?.data.description);
+            setStatus(response?.data.status);
+            setHot(response?.data.hot);
         }
     }
 

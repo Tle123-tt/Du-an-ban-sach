@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Form, Input, Select, Switch, Upload } from 'antd';
+import { Form, Input, Select, Switch, Upload, message } from 'antd';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import React from 'react';
@@ -11,7 +11,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { showCategoryDetail, submitForms } from '../../services/categoryService';
 import { buildImage } from '../../services/common';
-import { AuthorService } from '../../services/AuthorService';
+import { AuthorService, submitFormAuthor } from '../../services/AuthorService';
+import { toggleShowLoading } from '../../redux/actions/common';
 export const AuthorForm = ( props ) =>
 {
 	const [ form ] = useForm();
@@ -68,13 +69,22 @@ export const AuthorForm = ( props ) =>
 
 	const getData = async ( id ) =>
 	{
-		const rs = await AuthorService.show( id );
-		if ( rs )
+		try
 		{
-			setData( rs );
-		} else
+			dispatch( toggleShowLoading( true ) );
+			const rs = await AuthorService.show( id );
+			if ( rs )
+			{
+				setData( rs );
+			} else
+			{
+				setData( null );
+			}
+			dispatch( toggleShowLoading( false ) );
+		} catch ( error )
 		{
-			setData( null );
+			dispatch( toggleShowLoading( false ) );
+			message.error( error?.message )
 		}
 	}
 
@@ -91,9 +101,7 @@ export const AuthorForm = ( props ) =>
 
 	const submitForm = async ( e ) =>
 	{
-		delete e.username;
-		if ( e?.birthDay ) e.birthDay = moment( e.birthDay ).format( "YYYY-MM-DD HH:mm:ss" );
-		await submitFormUser( id, files, e, dispatch, history );
+		await submitFormAuthor( id, files, e, dispatch, history );
 	}
 
 	const resetForm = () =>
@@ -143,110 +151,47 @@ export const AuthorForm = ( props ) =>
 							<Input className='form-control' placeholder='Enter name' />
 						</Form.Item>
 
-						<div className='row'>
-							{/* <div className='col-12 col-md-6'>
-								<Form.Item name="username" label="User name"
-									className=' d-block'>
-									<Input className='form-control' placeholder='Enter name' />
-								</Form.Item>
-							</div> */}
-							<div className='col-12 col-md-6'>
-								<Form.Item name="email" label="Email"
-									rules={ [ { required: true } ] }
-									className='d-block'>
-									<Input className='form-control' readOnly={ id ? true : false } placeholder='Enter email' />
-								</Form.Item>
-							</div>
-							{ !id && <div className='col-12 col-md-6'>
-								<Form.Item name="password" label="Password"
-									className='required d-block'>
-									<Input.Password className='form-control' placeholder='Enter password' />
-								</Form.Item>
-							</div> }
-							<div className='col-12 col-md-6'>
-								<Form.Item name="phone" label="Phone"
-									className='required d-block'>
-									<Input className='form-control' placeholder='Enter phone' />
-								</Form.Item>
-							</div>
+						<Form.Item name="email" label="Email"
+							rules={ [ { required: true } ] }
+							className='d-block'>
+							<Input className='form-control' readOnly={ id ? true : false } placeholder='Enter email' />
+						</Form.Item>
 
+						<Form.Item name="phone" label="Phone"
+							className='required d-block'>
+							<Input className='form-control' placeholder='Enter phone' />
+						</Form.Item>
 
-							<div className='col-12 col-md-6'>
-								<Form.Item
-									label="Images"
-									name="image"
-									accept="images/**"
-									className='d-block'
-									valuePropName="fileList"
-									fileList={ files }
-									getValueFromEvent={ normFile }
-								>
-									<Upload action="/upload" listType="picture-card">
-										{ files.length < 1 && <div>
-											<PlusOutlined />
-											<div style={ { marginTop: 8 } }>Upload</div>
-										</div> }
-									</Upload>
-								</Form.Item>
-							</div>
-						</div>
-						<div className='row'>
-							<div className='col-12 col-md-4'>
-								<Form.Item name="gender" label="Gender"
-									rules={ [ { required: true } ] } className='d-block'>
-									<Select
-										placeholder="Select gender"
-										style={ { width: '100%' } }
-										options={ [
-											{
-												value: 'MALE',
-												label: 'Male'
-											},
-											{
-												value: 'FEMALE',
-												label: 'Female'
-											},
-											{
-												value: 'OTHER',
-												label: 'Other'
-											}
-										] }
-									/>
-								</Form.Item>
-							</div>
-							<div className='col-12 col-md-4'>
-								<Form.Item name="status" label="Status"
-									rules={ [ { required: true } ] } className='d-block'>
-									<Select
-										placeholder="Select status"
-										style={ { width: '100%' } }
-										options={ status }
-									/>
-								</Form.Item>
-							</div>
-							{/* <div className='col-12 col-md-4'>
-								<Form.Item name="birthDay" label="Birthday" className='d-block'>
-									<Input type='date' className='form-control' />
-								</Form.Item>
-							</div> */}
-						</div>
+						<Form.Item
+							label="Images"
+							name="image"
+							accept="images/**"
+							className='d-block'
+							valuePropName="fileList"
+							fileList={ files }
+							getValueFromEvent={ normFile }
+						>
+							<Upload action="/upload" listType="picture-card">
+								{ files.length < 1 && <div>
+									<PlusOutlined />
+									<div style={ { marginTop: 8 } }>Upload</div>
+								</div> }
+							</Upload>
+						</Form.Item>
+
+						<Form.Item name="status" label="Status"
+							rules={ [ { required: true } ] } className='d-block'>
+							<Select
+								placeholder="Select status"
+								style={ { width: '100%' } }
+								options={ status }
+							/>
+						</Form.Item>
+
 						<Form.Item name="address" label="User address"
 							className=' d-block'>
 							<Input className='form-control' placeholder='Enter address' />
 						</Form.Item>
-
-						{/* <Form.Item name="roles" label="Role"
-							rules={ [ { required: true } ] } className='d-block'>
-							<Select
-								placeholder="Select role"
-								showSearch
-								mode="multiple"
-								filterOption={ ( input, option ) => ( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
-
-								style={ { width: '100%' } }
-								options={ roles }
-							/>
-						</Form.Item> */}
 					</div>
 
 					<div className='d-flex justify-content-center'>

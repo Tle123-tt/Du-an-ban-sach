@@ -26,18 +26,18 @@ function OrderPage()
         let page_size = 10;
         const response = await CartApi.getTransaction(page, page_size);
         console.log('------------- response@getTransaction');
-        if (response.status === 200) {
+        if (response?.status === 200) {
             setLoadingOrder(false);
-            setOrders(response.data?.orders);
+            setOrders(response?.data?.orders);
         }
     }
 
     const configStatusTransaction = async () => {
         const response = await CartApi.showConfig();
-        console.log("===============response: configStatusTransaction ", response.data.status);
-        if (response.status === 200) {
+        console.log("===============response: configStatusTransaction ", response?.data.status);
+        if (response?.status === 200) {
             console.log('=============== SET');
-            setConfigStatus(response.data.status);
+            setConfigStatus(response?.data.status);
         }
     }
 
@@ -55,9 +55,9 @@ function OrderPage()
     const getUser = async() => {
         try {
             let response = await AuthApi.getProfile();
-            if(response.status === 200)
+            if(response?.status === 200)
             {
-                setUserId(response.data.id);
+                setUserId(response?.data.id);
             }
         } catch (e) {
             console.log("-----Expired");

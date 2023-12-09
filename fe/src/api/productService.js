@@ -10,8 +10,8 @@ const productService = {
 				params: {...newParams},
 			})
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- getListsProducts@Error ', e);
@@ -27,8 +27,8 @@ const productService = {
 			const url = `product/${id}`;
 			const response = await axiosClient.get(url)
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- findById@Error ', e);
@@ -44,8 +44,8 @@ const productService = {
 			const url = `product/show/${slug}`;
 			const response = await axiosClient.get(url)
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- findById@findBySlug ', e);
@@ -61,8 +61,8 @@ const productService = {
 			// const response = await axiosClient.post(url, data, { headers: { 'Accept': 'multipart/form-data' } });
 			// const response = await axiosClient.post(url, data, { headers: { 'Accept': 'multipart/form-data' } });
 			const response = await axios.post(`${process.env.REACT_APP_URL_API}/upload/image`, data, { headers: { 'Accept': 'multipart/form-data' } });
-			if (response.status === 200 || response.status === 201) {
-				return response.data;
+			if (response?.status === 200 || response?.status === 201) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- createTransaction@Error ', e);

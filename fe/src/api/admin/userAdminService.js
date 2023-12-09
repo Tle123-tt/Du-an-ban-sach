@@ -9,8 +9,8 @@ const userAdminService = {
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- E ', e);

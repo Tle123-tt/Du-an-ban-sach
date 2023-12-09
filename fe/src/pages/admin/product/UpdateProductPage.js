@@ -22,15 +22,15 @@ function UpdateProductPage() {
 
     const findOneProductById = async () => {
         const response = await productAdminService.findById(id);
-        if (response.status === 200) {
-            setProduct(response.data);
-            setName(response.data.name);
-            setAvatar(response.data.avatar);
-            setDesc(response.data.description);
-            setNumber(response.data.number);
-            setCategoryId(response.data.category_id);
-            setPrice(response.data.price);
-            setStatus(response.data.active);
+        if (response?.status === 200) {
+            setProduct(response?.data);
+            setName(response?.data.name);
+            setAvatar(response?.data.avatar);
+            setDesc(response?.data.description);
+            setNumber(response?.data.number);
+            setCategoryId(response?.data.category_id);
+            setPrice(response?.data.price);
+            setStatus(response?.data.active);
         }
     }
 

@@ -27,8 +27,8 @@ function AdminUserPage() {
 
         const response = await userAdminService.getListsUser(params);
         console.log('-------------- response get user: ', response);
-        if (response.status === 200) {
-            setUser(response.data);
+        if (response?.status === 200) {
+            setUser(response?.data);
             setMeta(response.meta);
             setLoading(false);
         }

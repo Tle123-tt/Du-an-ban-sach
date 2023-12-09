@@ -135,12 +135,12 @@ function CartPage() {
     const getUser = async() => {
         try {
             let response = await AuthApi.getProfile();
-            if(response.status === 200)
+            if(response?.status === 200)
             {
-                setUserId(response.data._id);
-                setName(response.data.name);
-                setPhone(response.data.phone);
-                console.log('------------ response.data.name: ', response.data.name);
+                setUserId(response?.data._id);
+                setName(response?.data.name);
+                setPhone(response?.data.phone);
+                console.log('------------ response?.data.name: ', response?.data.name);
             }
 
             console.log('============ getProfile@response; ', response);

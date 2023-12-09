@@ -27,8 +27,8 @@ function HomePage () {
             page_size: 18
         });
         console.log('-------- response:getListsProductsNew ', response);
-        if (response.status === 200) {
-            setProductsNew(response.data?.products);
+        if (response?.status === 200) {
+            setProductsNew(response?.data?.products);
             setLoadingProductNew(false);
         }
     }
@@ -38,8 +38,8 @@ function HomePage () {
             page_size: 8
         });
         console.log('-------- response:getListsCategory ', response);
-        if (response.status === 200) {
-            setCategories(response.data?.categories);
+        if (response?.status === 200) {
+            setCategories(response?.data?.categories);
             setLoadingCategory(false);
         }
     }

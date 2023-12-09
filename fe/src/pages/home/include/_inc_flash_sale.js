@@ -23,8 +23,8 @@ function FlashSaleCpn()
             page_size: 18,
             sort: 'pay,desc'
         });
-        if (response.status === 200) {
-            setProductsFlash(response.data?.products);
+        if (response?.status === 200) {
+            setProductsFlash(response?.data?.products);
             setLoadingProduc(false);
         }
     }

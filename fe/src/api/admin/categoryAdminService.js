@@ -9,8 +9,8 @@ const categoryAdminService = {
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- E ', e);
@@ -22,8 +22,8 @@ const categoryAdminService = {
 			const url = `cms/category/store`;
 			const response = await axiosClient.post(url, data);
 			console.log('------------- createTransaction@response: ', response);
-			if (response.status === 200 || response.status === 201) {
-				return response.data;
+			if (response?.status === 200 || response?.status === 201) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- createTransaction@Error ', e);
@@ -38,8 +38,8 @@ const categoryAdminService = {
 			const url = `cms/category/update/${id}`;
 			const response = await axiosClient.put(url, data);
 			console.log('------------- updateCategory@response: ', response);
-			if (response.status === 200 || response.status === 201) {
-				return response.data;
+			if (response?.status === 200 || response?.status === 201) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- updateCategory@Error ', e);
@@ -55,8 +55,8 @@ const categoryAdminService = {
 			const url = `cms/category/delete/${id}`;
 			const response = await axiosClient.delete(url)
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- deleteById@Error ', e);

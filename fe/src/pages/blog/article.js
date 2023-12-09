@@ -32,10 +32,10 @@ function ArticlePage(){
     const findProductsDetailBySlug = async () => {
         const response = await productService.findBySlug(slug);
         console.log("--------------- response:findProductsDetailBySlug ", response);
-        if (response.status === 200) {
-            setProductDetail(response.data);
+        if (response?.status === 200) {
+            setProductDetail(response?.data);
             let arrImages = [];
-            response.data?.product_images.map((item, index) => {
+            response?.data?.product_images.map((item, index) => {
                 console.log('----------- item: ', item);
                 images.push({
                     original: buildImage(item.path),
@@ -44,8 +44,8 @@ function ArticlePage(){
                 // <img src={ buildImage(product.avatar) } alt={ product.name } onError={ onErrorImage } />
             })
             // let image = {
-            //     original: response.data.avatar,
-            //     thumbnail : response.data.avatar
+            //     original: response?.data.avatar,
+            //     thumbnail : response?.data.avatar
             // }
             // images.push(image);
             console.log('------ images: ', images);
@@ -60,8 +60,8 @@ function ArticlePage(){
         const response = await productService.getListsProducts({
             page_size: 18
         });
-        if (response.status === 200) {
-            setProductsSuggest(response.data?.products);
+        if (response?.status === 200) {
+            setProductsSuggest(response?.data?.products);
             setLoadingProductSuggest(false);
         }
     }

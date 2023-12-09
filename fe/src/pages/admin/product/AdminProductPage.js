@@ -41,9 +41,9 @@ function AdminProductPage ()
 		delete params.total_page;
 		const response = await productAdminService.getListsProducts( params );
 		await timeDelay(1000)
-		if ( response.status === 200 )
+		if ( response?.status === 200 )
 		{
-			setProducts( response.data );
+			setProducts( response?.data );
 			setPaging(response.meta);
 		}
 		setLoading( false );

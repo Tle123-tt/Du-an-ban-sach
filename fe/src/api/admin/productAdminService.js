@@ -9,8 +9,8 @@ const productAdminService = {
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- E ', e);
@@ -22,8 +22,8 @@ const productAdminService = {
 			const url = `cms/product/${id}`;
 			const response = await axiosClient.get(url)
 
-			if (response.status === 200) {
-				return response.data;
+			if (response?.status === 200) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- findById@Error ', e);
@@ -36,8 +36,8 @@ const productAdminService = {
 			const url = `cms/product/update/${id}`;
 			const response = await axiosClient.put(url, data);
 			console.log('------------- updateProduct@response: ', response);
-			if (response.status === 200 || response.status === 201) {
-				return response.data;
+			if (response?.status === 200 || response?.status === 201) {
+				return response?.data;
 			}
 		} catch (e) {
 			console.log('--------------- updateProduct@Error ', e);

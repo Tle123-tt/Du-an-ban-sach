@@ -14,12 +14,12 @@ function ProfilePage()
     const getUser = async() => {
         try {
             let response = await AuthApi.getProfile();
-            if(response.status === 200)
+            if(response?.status === 200)
             {
-                setUser(response.data);
-                setAddress(response.data.address);
-                setPhone(response.data.phone);
-                setName(response.data.name);
+                setUser(response?.data);
+                setAddress(response?.data.address);
+                setPhone(response?.data.phone);
+                setName(response?.data.name);
             }
 
             console.log('============ getProfile@response; ', response);
@@ -39,7 +39,7 @@ function ProfilePage()
         const response = await AuthApi.updateInfo(formData);
         console.log('------------------ updateProfile@response', response);
 
-        if(response.status === 200) {
+        if(response?.status === 200) {
             Swal.fire('Cập nhật thông tin thành công');
         }else {
             Swal.fire({

@@ -31,9 +31,9 @@ function AdminCategoryPage ()
 		delete params.total_page;
 		const response = await categoryAdminService.getListsCategory( params );
 		await timeDelay(1000)
-		if ( response.status === 200 )
+		if ( response?.status === 200 )
 		{
-			setCategories( response.data );
+			setCategories( response?.data );
 			setPaging(response.meta);
 			setLoading( false );
 		}
@@ -43,7 +43,7 @@ function AdminCategoryPage ()
 	const deleteCategory = async ( id ) =>
 	{
 		const response = await categoryAdminService.deleteById( id );
-		if ( response.status === 200 )
+		if ( response?.status === 200 )
 		{
 			await getListsCategories({page: 1, page_size: 10});
 		}

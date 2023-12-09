@@ -25,7 +25,7 @@ function ModalVote(props) {
         console.log('-------------data ', data);
         const response = await CartApi.vote(data);
         console.log('--------------- Response', response);
-        if (response.status === 200) {
+        if (response?.status === 200) {
             props.setShowModal(false);
             setContentVote('');
         }

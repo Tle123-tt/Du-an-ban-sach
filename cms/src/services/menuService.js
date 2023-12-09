@@ -31,17 +31,12 @@ export const MenuService = {
 		return await deleteMethod( `/admin/menu/${ id }` );
 	}
 }
-export const submitForms = async ( id = null, files, e, dispatch, history ) =>
+export const submitMenuForms = async ( id = null, files, e, dispatch, history ) =>
 {
 	try
 	{
 		dispatch( toggleShowLoading( true ) );
-		let avatar = await uploadApi.uploadFile(files)
-		await timeDelay( 500 );
 		let formValue = { ...e };
-		delete formValue.image;
-		formValue.avatar = avatar;
-		formValue.hot = formValue.hot ? 1 : -1;
 		let response;
 		if ( id )
 		{

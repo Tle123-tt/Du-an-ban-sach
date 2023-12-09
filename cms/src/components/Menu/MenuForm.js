@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Form, Input, Select, Switch, Upload } from 'antd';
+import { Form, Input, Select, Switch, Upload, message } from 'antd';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import React from 'react';
@@ -11,6 +11,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { showCategoryDetail, submitForms } from '../../services/categoryService';
 import { buildImage } from '../../services/common';
+import { toggleShowLoading } from '../../redux/actions/common';
+import { MenuService, submitMenuForms } from '../../services/menuService';
 export const MenuForm = ( props ) =>
 {
 	const [ form ] = useForm();
@@ -44,23 +46,10 @@ export const MenuForm = ( props ) =>
 	{
 		if ( data )
 		{
-			let file = [];
-			file.push( {
-				uid: file.length,
-				name: data.avatar,
-				status: 'done',
-				url: buildImage(data.avatar),
-				default: true
-			} );
+			
 			let formValue = {
 				name: data.name,
-				description: data.description,
-				status: data.status || 0,
-				hot: data.hot === 1 ? true : false,
-				slug: data.slug,
-				image: file
 			}
-			setFiles(file)
 			form.setFieldsValue( formValue )
 
 		}
@@ -68,7 +57,19 @@ export const MenuForm = ( props ) =>
 
 	const getData = async ( id ) =>
 	{
-		await showCategoryDetail( id, setData );
+		try {
+			dispatch(toggleShowLoading(true));
+			const response = await MenuService.show(id, params);
+			if(response?.status === 200) {
+				setData(response?.data);
+			} else {
+				message.error('Not found data')
+			}
+			dispatch(toggleShowLoading(false));
+		} catch (error) {
+			message.error('Not found data')
+			dispatch(toggleShowLoading(false));
+		}
 	}
 
 	const validateMessages = {
@@ -84,7 +85,7 @@ export const MenuForm = ( props ) =>
 
 	const submitForm = async ( e ) =>
 	{
-		await submitForms( id, files, e, dispatch, history );
+		await submitMenuForms( id, files, e, dispatch, history );
 	}
 
 	const resetForm = () =>
@@ -131,53 +132,11 @@ export const MenuForm = ( props ) =>
 					validateMessages={ validateMessages }
 				>
 					<div className='mb-3'>
-						<Form.Item name="name" label="Category name"
+						<Form.Item name="name" label="Menu name"
 							rules={ [ { required: true } ] }
 							className=' d-block'>
 							<Input className='form-control' placeholder='Enter name' />
 						</Form.Item>
-
-						<Form.Item name="slug" label="Category Slug"
-							rules={ [ { required: true } ] }
-							className=' d-block'>
-							<Input className='form-control' placeholder='Enter slug' />
-						</Form.Item>
-						<Form.Item
-							label="Avatar"
-							name="image"
-							accept="images/**"
-							className='d-block'
-							valuePropName="fileList"
-							fileList={ files }
-							getValueFromEvent={ normFile }
-						>
-							<Upload action="/upload" listType="picture-card">
-								{ files.length < 1 && <div>
-									<PlusOutlined />
-									<div style={ { marginTop: 8 } }>Upload</div>
-								</div> }
-							</Upload>
-						</Form.Item>
-
-						<Form.Item name="description" label="Description"
-
-							className='d-block'>
-							<Input.TextArea className='form-control'
-								placeholder='Enter description' cols={ 10 } rows={ 5 } />
-						</Form.Item>
-						<Form.Item name="status" label="Status"
-							rules={ [ { required: true } ] } className='d-block'>
-							<Select
-								placeholder="Select status"
-								style={ { width: '100%' } }
-								options={ status }
-							/>
-						</Form.Item>
-
-						{/* <Form.Item name="hot" label="Is hot?" valuePropName="checked">
-							<Switch />
-						</Form.Item> */}
-
 					</div>
 
 					<div className='d-flex justify-content-center'>
