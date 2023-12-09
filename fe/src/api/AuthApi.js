@@ -104,7 +104,7 @@ const AuthApi = {
 
     async updateInfo(data) {
         try {
-            const url = `user/update-info`;
+            const url = `auth/profile`;
             const response = await axiosClient.put(url, data)
 
             if (response?.data.status === 200) {

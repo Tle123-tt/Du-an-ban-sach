@@ -30,7 +30,6 @@ function CategoryPage ()
 		{ page: 1, page_size: 4, total: 0 }
 	);
 	const [ params, setParams ] = useState( {
-		category_id: null,
 		price_from: null,
 		price_to: null
 	} );
@@ -44,8 +43,8 @@ function CategoryPage ()
 		let newParams = { ...filters };
 		delete newParams.total;
 		delete newParams.total_page;
-		console.log(params);
-		const response = await productService.getListsProducts( {...newParams, ...params} );
+		console.log(newParams);
+		const response = await productService.getListsProducts( {...params, ...newParams } );
 		await timeDelay(1000)
 		if ( response?.status === 200 )
 		{

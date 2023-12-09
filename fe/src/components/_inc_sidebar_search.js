@@ -46,8 +46,13 @@ function SidebarSearch ( props )
 				price_from: null,
 				price_to: null,
 				price_id: null
-			})
-			setSearch({} );
+			});
+			
+			let newSearch = {...search}
+			delete newSearch.price_from;
+			delete newSearch.price_to;
+			delete newSearch.price_id;
+			setSearch(newSearch );
 		} else
 		{
 
@@ -122,7 +127,7 @@ function SidebarSearch ( props )
 				<div className='item-price'>
 					{ prices.map( ( item ) => (
 						<Link key={ item.id } onClick={ handleClickPrice }
-							className={ props.params.price_id == item.id ? 'active' : '' }
+							className={ props?.params?.price_id == item.id ? 'active' : '' }
 							data-price={ item.id }>{ item.value }</Link>
 					) ) }
 				</div>

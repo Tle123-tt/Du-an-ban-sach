@@ -38,11 +38,11 @@ exports.index = async ( filters ) =>
 	};
 };
 
-exports.show = async ( req, res ) =>
+exports.show = async ( id ) =>
 {
 	const order = await OrderModel.findOne(
 		{
-			_id: req.params.id
+			_id: id
 		}
 	).populate( 'transactions' );
 	return order;
@@ -137,8 +137,8 @@ exports.store = async ( data ) =>
 		receiver_phone: data.phone,
 		receiver_name: data.name,
 		user_id: data.user_id,
-		status: 0,
-		shipping_status: 0,
+		status: 2,
+		shipping_status: 1,
 		payment_type: data.payment_type,
 		payment_status: data.payment_status,
 		note: data.note

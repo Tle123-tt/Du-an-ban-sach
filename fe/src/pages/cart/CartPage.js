@@ -206,7 +206,6 @@ function CartPage ()
 					carts.forEach(item => {
 						total += item.quantity * item.price;
 					});
-					console.log(total);
 					if(total > price) {
 						setDiscountPrice(price)
 					} else {

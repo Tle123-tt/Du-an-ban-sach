@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "SET PORT=4201 && react-scripts start",
+    "start:dev": "SET PORT=4222 && react-scripts start -w",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

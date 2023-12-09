@@ -12,6 +12,7 @@ function SearchPage()
     const [keyword, setKeyword] = useState("");
     const [products, setProducts] = useState([]);
     const [loadingProduct, setLoadingProduct] = useState(true);
+    const [params, setParams] = useState({});
 
     const queryParameters = new URLSearchParams(window.location.search);
 
@@ -19,23 +20,25 @@ function SearchPage()
         const keywordSearch = queryParameters.get('keyword');
         setKeyword(keywordSearch);
 
-        let params = {
+        let filters = {
             page_size: 8,
             page: 1,
-            keyword: keywordSearch
+            name: keywordSearch,
+			...params
         };
+		console.log(filters);
 
-        const response = await productService.getListsProducts(params);
+        const response = await productService.getListsProducts(filters);
 
         if (response?.status === 200) {
-            setProducts(response?.data);
+            setProducts(response?.data?.products);
             setLoadingProduct(false);
         }
     }
 
     useEffect(() => {
         getListsProducts().then(r => {});
-    },[keyword]);
+    },[keyword, params]);
 
 
     return (
@@ -44,7 +47,7 @@ function SearchPage()
                 <Container>
                     <Row>
                         <Col xs={3} className="mt-3">
-                            <SidebarSearch
+                            <SidebarSearch params={params} setParams={setParams}
                                 queryParameters={queryParameters}
                             />
                         </Col>
@@ -66,7 +69,7 @@ function SearchPage()
                                     </>
                                 ) : (
                                     <>
-                                        {products && products.map((product, index) => (
+                                        {products?.length > 0 && products.map((product, index) => (
                                             <Col xs={3}  key={product.id}>
                                                 <ProductItem  product={product} loading={loadingProduct} />
                                             </Col>

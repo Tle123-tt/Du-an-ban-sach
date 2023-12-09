@@ -100,6 +100,11 @@ exports.update = async ( id, data ) =>
 		user.birthday = new Date(data.birthday);
 	}
 
+	if ( data.address )
+	{
+		user.address = data.address;
+	}
+
 	await user.save();
 	return user;
 };

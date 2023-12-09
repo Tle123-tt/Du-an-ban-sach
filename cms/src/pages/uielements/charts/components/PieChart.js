@@ -19,9 +19,8 @@ export default function PipeChartApex ( props )
 		{
 			let data = newData.map( item =>
 			{
-				// đang lỗi nên a comment
-				// let status = props.data.find( e => e.status === item.key );
-				// if ( status ) item.value = status.total;
+				let status = props.data.find( e => e.status === item.key );
+				if ( status ) item.value = status.total;
 				return item;
 			} );
 			setSeriesData( data.map(item=> item.value ) );
