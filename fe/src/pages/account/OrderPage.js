@@ -10,7 +10,7 @@ import Moment from 'react-moment';
 import AuthApi from "../../api/AuthApi";
 import ModalVote from "./include/_inc_modal_vote";
 import Button from "react-bootstrap/Button";
-import {buildImage, onErrorImage} from "../utils/util_price";
+import {buildImage, onErrorImage, string_to_slug} from "../utils/util_price";
 
 function OrderPage()
 {
@@ -127,13 +127,13 @@ function OrderPage()
                                                     {item.transactions.map((transaction, key) => (
                                                         <div className="items" key={key}>
                                                             <div className="image">
-                                                                <Link to={`/san-pham/${transaction.slug}`}>
+                                                                <Link to={`/san-pham/${string_to_slug(transaction.name)}`}>
                                                                     {/*<img src={transaction.avatar} />*/}
                                                                     <img src={ buildImage(transaction.avatar) } alt={ transaction.name } onError={ onErrorImage } />
                                                                 </Link>
                                                             </div>
                                                             <div className="info">
-                                                                <Link to={`/san-pham/${transaction.product.slug}`}>
+                                                                <Link to={`/san-pham/${string_to_slug(transaction.name)}`}>
                                                                     <h4>{transaction.name}</h4>
                                                                 </Link>
                                                                 <div className={'d-flex'}>
