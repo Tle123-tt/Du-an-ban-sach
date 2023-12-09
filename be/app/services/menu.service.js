@@ -35,7 +35,10 @@ exports.show = async ( id ) =>
 
 exports.showBySlug = async ( slug ) =>
 {
-	const data = await ModelData.findOne( { slug: slug } )
+	console.log(slug);
+	const data = await ModelData.findOne( { slug: slug } );
+	if(!data) return null;
+
 	return data;
 };
 

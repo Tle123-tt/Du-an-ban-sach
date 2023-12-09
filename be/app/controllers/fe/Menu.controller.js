@@ -1,5 +1,5 @@
 const { buildParamPaging, buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
-const DataService = require( "../../services/blog.service" );
+const DataService = require( "../../services/menu.service" );
 
 exports.index = async ( req, res ) =>
 {

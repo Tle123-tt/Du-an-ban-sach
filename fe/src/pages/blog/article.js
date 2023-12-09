@@ -16,11 +16,14 @@ import {addToCart} from "../../store/CartSlice";
 import Swal from "sweetalert2";
 import formatPrice, {buildImage, onErrorImage} from "../utils/util_price";
 import IncSidebar from "./component/sidebar";
+import BlogService from '../../api/BlogService';
+import { customDate } from '../../api/common';
 
 function ArticlePage(){
     let { slug } = useParams();
 
     const [productsSuggest, setProductsSuggest] = useState([]);
+    const [tags, setTags] = useState([]);
     const [loadingProductSuggest, setLoadingProductSuggest] = useState(true);
     const [productDetail, setProductDetail] = useState(null);
     const [loadingProductDetail, setLoadingProductDetail] = useState(true);
@@ -30,30 +33,17 @@ function ArticlePage(){
 
 
     const findProductsDetailBySlug = async () => {
-        const response = await productService.findBySlug(slug);
+        const response = await BlogService.findBySlug(slug);
         console.log("--------------- response:findProductsDetailBySlug ", response);
         if (response?.status === 200) {
             setProductDetail(response?.data);
-            let arrImages = [];
-            response?.data?.product_images.map((item, index) => {
-                console.log('----------- item: ', item);
-                images.push({
-                    original: buildImage(item.path),
-                    thumbnail : buildImage(item.path)
-                });
-                // <img src={ buildImage(product.avatar) } alt={ product.name } onError={ onErrorImage } />
-            })
-            // let image = {
-            //     original: response?.data.avatar,
-            //     thumbnail : response?.data.avatar
-            // }
-            // images.push(image);
-            console.log('------ images: ', images);
-            setImages(images);
+			if(response?.data?.tags) {
+				let tagData = response?.data?.tags.split(',');
+				setTags(tagData);
+			}
         }
         setLoadingProductDetail(false);
     }
-    const ratingConfig = RatingConfig();
 
 
     const getListsProductsSuggest = async () => {
@@ -64,44 +54,6 @@ function ArticlePage(){
             setProductsSuggest(response?.data?.products);
             setLoadingProductSuggest(false);
         }
-    }
-
-    // tăng
-    const increaseQty = async () => {
-        qty = qty + 1;
-        setQty(qty);
-        // dispatch(addToCart(productDetail));
-    }
-
-    // giảm
-    const reduceQty = async (e) => {
-        qty = qty - 1;
-        if (qty <= 1) qty = 1;
-        setQty(qty);
-        // dispatch(decrementQuantity(productDetail));
-    }
-
-    const addCart = async () => {
-        if (productDetail.number <= qty) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'error',
-                title: 'Số lượng sản phẩm không đủ?',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            return;
-        }
-
-        productDetail.quantity = qty;
-        dispatch(addToCart(productDetail));
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Thêm giỏ hàng thành công',
-            showConfirmButton: false,
-            timer: 1500
-        })
     }
 
 
@@ -116,7 +68,7 @@ function ArticlePage(){
             <header className="py-3 bg-light border-bottom mb-4">
                 <div className="container">
                     <div className="text-center my-3">
-                        <h1 className="fw-bolder">Danh sách blog tin tức</h1>
+                        <h1 className="fw-bolder">Danh sách blog {productDetail?.menu?.name || ''}</h1>
                         <p className="lead mb-0">Nơi chia sẻ kinh nghiệm đọc sách hiệu quả</p>
                     </div>
                 </div>
@@ -126,22 +78,27 @@ function ArticlePage(){
                     <div className="col-lg-8">
                         <article>
                             <header className="mb-4">
-                                <h1 className="fw-bolder mb-1">Welcome to Blog Post!</h1>
-                                <div className="text-muted fst-italic mb-2">Posted on January 1, 2023 by Start Bootstrap</div>
-                                <a className="badge bg-secondary text-decoration-none link-light" href="">Web Design</a>
-                                <a className="badge bg-secondary text-decoration-none link-light" href="">Freebies</a>
+                                <h1 className="fw-bolder mb-1">{productDetail?.title}</h1>
+                                <div className="text-muted fst-italic mb-2">
+									{customDate(productDetail?.created_at, 'DD/MM/yyyy') } {' Created by: ' + productDetail?.author_name} 
+								</div>
+                                {tags?.length > 0 && tags.map((item, key) => {
+									return <a key={key} className="badge bg-secondary text-decoration-none mr-2 link-light" href="">{item}</a>
+								})}
                             </header>
-                            <figure className="mb-4"><img className="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                            <figure className="mb-4"><img className="img-fluid rounded w-100"
+							src={buildImage(productDetail?.avatar)} alt="..." /></figure>
                             <section className="mb-5">
-                                <p className="fs-5 mb-4">Science is an enterprise that should be cherished as an activity of the free human mind. Because it transforms who we are, how we live, and it gives us an understanding of our place in the universe.</p>
-                                <p className="fs-5 mb-4">The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that.</p>
-                                <p className="fs-5 mb-4">If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth.</p>
-                                <h2 className="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
-                                <p className="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
-                                <p className="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
+                                <p className='fs-5 mb-4'>
+									{productDetail?.description}
+								</p>
+								<p dangerouslySetInnerHTML={{ __html: productDetail?.content }}>
+
+								</p>
+
                             </section>
                         </article>
-                        <section className="mb-5">
+                        {/* <section className="mb-5">
                             <div className="card bg-light">
                                 <div className="card-body">
                                     <form className="mb-4"><textarea className="form-control" rows="3" placeholder="Join the discussion and leave a comment!" /></form>
@@ -175,7 +132,7 @@ function ArticlePage(){
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </section> */}
                     </div>
                     <IncSidebar />
                 </div>

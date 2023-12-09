@@ -6,6 +6,8 @@ exports.index = async ( filters ) =>
 {
 	const condition = {};
 	const paging = buildParamPaging( filters );
+
+	if(filters?.menu_id) condition.menu_id = filters?.menu_id
 	// execute query with page and limit values
 	const blogs = await ModelData.find()
 		.where( condition )

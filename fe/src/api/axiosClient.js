@@ -17,4 +17,7 @@ if (token) {
 	axiosClient.defaults.headers.common['Authorization'] =  'Bearer ' + token;
 }
 
+console.log("----------------> ", process.env.REACT_APP_URL_API);
+console.log("----------------> ", process.env.REACT_APP_API);
+
 export default axiosClient;

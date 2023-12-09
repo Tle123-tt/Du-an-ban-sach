@@ -4,9 +4,11 @@ import {Link, useLocation, useNavigate} from 'react-router-dom';
 import AuthApi from "../api/AuthApi";
 import {FaShoppingCart} from "react-icons/fa";
 import {useSelector} from "react-redux";
+import MenuService from '../api/MenuService';
 function HeaderCpn()
 {
     const [user, setUser] = useState([]);
+    const [menu, setMenu] = useState([]);
     const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
     const location = useLocation()
@@ -38,7 +40,15 @@ function HeaderCpn()
 
     useEffect(() => {
         getUser().then(r => {});
+        getMenu();
     }, []);
+
+	const getMenu = async () => {
+		const response = await MenuService.getList({page: 1, page_size: 1000, status: 1});
+		if(response?.status === 200) {
+			setMenu(response?.data?.menus)
+		}
+	}
 
     return (
         <>
@@ -61,8 +71,14 @@ function HeaderCpn()
                             <Link to={`/san-pham`} className='nav-item'>Sản phẩm</Link>
                             {/*<Link to="/admin/category" className='nav-item'> [-> Admin]</Link>*/}
                             <NavDropdown title={"Tin tức"} id="collasible-nav-dropdown2">
-                                <Link data-rr-ui-dropdown-item className={"dropdown-item"} role="button" to={`tin-tuc-chuyen-muc/noi-bat`}>Nổi bật</Link>
-                                <Link data-rr-ui-dropdown-item className={"dropdown-item"} role="button" to={`tin-tuc-chuyen-muc/su-kien`}>Sự kiện</Link>
+								{
+									menu?.length > 0 && 
+									menu.map((item, key) => {
+										return (
+											<Link key={key} data-rr-ui-dropdown-item className={"dropdown-item"} role="button" to={`tin-tuc-chuyen-muc/${item?.slug}`}>{item?.name}</Link>
+										)
+									})
+								}
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">
