@@ -8,6 +8,7 @@ const authMiddleware = require('../../app/middleware/userAuthjwt');
 router.get('/order',OrderController.index);
 router.post('/order/store',OrderController.store);
 router.get('/order/webhook',OrderController.webhook);
+router.post('/order/cancel/:id',OrderController.cancel);
 router.get('/order/:id',OrderController.show);
 router.put('/order/update/:id',OrderController.update);
 router.delete('/order/:id',OrderController.delete);

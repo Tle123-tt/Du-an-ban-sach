@@ -70,6 +70,18 @@ function OrderPage()
         console.log('------------- product: ', product);
     }
 
+    const handleCancel = async (order) => {
+        console.log('------------- order: ', order);
+
+        const response = await CartApi.cancel(order);
+        console.log('------------- response@getTransaction');
+        if (response?.status === 200) {
+            setLoadingOrder(true);
+            // setOrders(response?.data?.orders);
+            getOrderList().then(r => {});
+        }
+    }
+
     useEffect(() => {
         getOrderList().then(r => {});
         configStatusTransaction().then(r => {});
@@ -102,9 +114,11 @@ function OrderPage()
                                             Ngày tạo <Moment date={item.created_at}  format="YYYY/MM/DD"/></span>
                                             <div className={'d-flex'}>
                                                 <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
-                                                <span className='item-delete text-danger' style={{ marginLeft: "10px"}}>
-                                                    <FaTrash /> Huỷ đơn
-                                                </span>
+                                                {item.status == 0 && (
+                                                    <span onClick={() => handleCancel(item)} className='item-delete text-danger' style={{ marginLeft: "10px"}}>
+                                                        <FaTrash /> Huỷ đơn
+                                                    </span>
+                                                )}
                                             </div>
                                         </p>
                                         {item.transactions.length && (
