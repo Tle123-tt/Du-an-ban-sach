@@ -156,10 +156,8 @@ exports.store = async ( data ) =>
 				price: Number(item.price),
 				user_id: order.user_id,
 				total_price: Number(item.price) * Number(item.quantity) - Number(0),
-				// total_price: Number(item.price) * Number(item.quantity) - Number(item.discount),
 				order_id: order._id,
-				discount: Number(0)
-				// discount: Number(item.discount)
+				discount: Number(item.discount)
 			});
 			await transaction.save();
 			await order.transactions.push(transaction);

@@ -1,11 +1,11 @@
 import axiosClient from './axiosClient';
 
-const BlogService = {
+const DiscountService = {
 
     async getList(params) {
 		try {
 			const newParams = { ...params }
-			const url = `blog`;
+			const url = `discount`;
 			const response = await axiosClient.get(url, {
 				params: {...newParams},
 			})
@@ -20,7 +20,7 @@ const BlogService = {
 
 	async findById(id) {
 		try {
-			const url = `blog/${id}`;
+			const url = `discount/show/${id}`;
 			const response = await axiosClient.get(url)
 
 			if (response?.status === 200) {
@@ -34,7 +34,7 @@ const BlogService = {
 
     async findBySlug(slug, params) {
 		try {
-			const url = `blog/show/${slug}`;
+			const url = `discount/show/${slug}`;
 			const response = await axiosClient.get(url, {params: params})
 
 			if (response?.status === 200) {
@@ -45,27 +45,6 @@ const BlogService = {
 			return {};
 		}
 	},
-
-	async likeOrDislike(id, data) {
-		try {
-			const url = `blog/like/${id}`;
-			const response = await axiosClient.post(url, data)
-			if (response?.status === 200) {
-				return response?.data;
-			} else {
-				return {
-					status: 400,
-					message: response?.message
-				}
-			}
-		} catch (e) {
-			console.log('--------------- likeOrDislike@Error ', e);
-			return {
-				status: 400,
-				message: e?.message
-			}
-		}
-	},
 }
 
-export default BlogService;
+export default DiscountService;

@@ -15,6 +15,7 @@ const transactionSchema = new Schema(
         },
         name: {
             type: String,
+			unique: false
         },
 		avatar: {
             type: String,

@@ -149,13 +149,13 @@ export const DiscountForm = ( props ) =>
 								</Form.Item>
 							</div>
 
-							<div className='col-12 col-md-6'>
+							{/* <div className='col-12 col-md-6'>
 								<Form.Item name="max_use" label="Max use"
 									rules={ [ { required: true } ] }
 									className=' d-block'>
 									<Input type="number" className='form-control' placeholder='Enter value' />
 								</Form.Item>
-							</div>
+							</div> */}
 
 							<div className='col-12 col-md-6'>
 								<Form.Item name="status" label="Status"

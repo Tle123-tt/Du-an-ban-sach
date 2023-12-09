@@ -1,227 +1,323 @@
-import {Breadcrumb, Col, Container, Form, Row, Table} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
-import {FaTrash} from "react-icons/fa";
-import {
-    addToCart,
-    decrementQuantity,
-    incrementQuantity,
-    removeAll,
-    removeCartAll,
-    removeItem
+import { Breadcrumb, Col, Container, Form, Row, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
+import
+{
+	addDiscount,
+	addToCart,
+	decrementQuantity,
+	incrementQuantity,
+	removeAll,
+	removeCartAll,
+	removeItem
 } from "../../store/CartSlice";
 import Swal from "sweetalert2";
 import CartApi from "../../api/CartService";
 import AuthApi from "../../api/AuthApi";
-import formatPrice, {buildImage, onErrorImage} from "../utils/util_price";
+import formatPrice, { buildImage, onErrorImage } from "../utils/util_price";
+import DiscountService from "../../api/DiscountService";
 
-function CartPage() {
-    const dispatch = useDispatch();
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const navigate = useNavigate();
-    const [user_id, setUserId] = useState(0);
-    const carts = useSelector((state) => state.cartReduce.listCart);
-    let price_total = 0;
+function CartPage ()
+{
+	const dispatch = useDispatch();
+	const [ name, setName ] = useState( '' );
+	const [ phone, setPhone ] = useState( '' );
+	const [ discount, setDiscount ] = useState( [] );
+	const [ discountSelect, setDiscountSelect ] = useState( [] );
+	const [ discountValue, setDiscountValue ] = useState( null );
+	const navigate = useNavigate();
+	const [ user_id, setUserId ] = useState( 0 );
+	const carts = useSelector( ( state ) => state.cartReduce.listCart );
+	let price_total = 0;
 
-    const deleteCart = async (product) => {
-        Swal.fire({
-            title: 'Bạn có chắc chắn xoá sản phẩm trong giỏ hàng ko?',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Xoá',
-            denyButtonText: `Huỷ bỏ`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                dispatch(removeItem(product));
-            }
-        })
-    }
+	const deleteCart = async ( product ) =>
+	{
+		Swal.fire( {
+			title: 'Bạn có chắc chắn xoá sản phẩm trong giỏ hàng ko?',
+			showDenyButton: true,
+			showCancelButton: false,
+			confirmButtonText: 'Xoá',
+			denyButtonText: `Huỷ bỏ`,
+		} ).then( ( result ) =>
+		{
+			if ( result.isConfirmed )
+			{
+				dispatch( removeItem( product ) );
+			}
+		} )
+	}
 
-    const addOrder = async () => {
-        console.log('--------------- Mua hàng ');
-        let total = 0;
-        let order = {};
-        let transactions = [];
+	const addOrder = async () =>
+	{
+		console.log( '--------------- Mua hàng ' );
+		let total = 0;
+		let total_discount = 0;
+		let order = {};
+		let transactions = [];
 
-        carts.forEach((item, index) => {
-            transactions.push({
-                id: item._id,
-                name: item.name,
-                quantity: item.quantity,
-                avatar: item.avatar,
-                discount_type: "money",
-                discount_value: 0,
-                price: item.price,
-                total_price: item.price,
-            });
+		carts.forEach( ( item, index ) =>
+		{
+			transactions.push( {
+				id: item._id,
+				name: item.name,
+				quantity: item.quantity,
+				avatar: item.avatar,
+				discount_type: "money",
+				discount_id: item.discount_id,
+				discount: item.discount || 0,
+				price: item.price,
+				total_price: item.price,
+			} );
 
-            total += item.price * item.quantity;
-        });
+			total += (item.price * item.quantity - (item?.discount || 0));
+			let discountPrice = item?.discount || 0;
+			if(discountPrice >= item.price * item.quantity) discountPrice = item.price * item.quantity;
+			total_discount += discountPrice;
+			if(total < 0) total = 0
+		} );
 
-        order.name = name;
-        order.phone = phone;
+		order.name = name;
+		order.phone = phone;
+		order.total_discount = total_discount;
 
-        order.products = transactions;
-        order.note = "abc";
-        order.total_price = total;
-        order.user_id = user_id;
+		order.products = transactions;
+		order.note = "abc";
+		order.total_price = total;
+		order.user_id = user_id;
 
-        console.log('------------ order: ', order);
-        const createCart = await CartApi.createTransaction(order);
-        if (createCart.status === 200) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Đơn hàng được lưu thành công',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            dispatch(removeCartAll());
-            navigate('/', { replace: true });
-        } else {
+		console.log( '------------ order: ', order );
+		const createCart = await CartApi.createTransaction( order );
+		if ( createCart.status === 200 )
+		{
+			Swal.fire( {
+				position: 'top-end',
+				icon: 'success',
+				title: 'Đơn hàng được lưu thành công',
+				showConfirmButton: false,
+				timer: 1500
+			} )
+			dispatch( removeCartAll() );
+			navigate( '/', { replace: true } );
+		} else
+		{
 
-        }
+		}
 
-        if (createCart.status === 500 && createCart.message === "error") {
-            console.log("Error create!!!");
-        }
-    }
+		if ( createCart.status === 500 && createCart.message === "error" )
+		{
+			console.log( "Error create!!!" );
+		}
+	}
 
-    // tăng
-    const increaseQty = async (product) => {
-        if (product.number <= product.quantity) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'error',
-                title: 'Số lượng sản phẩm không đủ?',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            return false;
-        }
+	// tăng
+	const increaseQty = async ( product ) =>
+	{
+		if ( product.number <= product.quantity )
+		{
+			Swal.fire( {
+				position: 'top-end',
+				icon: 'error',
+				title: 'Số lượng sản phẩm không đủ?',
+				showConfirmButton: false,
+				timer: 1500
+			} )
+			return false;
+		}
 
-        const objProduct = {...product};
-        objProduct.quantity +=  1;
-        dispatch(incrementQuantity(objProduct))
-    }
+		const objProduct = { ...product };
+		objProduct.quantity += 1;
+		dispatch( incrementQuantity( objProduct ) )
+	}
 
-    // giảm
-    const reduceQty = async (product) => {
-        if (product.quantity === 1) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'error',
-                title: 'Số lượng qty >= 1?',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            return false;
-        }
-        const objProduct = {...product};
-        objProduct.quantity -=  1;
-        dispatch(decrementQuantity(objProduct));
-    }
+	// giảm
+	const reduceQty = async ( product ) =>
+	{
+		if ( product.quantity === 1 )
+		{
+			Swal.fire( {
+				position: 'top-end',
+				icon: 'error',
+				title: 'Số lượng qty >= 1?',
+				showConfirmButton: false,
+				timer: 1500
+			} )
+			return false;
+		}
+		const objProduct = { ...product };
+		objProduct.quantity -= 1;
+		dispatch( decrementQuantity( objProduct ) );
+	}
 
 
-    function getTotal() {
-        carts.map((item) => {
-            price_total += item.quantity * item.price;
-        });
-        return price_total.toLocaleString();
-    }
+	function getTotal ()
+	{
 
-    const getUser = async() => {
-        try {
-            let response = await AuthApi.getProfile();
-            if(response?.status === 200)
-            {
-                setUserId(response?.data._id);
-                setName(response?.data.name);
-                setPhone(response?.data.phone);
-                console.log('------------ response?.data.name: ', response?.data.name);
-            }
+		carts.map( ( item ) =>
+		{
+			let discount = item?.discount || 0;
+			if(discount >= item.quantity * item.price) discount = item.quantity * item.price;
+			price_total += item.quantity * item.price - discount;
 
-            console.log('============ getProfile@response; ', response);
-        } catch (e) {
-            console.log("-----Expired");
-        }
-    }
+		} );
+		if(price_total < 0) price_total = 0
+		return price_total.toLocaleString();
+	}
 
-    useEffect(() => {
-        getUser().then(r => {});
-    }, []);
+	const getUser = async () =>
+	{
+		try
+		{
+			let response = await AuthApi.getProfile();
+			if ( response?.status === 200 )
+			{
+				setUserId( response?.data._id );
+				setName( response?.data.name );
+				setPhone( response?.data.phone );
+				console.log( '------------ response?.data.name: ', response?.data.name );
+			}
 
-    return(
-        <>
-            <Container>
-                <Row>
-                    <Col xl={{span: 6, offset: 3}} md={{span: 6, offset: 3}}>
-                        <div className='' style={{ marginTop:"15px"}}>
-                            <Breadcrumb>
-                                <Breadcrumb.Item to="/">Trang chủ</Breadcrumb.Item>
-                                <Breadcrumb.Item active>Giỏ hàng</Breadcrumb.Item>
-                            </Breadcrumb>
-                        </div>
-                        <div>
-                            <div className='list-carts'>
-                                {carts && carts.map((item, index) => (
-                                    <div className="items" key={index}>
-                                        <div className="image">
-                                            <Link to={`/san-pham/${item.slug}`}>
-                                                {/*<img src={item.avatar} />*/}
-                                                <img src={ buildImage(item.avatar) } alt={ item.name } onError={ onErrorImage } />
-                                            </Link>
-                                            <span className='item-delete' onClick={() => deleteCart(item)}>
-                                                <FaTrash /> Xoá
-                                            </span>
-                                        </div>
-                                        <div className="info">
-                                            <Link to={`/san-pham/${item.slug}`}>
-                                                <h4>{item.name}</h4>
-                                            </Link>
-                                        </div>
-                                        <div className="price">
-                                            <span>{formatPrice(item?.price)} <sup>đ</sup></span>
-                                            {/*<span>120.000 đ</span> <span><sub className='discount'>20.000.000 đ</sub></span>*/}
-                                            <div className="box-qty-add-cart">
-                                                <div className="box">
-                                                    <button onClick={() => reduceQty(item)}>-</button>
-                                                    <input type="number" readOnly value={item.quantity}  />
-                                                    <button onClick={() => increaseQty(item)}>+</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                <div className='total-cart'>
-                                    <span>Tạm tính ({(carts && carts.length) ? carts.length : 0} sản phẩm)</span>
-                                    <span>{getTotal()} vnđ</span>
-                                </div>
-                            </div>
-                            <div className="info-guest">
-                                <h5>Thông tin khách hàng</h5>
-                                <Row>
-                                    <Col xs={6}>
-                                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                                            <Form.Control type="text"  placeholder="Họ tên" value={name} onChange={(event) => setName(event.target.value)} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col xs={6}>
-                                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                                            <Form.Control type="phone" value={phone} placeholder="Số điện thoại" onChange={(event) => setPhone(event.target.value)} />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <button type="submit" onClick={addOrder} className="btn btn-danger w-100 mb-5">Đặt hàng</button>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    )
+			console.log( '============ getProfile@response; ', response );
+		} catch ( e )
+		{
+			console.log( "-----Expired" );
+		}
+	}
+
+	useEffect( () =>
+	{
+		getUser().then( r => { } );
+		getDiscount();
+	}, [] );
+
+	const getDiscount = async () =>
+	{
+		const response = await DiscountService.getList( { page: 1, page_size: 1000, status: 1 } );
+		if ( response?.status === 200 )
+		{
+			setDiscount( response?.data?.discounts );
+			if ( response?.data?.discounts?.length > 0 )
+			{
+				let discountData = response?.data?.discounts.reduce( ( newData, item ) =>
+				{
+					let obj = {
+						id: item._id,
+						label: `${ item.code } - ${ item.price }`
+					}
+					newData.push( obj );
+					return newData;
+				}, [] );
+				setDiscountSelect( discountData )
+			}
+
+		}
+	}
+
+
+	const selectDiscount = ( id, item ) =>
+	{
+		let discountData = discount.find( item => item._id === id );
+		const objProduct = { ...item };
+		objProduct.discount_id = id;
+		objProduct.discount_price = discountData?.price || 0;
+		console.log(item, id);
+		dispatch( addDiscount( objProduct ) )
+	}
+
+	return (
+		<>
+			<Container>
+				<Row>
+					<Col xl={ { span: 6, offset: 3 } } md={ { span: 6, offset: 3 } }>
+						<div className='' style={ { marginTop: "15px" } }>
+							<Breadcrumb>
+								<Breadcrumb.Item to="/">Trang chủ</Breadcrumb.Item>
+								<Breadcrumb.Item active>Giỏ hàng</Breadcrumb.Item>
+							</Breadcrumb>
+						</div>
+						<div>
+							<div className='list-carts'>
+								{ carts && carts.map( ( item, index ) => (
+									<>
+										<div className="items" key={ index }>
+											<div className="image">
+												<Link to={ `/san-pham/${ item.slug }` }>
+													{/*<img src={item.avatar} />*/ }
+													<img src={ buildImage( item.avatar ) } alt={ item.name } onError={ onErrorImage } />
+												</Link>
+												<span className='item-delete' onClick={ () => deleteCart( item ) }>
+													<FaTrash /> Xoá
+												</span>
+											</div>
+											<div className="info">
+												<Link to={ `/san-pham/${ item.slug }` }>
+													<h4>{ item.name }</h4>
+												</Link>
+											</div>
+											<div className="price">
+												<span>{ formatPrice( item?.price ) } <sup>đ</sup></span>
+												{/*<span>120.000 đ</span> <span><sub className='discount'>20.000.000 đ</sub></span>*/ }
+												<div className="box-qty-add-cart">
+													<div className="box">
+														<button onClick={ () => reduceQty( item ) }>-</button>
+														<input type="number" readOnly value={ item.quantity } />
+														<button onClick={ () => increaseQty( item ) }>+</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="my-3 d-flex justify-content-between total-cart">
+											<span>Mã giảm giá</span>
+											<Form.Select aria-label="Default select example" className="w-50"
+												onChange={ ( e ) =>
+												{
+													if ( e?.target?.value != '' && e?.target?.value != null )
+													{
+														selectDiscount( e?.target?.value, item )
+													} else {
+														dispatch( addDiscount( {...item, discount_id: null} ) )
+													}
+												} }
+											>
+												<option value="">Chọn mã giảm giá</option>
+												{ discountSelect?.length > 0 && discountSelect.map( ( item ) =>
+												{
+													return <option value={ item.id }>{ item.label }</option>
+												} ) }
+											</Form.Select>
+										</div>
+									</>
+
+								) ) }
+
+								<div className='total-cart'>
+									<span>Tạm tính ({ ( carts && carts.length ) ? carts.length : 0 } sản phẩm)</span>
+									<span>{ getTotal() } vnđ</span>
+								</div>
+							</div>
+							<div className="info-guest">
+								<h5>Thông tin khách hàng</h5>
+								<Row>
+									<Col xs={ 6 }>
+										<Form.Group className="mb-3" controlId="formBasicEmail">
+											<Form.Control type="text" placeholder="Họ tên" value={ name } onChange={ ( event ) => setName( event.target.value ) } />
+										</Form.Group>
+									</Col>
+									<Col xs={ 6 }>
+										<Form.Group className="mb-3" controlId="formBasicEmail">
+											<Form.Control type="phone" value={ phone } placeholder="Số điện thoại" onChange={ ( event ) => setPhone( event.target.value ) } />
+										</Form.Group>
+									</Col>
+								</Row>
+							</div>
+							<button type="submit" onClick={ addOrder } className="btn btn-danger w-100 mb-5">Đặt hàng</button>
+						</div>
+					</Col>
+				</Row>
+			</Container>
+		</>
+	)
 }
 
 export default CartPage;
