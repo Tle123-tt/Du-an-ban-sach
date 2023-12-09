@@ -52,8 +52,8 @@ function HeaderCpn()
 
     return (
         <>
-            <div className="fhs-header-top-banner w-100">
-                <p className={'mb-0'}>
+            <div className="fhs-header-top-banner w-100" style={{ backgroundColor: "#34B282"}}>
+                <p className={'mb-0 container'}>
                     <a href="https://www.fahasa.com/deli?fhs_campaign=topbanner">
                         <img className={'w-100'} src="https://cdn0.fahasa.com/media/wysiwyg/Thang-12-2023/Diamond_T1223_Ver2_DeliHeader_1263x60.jpg" alt="" /></a>
                 </p>
@@ -72,7 +72,7 @@ function HeaderCpn()
                             {/*<Link to="/admin/category" className='nav-item'> [-> Admin]</Link>*/}
                             <NavDropdown title={"Tin tức"} id="collasible-nav-dropdown2">
 								{
-									menu?.length > 0 && 
+									menu?.length > 0 &&
 									menu.map((item, key) => {
 										return (
 											<Link key={key} data-rr-ui-dropdown-item className={"dropdown-item"} role="button" to={`tin-tuc-chuyen-muc/${item?.slug}`}>{item?.name}</Link>

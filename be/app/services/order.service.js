@@ -3,6 +3,7 @@ const moment = require( "moment" );
 const { buildResponsePaging, buildResponseException, makeId } = require( "../helpers/buildData.helper" );
 const OrderModel = require( "../models/Order.model" );
 const { sendMailOrder } = require( "./sendMail.service" );
+const ProductModel = require("../models/Product.model");
 exports.index = async ( filters ) =>
 {
 	const page = filters?.page || 1; const page_size = filters?.page_size || 10;
@@ -163,6 +164,13 @@ exports.store = async ( data ) =>
 			await transaction.save();
 			await order.transactions.push(transaction);
 			await order.save();
+
+			const product = await ProductModel.findOne( { _id: item.id } );
+			if ( product )
+			{
+				product.pay = product.pay ? product.pay + 1 : 1;
+				await product.save();
+			}
 		}
 	}
 	console.log('---------- OK');

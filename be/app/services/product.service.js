@@ -205,7 +205,7 @@ exports.updateVoting = async ( data, number ) =>
 		if ( product )
 		{
 			product.total_reviews = product.total_reviews ? Number( product.total_reviews ) + number : number;
-			product.total_stars = product.total_stars ? Number( product.total_stars ) + Number( numberVote ) : Number( numberVote );
+			product.total_staupdateVotingrs = product.total_stars ? Number( product.total_stars ) + Number( numberVote ) : Number( numberVote );
 			await product.save();
 		}
 	} catch ( e )

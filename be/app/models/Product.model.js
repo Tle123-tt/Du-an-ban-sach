@@ -29,7 +29,7 @@ const productSchema = new Schema(
             type: Number,
             default: 1
         },
-        
+
 		description: {
             type: String,
         },
@@ -37,6 +37,9 @@ const productSchema = new Schema(
             type: String,
         },
 		hot: {
+            type: Number,
+        },
+        pay: {
             type: Number,
         },
 		total_stars: {
