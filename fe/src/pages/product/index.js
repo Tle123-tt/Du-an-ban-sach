@@ -159,7 +159,7 @@ function ProductPage ()
 											{ ratingConfig.map( ( index ) => (
 												<FaStar key={ index } className={  index <= ageVote  ? 'active' : '' } />
 											) ) }
-											<Link>Xem ({ productDetail.review_total | 0 }) đánh giá</Link>
+											<Link>Xem ({ productDetail.total_reviews | 0 }) đánh giá</Link>
 										</p>
 									) : (
 										<Skeleton count={ 1 } />
