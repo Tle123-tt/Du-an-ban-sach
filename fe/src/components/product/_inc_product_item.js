@@ -7,8 +7,8 @@ import formatPrice, {buildImage, onErrorImage} from "../../pages/utils/util_pric
 
 function ProductItem({product, loading}) {
     const renderAge = () => {
-        if (loading === false && product.review_total > 0) {
-            return Math.round(product.review_star / product.review_total, 1);
+        if (loading === false && product.total_stars > 0) {
+            return Math.round(product.total_stars / product.total_reviews, 1);
         }
         return 0;
     }

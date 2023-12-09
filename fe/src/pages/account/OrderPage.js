@@ -10,7 +10,7 @@ import Moment from 'react-moment';
 import AuthApi from "../../api/AuthApi";
 import ModalVote from "./include/_inc_modal_vote";
 import Button from "react-bootstrap/Button";
-import {buildImage, onErrorImage} from "../utils/util_price";
+import {buildImage, onErrorImage, string_to_slug} from "../utils/util_price";
 
 function OrderPage()
 {
@@ -57,7 +57,7 @@ function OrderPage()
             let response = await AuthApi.getProfile();
             if(response?.status === 200)
             {
-                setUserId(response?.data.id);
+                setUserId(response?.data._id);
             }
         } catch (e) {
             console.log("-----Expired");
@@ -68,6 +68,18 @@ function OrderPage()
         setShowModal(true);
         setProductVote(product);
         console.log('------------- product: ', product);
+    }
+
+    const handleCancel = async (order) => {
+        console.log('------------- order: ', order);
+
+        const response = await CartApi.cancel(order);
+        console.log('------------- response@getTransaction');
+        if (response?.status === 200) {
+            setLoadingOrder(true);
+            // setOrders(response?.data?.orders);
+            getOrderList().then(r => {});
+        }
     }
 
     useEffect(() => {
@@ -100,7 +112,14 @@ function OrderPage()
                                         <p className="item-header">
                                             <span><b style={{paddingRight: "4px"}}>Đơn hàng #{item._id}</b>
                                             Ngày tạo <Moment date={item.created_at}  format="YYYY/MM/DD"/></span>
-                                            <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
+                                            <div className={'d-flex'}>
+                                                <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
+                                                {item.status == 0 && (
+                                                    <span onClick={() => handleCancel(item)} className='item-delete text-danger' style={{ marginLeft: "10px"}}>
+                                                        <FaTrash /> Huỷ đơn
+                                                    </span>
+                                                )}
+                                            </div>
                                         </p>
                                         {item.transactions.length && (
                                             <>
@@ -108,20 +127,17 @@ function OrderPage()
                                                     {item.transactions.map((transaction, key) => (
                                                         <div className="items" key={key}>
                                                             <div className="image">
-                                                                <Link to={`/san-pham/${transaction.slug}`}>
+                                                                <Link to={`/san-pham/${string_to_slug(transaction.name)}`}>
                                                                     {/*<img src={transaction.avatar} />*/}
                                                                     <img src={ buildImage(transaction.avatar) } alt={ transaction.name } onError={ onErrorImage } />
                                                                 </Link>
                                                             </div>
                                                             <div className="info">
-                                                                <Link to={`/san-pham/${transaction.product.slug}`}>
+                                                                <Link to={`/san-pham/${string_to_slug(transaction.name)}`}>
                                                                     <h4>{transaction.name}</h4>
                                                                 </Link>
                                                                 <div className={'d-flex'}>
-                                                                    <span className='item-delete text-danger' >
-                                                                        <FaTrash /> huỷ bỏ
-                                                                    </span>
-                                                                    <span className='item-delete m-lg-2' onClick={() => handleVote(transaction.product)} >
+                                                                    <span className='item-delete m-lg-2' onClick={() => handleVote(transaction)} >
                                                                         <FaStar /> Viết đánh giá
                                                                     </span>
                                                                 </div>

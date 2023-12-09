@@ -119,6 +119,17 @@ const CartApi = {
         } catch (e) {
             console.log('---------------vote@Error ', e);
         }
+    },
+    async cancel(data) {
+        try {
+            const url = `order/cancel/${data._id}`;
+            const response = await axiosClient.post(url);
+            if (response?.status === 200 || response?.status === 201) {
+                return response?.data;
+            }
+        } catch (e) {
+            console.log('---------------vote@Error ', e);
+        }
     }
 }
 

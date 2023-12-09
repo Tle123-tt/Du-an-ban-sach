@@ -25,6 +25,7 @@ function ProductPage ()
 	const [ productDetail, setProductDetail ] = useState( null );
 	const [ loadingProductDetail, setLoadingProductDetail ] = useState( true );
 	let [ qty, setQty ] = useState( 1 );
+	const [ageVote, setAgeVote]  = useState(0);
 	const [ images, setImages ] = useState( [] );
 	const dispatch = useDispatch();
 
@@ -44,15 +45,16 @@ function ProductPage ()
 					original: buildImage( item.path ),
 					thumbnail: buildImage( item.path )
 				} );
-				// <img src={ buildImage(product.avatar) } alt={ product.name } onError={ onErrorImage } />
 			} )
-			// let image = {
-			//     original: response?.data.avatar,
-			//     thumbnail : response?.data.avatar
-			// }
-			// images.push(image);
-			console.log( '------ images: ', images );
 			setImages( images );
+
+			let prod = response?.data;
+			if (prod?.total_reviews > 0)
+			{
+				let age = prod.total_stars / prod.total_reviews;
+				console.log('---------- age ', age);
+				setAgeVote(age);
+			}
 		}
 		setLoadingProductDetail( false );
 	}
@@ -155,9 +157,9 @@ function ProductPage ()
 									{ loadingProductDetail === false ? (
 										<p className='vote'>
 											{ ratingConfig.map( ( index ) => (
-												<FaStar key={ index } className={ 'active' } />
+												<FaStar key={ index } className={  index <= ageVote  ? 'active' : '' } />
 											) ) }
-											<Link>Xem ({ productDetail.review_total | 0 }) đánh giá</Link>
+											<Link>Xem ({ productDetail.total_reviews | 0 }) đánh giá</Link>
 										</p>
 									) : (
 										<Skeleton count={ 1 } />

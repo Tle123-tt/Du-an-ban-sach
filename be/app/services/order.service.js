@@ -89,6 +89,25 @@ exports.update = async ( id, data ) =>
 	return order;
 };
 
+exports.cancel = async ( id, data ) =>
+{
+	let order = await OrderModel.findOne(
+		{
+			_id: id
+		}
+	);
+	if ( !order )
+	{
+		throw {
+			message: "Không có dữ liệu"
+		}
+	}
+
+	order.status = -1
+	await order.save();
+	return order;
+};
+
 exports.webhook = async (filters) => {
     let _id = filters.vnp_TxnRef;
     if (filters.vnp_ResponseCode !== "00") { // filters.vnp_ResponseCode === "00" thanh toán thành công

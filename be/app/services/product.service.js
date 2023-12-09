@@ -200,12 +200,12 @@ exports.updateVoting = async ( data, number ) =>
 {
 	try
 	{
+		let numberVote = data.vote_number;
 		const product = await ProductModel.findOne( { _id: data.product_id } );
 		if ( product )
 		{
-
 			product.total_reviews = product.total_reviews ? Number( product.total_reviews ) + number : number;
-			product.total_stars = product.total_stars ? Number( product.total_stars ) + Number( data.total_star ) : Number( data.total_star );
+			product.total_stars = product.total_stars ? Number( product.total_stars ) + Number( numberVote ) : Number( numberVote );
 			await product.save();
 		}
 	} catch ( e )
