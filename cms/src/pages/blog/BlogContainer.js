@@ -5,6 +5,7 @@ import { toggleShowLoading } from "../../redux/actions/common";
 import { INIT_PAGING } from "../../helpers/constant/value";
 import { Blog } from "../../components/Blog/Blog";
 import { BlogService } from "../../services/blogService";
+import { message } from "antd";
 
 export const BlogContainer =() =>
 {
@@ -42,11 +43,27 @@ export const BlogContainer =() =>
 		}
 	}
 
+	const deleteById = async (id) => {
+		try {
+			const response = await BlogService.delete(id);
+			if(response?.status === 200) {
+				message.success('Delete successfully');
+				await getDatasByFilter({...paging, ...params});
+			} else {
+				message.error(response?.message);
+			}
+
+		} catch (error) {
+			message.error(error?.message);
+		}
+	}
+
 
 	return <Blog
 		dataList={ dataList }
 		paging={ paging }
 		params={ params }
+		deleteById={deleteById}
 		getDatasByFilter={ getDatasByFilter }
 		setParams={ setParams }
 		setPaging={ setPaging }

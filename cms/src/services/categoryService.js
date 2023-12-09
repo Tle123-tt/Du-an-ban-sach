@@ -15,7 +15,7 @@ export const showCategory = async ( id, params ) =>
 	return await getMethod( `/admin/category/${ id }`, params );
 }
 
-export const Category = {
+export const CategoryService = {
 	async create ( data )
 	{
 		return await postMethod( `/admin/category/store`, data );
@@ -88,10 +88,10 @@ export const submitForms = async ( id = null, files, e, dispatch, history ) =>
 		let response;
 		if ( id )
 		{
-			response = await Category.update( id, formValue );
+			response = await CategoryService.update( id, formValue );
 		} else
 		{
-			response = await Category.create( formValue );
+			response = await CategoryService.create( formValue );
 		}
 		if ( response?.status === 200 )
 		{

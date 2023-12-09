@@ -13,6 +13,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
 import { DEFAULT_USER, EMPTY_IMG } from "../../helpers/constant/image.js";
 import { UserSearch } from "./UserSearch.js";
 import { buildImage, onErrorImage, onErrorUser } from "../../services/common.js";
+import { DeleteOutlined } from '@ant-design/icons'
 export const UserCpn = ( props ) =>
 {
 	const errorImg = ( e ) =>
@@ -63,7 +64,7 @@ export const UserCpn = ( props ) =>
 								<th>ID</th>
 								<th className="text-nowrap">Avatar</th>
 								<th className="text-nowrap">User</th>
-								{/* <th className="text-nowrap">User name</th> */}
+								{/* <th className="text-nowrap">User name</th> */ }
 								<th className="text-nowrap">Email</th>
 								<th className="text-nowrap">Role</th>
 								<th className="text-nowrap">Type</th>
@@ -82,7 +83,7 @@ export const UserCpn = ( props ) =>
 											<td className="d-flex align-items-center">
 												<img width="70" height="70"
 													style={ { border: "0.5px solid gray", borderRadius: '5px' } }
-													src={ buildImage(item.avatar, true)} alt={ item.name } onError={ onErrorUser } />
+													src={ buildImage( item.avatar, true ) } alt={ item.name } onError={ onErrorUser } />
 											</td>
 											<td className="text-gray-900">
 												<div className="d-flex">
@@ -127,9 +128,17 @@ export const UserCpn = ( props ) =>
 												{ item.created_at ? customDate( item.created_at, 'DD/MM/yyyy' ) : '' }
 											</td>
 											<td>
-												<Link to={ `/user/edit/${ item._id }` } className="d-flex justify-content-center">
-													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
-												</Link>
+												<div className="d-flex">
+													<Link to={ `/user/edit/${ item._id }` } className="d-flex justify-content-center">
+														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
+													</Link>
+													<DeleteOutlined 
+													 className="ml-2 cursor-pointer" 
+													 onClick={() => {
+														props.deleteUser(item._id);
+													 }}
+													 style={ { fontSize: "16px", color:"red" } } />
+												</div>
 											</td>
 										</tr>
 									)

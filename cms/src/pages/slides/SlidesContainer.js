@@ -6,7 +6,8 @@ import { Categories } from "../../components/Category/Category";
 import { timeDelay } from "../../services/common";
 import { toggleShowLoading } from "../../redux/actions/common";
 import { SlidesPage } from "../../components/Slide/Slide";
-import { getDataByFilter } from "../../services/slideService";
+import { SlideService, getDataByFilter } from "../../services/slideService";
+import { message } from "antd";
 
 export const SlidesContainer = () =>
 {
@@ -37,11 +38,27 @@ export const SlidesContainer = () =>
 		}
 	}
 
+	const deleteById = async (id) => {
+		try {
+			const response = await SlideService.delete(id);
+			if(response?.status === 200) {
+				message.success('Delete successfully');
+				await getDatasByFilter({...paging, ...params});
+			} else {
+				message.error(response?.message);
+			}
+
+		} catch (error) {
+			message.error(error?.message);
+		}
+	}
+
 
 	return <SlidesPage
 		datas={ datas }
 		paging={ paging }
 		params={ params }
+		deleteById={deleteById}
 		getDatasByFilter={ getDatasByFilter }
 		setParams={ setParams }
 		setPaging={ setPaging }

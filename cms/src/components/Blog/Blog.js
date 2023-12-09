@@ -13,6 +13,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
 import { DEFAUT_IMG, EMPTY_IMG } from "../../helpers/constant/image.js";
 import { buildImage, onErrorImage } from "../../services/common.js";
 import { BlogSearch } from "./BlogSearch.js";
+import { DeleteOutlined } from '@ant-design/icons'
 export const Blog = ( props ) =>
 {
 
@@ -64,7 +65,7 @@ export const Blog = ( props ) =>
 												<img width="70" height="70"
 													id={ key }
 													style={ { border: "0.5px solid gray", borderRadius: '5px' } }
-													src={ buildImage(item.avatar) } alt={ item.avatar } onError={ onErrorImage } />
+													src={ buildImage( item.avatar ) } alt={ item.avatar } onError={ onErrorImage } />
 											</td>
 											<td className="text-gray-900">
 												<span className="text-break" style={ { minWidth: '100px' } }>{ item.title }</span>
@@ -76,17 +77,27 @@ export const Blog = ( props ) =>
 												<span className="text-break" style={ { minWidth: '100px' } }>{ item.author_name }</span>
 											</td>
 											<td className="text-gray-900">
-												<span className="text-break" style={ { minWidth: '100px' } }>{ item.tags}</span>
+												<span className="text-break" style={ { minWidth: '100px' } }>{ item.tags }</span>
 											</td>
 											{/* <td className="text-gray-900">
 												{ item.hot === 1 && <span className="text-danger">Hot</span> }
 											</td> */}
 											<td className="text-gray-900">{ genStatus( item.status ) }</td>
-											
+
 											<td>
-												<Link to={ `/blog/edit/${ item._id }` } className="d-flex justify-content-center">
-													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
-												</Link>
+												<div className="d-flex">
+													<Link to={ `/blog/edit/${ item._id }` } className="d-flex justify-content-center">
+														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
+													</Link>
+													<DeleteOutlined
+														className="ml-2 cursor-pointer"
+														onClick={ () =>
+														{
+															props.deleteById( item._id );
+														} }
+														style={ { fontSize: "16px", color: "red" } } />
+												</div>
+
 											</td>
 										</tr>
 									)

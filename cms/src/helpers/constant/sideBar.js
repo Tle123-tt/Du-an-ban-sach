@@ -7,7 +7,7 @@ export const SIDE_BARS = [
 	},
 	{
 		path: '/author',
-		icon: 'eva eva-people',
+		icon: 'eva eva-person',
 		title: 'Author',
 		children: [
 			{
@@ -75,7 +75,7 @@ export const SIDE_BARS = [
 	},
 	{
 		path: '/slide',
-		icon: 'eva eva-menu',
+		icon: 'eva eva-bulb',
 		title: 'Slide',
 		children: [
 			{
@@ -121,17 +121,17 @@ export const SIDE_BARS = [
 	},
 	
 	{
-		path: '/menu-blog',
-		icon: 'eva eva-people',
+		path: '/menu',
+		icon: 'eva eva-menu',
 		title: 'Menu',
 		children: [
 			{
-				path: '/menu-blog/list',
+				path: '/menu/list',
 				title: 'List',
 				icon: '',
 			},
 			{
-				path: '/menu-blog/create',
+				path: '/menu/create',
 				icon: '',
 				title: 'Add new',
 			},
@@ -140,7 +140,7 @@ export const SIDE_BARS = [
 
 	{
 		path: '/blog',
-		icon: 'eva eva-people',
+		icon: 'eva eva-flag',
 		title: 'Blog',
 		children: [
 			{

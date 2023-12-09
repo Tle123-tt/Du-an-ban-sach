@@ -213,21 +213,21 @@ export const ROUTERS = [
 	},
 
 	{
-		path: '/menu-blog/list',
+		path: '/menu/list',
 		exact: true,
-		redirectFrom: '/menu-blog', 
+		redirectFrom: '/menu', 
 		title: 'Menus',
 		component: MenuContainer,
 	},
 	{
-		path: '/menu-blog/create',
+		path: '/menu/create',
 		exact: true,
 		redirectFrom: null, 
 		title: 'Create Menu',
 		component: MenuForm,
 	},
 	{
-		path: '/menu-blog/edit/:id',
+		path: '/menu/edit/:id',
 		exact: true,
 		redirectFrom: null, 
 		title: 'Update Menu',

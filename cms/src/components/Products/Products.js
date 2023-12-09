@@ -13,6 +13,7 @@ import { Pagination } from "antd";
 import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
 import { DEFAUT_IMG, EMPTY_IMG } from "../../helpers/constant/image.js";
 import { buildImage, onErrorImage } from "../../services/common.js";
+import { DeleteOutlined } from '@ant-design/icons'
 export const Products = ( props ) =>
 {
 	const errorImg = ( e ) =>
@@ -36,7 +37,7 @@ export const Products = ( props ) =>
 				<div className="p-5">
 					<div className="mb-3">
 						<Link to="/product/create" className="btn btn-info">
-						<span className="d-flex align-items-center"><i className="eva eva-plus mr-2"></i> Create</span>
+							<span className="d-flex align-items-center"><i className="eva eva-plus mr-2"></i> Create</span>
 						</Link>
 					</div>
 					<ProductSearch { ...props } />
@@ -72,7 +73,7 @@ export const Products = ( props ) =>
 											<td className="d-flex align-items-center">
 												<img width="70" height="70"
 													style={ { border: "0.5px solid gray", borderRadius: '5px' } }
-													src={ buildImage(item.avatar) } alt={ item.name } onError={ onErrorImage } />
+													src={ buildImage( item.avatar ) } alt={ item.name } onError={ onErrorImage } />
 											</td>
 											<td className="text-gray-900">
 												<div className="d-flex">
@@ -84,7 +85,7 @@ export const Products = ( props ) =>
 													<div className="ml-2 text-break" style={ { minWidth: '100px' } }>{ item.slug }</div>
 												</div>
 											</td>
-											<td className="text-gray-900">{item.author?.name}</td>
+											<td className="text-gray-900">{ item.author?.name }</td>
 											<td className="text-gray-900">{ customNumber( item.quantity, '.', '' ) }</td>
 											<td className="text-gray-900">{ customNumber( item.price, '.', 'đ' ) }</td>
 											<td className="text-gray-900 text-break" style={ { minWidth: "100px" } }>{ item.category?.name || 'N/A' }</td>
@@ -94,9 +95,18 @@ export const Products = ( props ) =>
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={`/product/edit/${item._id}`} className="d-flex justify-content-center">
-													<i className="eva eva-edit"style={{fontSize: "16px", border: "1px solid"}}></i>
-												</Link>
+												<div className="d-flex">
+													<Link to={ `/product/edit/${ item._id }` } className="d-flex justify-content-center">
+														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
+													</Link>
+													<DeleteOutlined
+														className="ml-2 cursor-pointer"
+														onClick={ () =>
+														{
+															props.deleteById( item._id );
+														} }
+														style={ { fontSize: "16px", color: "red" } } />
+												</div>
 											</td>
 										</tr>
 									)

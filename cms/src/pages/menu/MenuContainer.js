@@ -5,6 +5,7 @@ import { toggleShowLoading } from "../../redux/actions/common";
 import { INIT_PAGING } from "../../helpers/constant/value";
 import { MenuService } from "../../services/menuService";
 import { MenuCpn } from "../../components/Menu/Menu";
+import { message } from "antd";
 
 export const MenuContainer = () =>
 {
@@ -41,12 +42,26 @@ export const MenuContainer = () =>
 			dispatch(toggleShowLoading(false));
 		}
 	}
+	const deleteById = async (id) => {
+		try {
+			const response = await MenuService.delete(id);
+			if(response?.status === 200) {
+				message.success('Delete successfully');
+				await getDatasByFilter({...paging, ...params});
+			} else {
+				message.error(response?.message);
+			}
 
+		} catch (error) {
+			message.error(error?.message);
+		}
+	}
 
 	return <MenuCpn
 		dataList={ dataList }
 		paging={ paging }
 		params={ params }
+		deleteById={deleteById}
 		getDatasByFilter={ getDatasByFilter }
 		setParams={ setParams }
 		setPaging={ setPaging }

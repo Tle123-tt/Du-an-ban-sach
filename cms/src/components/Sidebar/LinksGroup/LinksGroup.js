@@ -59,9 +59,9 @@ const LinksGroup = (props) => {
           to={props.link}
           activeClassName={s.headerLinkActive}
           onClick={(e) => {
-            if (props.link.includes('menu')) {
-              e.preventDefault();
-            }
+            // if (props.link.includes('menu')) {
+            //   e.preventDefault();
+            // }
           }}
           exact={exact}
         >

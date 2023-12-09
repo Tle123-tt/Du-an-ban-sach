@@ -13,6 +13,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
 import { DEFAUT_IMG, EMPTY_IMG } from "../../helpers/constant/image.js";
 import { buildImage, onErrorImage } from "../../services/common.js";
 import { AuthorSearch } from "./AuthorSearch.js";
+import { DeleteOutlined } from '@ant-design/icons'
 export const Author = ( props ) =>
 {
 
@@ -64,7 +65,7 @@ export const Author = ( props ) =>
 												<img width="70" height="70"
 													id={ key }
 													style={ { border: "0.5px solid gray", borderRadius: '5px' } }
-													src={ buildImage(item.avatar) } alt={ item.name } onError={ onErrorImage } />
+													src={ buildImage( item.avatar ) } alt={ item.name } onError={ onErrorImage } />
 											</td>
 											<td className="text-gray-900">
 												<span className="text-break" style={ { minWidth: '100px' } }>{ item.name }</span>
@@ -80,9 +81,18 @@ export const Author = ( props ) =>
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={ `/author/edit/${ item._id }` } className="d-flex justify-content-center">
-													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
-												</Link>
+												<div className="d-flex">
+													<Link to={ `/author/edit/${ item._id }` } className="d-flex justify-content-center">
+														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
+													</Link>
+													<DeleteOutlined
+														className="ml-2 cursor-pointer"
+														onClick={ () =>
+														{
+															props.deleteById( item._id );
+														} }
+														style={ { fontSize: "16px", color: "red" } } />
+												</div>
 											</td>
 										</tr>
 									)
@@ -106,7 +116,7 @@ export const Author = ( props ) =>
 						<div className="mx-auto d-flex justify-content-center my-4">
 							<Pagination
 								onChange={ e =>
-									props.getList( {page: e, page_size: props.paging?.page_size, ...props.params } )
+									props.getList( { page: e, page_size: props.paging?.page_size, ...props.params } )
 								}
 								pageSize={ props.paging.page_size }
 								defaultCurrent={ props.paging.page }

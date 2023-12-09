@@ -12,6 +12,7 @@ import { Pagination } from "antd";
 import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
 import { DEFAUT_IMG, EMPTY_IMG } from "../../helpers/constant/image.js";
 import { buildImage, onErrorImage } from "../../services/common.js";
+import { DeleteOutlined } from '@ant-design/icons'
 import { MenuSearch } from "./MenuSearch.js";
 export const MenuCpn = ( props ) =>
 {
@@ -31,7 +32,7 @@ export const MenuCpn = ( props ) =>
 			<Widget>
 				<div className="p-5">
 					<div className="mb-3">
-						<Link to="/menu-blog/create" className="btn btn-info">
+						<Link to="/menu/create" className="btn btn-info">
 							<span className="d-flex align-items-center"><i className="eva eva-plus mr-2"></i> Create</span>
 						</Link>
 					</div>
@@ -57,7 +58,7 @@ export const MenuCpn = ( props ) =>
 									return (
 										< tr key={ key } className="table-product">
 											<td className="text-gray-900 text-center">{ ( props.paging.page - 1 ) * props.paging.page_size + ( key + 1 ) }</td>
-											
+
 											<td className="text-gray-900">
 												<span className="text-break" style={ { minWidth: '100px' } }>{ item.name }</span>
 											</td>
@@ -68,9 +69,18 @@ export const MenuCpn = ( props ) =>
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={ `/menu-blog/edit/${ item._id }` } className="d-flex justify-content-center">
-													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
-												</Link>
+												<div className="d-flex">
+													<Link to={ `/menu/edit/${ item._id }` } className="d-flex justify-content-center">
+														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
+													</Link>
+													<DeleteOutlined
+														className="ml-2 cursor-pointer"
+														onClick={ () =>
+														{
+															props.deleteById( item._id );
+														} }
+														style={ { fontSize: "16px", color: "red" } } />
+												</div>
 											</td>
 										</tr>
 									)

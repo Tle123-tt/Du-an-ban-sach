@@ -13,6 +13,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
 import { DEFAUT_IMG, EMPTY_IMG } from "../../helpers/constant/image.js";
 import { SlideSearch } from "./SlideSearch.js";
 import { buildImage, onErrorImage } from "../../services/common.js";
+import { DeleteOutlined } from '@ant-design/icons'
 export const SlidesPage = ( props ) =>
 {
 
@@ -46,7 +47,7 @@ export const SlidesPage = ( props ) =>
 								<th>ID</th>
 								<th className="text-nowrap">Image</th>
 								<th className="text-nowrap">Name</th>
-								{/* <th className="text-nowrap">Hot</th> */}
+								{/* <th className="text-nowrap">Hot</th> */ }
 								<th className="text-nowrap">Status</th>
 								<th className="text-nowrap">Time</th>
 								<th className="text-nowrap text-center">Action</th>
@@ -76,9 +77,18 @@ export const SlidesPage = ( props ) =>
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={ `/slide/edit/${ item._id }` } className="d-flex justify-content-center">
-													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
-												</Link>
+												<div className="d-flex">
+													<Link to={ `/slide/edit/${ item._id }` } className="d-flex justify-content-center">
+														<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
+													</Link>
+													<DeleteOutlined
+														className="ml-2 cursor-pointer"
+														onClick={ () =>
+														{
+															props.deleteById( item._id );
+														} }
+														style={ { fontSize: "16px", color: "red" } } />
+												</div>
 											</td>
 										</tr>
 									)

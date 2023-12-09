@@ -8,6 +8,7 @@ import { toggleShowLoading } from "../../redux/actions/common";
 import { Author } from "../../components/Author/Author";
 import { INIT_PAGING } from "../../helpers/constant/value";
 import { AuthorService } from "../../services/AuthorService";
+import { message } from "antd";
 
 export const AuthorContainer = () =>
 {
@@ -45,11 +46,27 @@ export const AuthorContainer = () =>
 		}
 	}
 
+	const deleteById = async (id) => {
+		try {
+			const response = await AuthorService.delete(id);
+			if(response?.status === 200) {
+				message.success('Delete successfully');
+				await getDatasByFilter({...paging, ...params});
+			} else {
+				message.error(response?.message);
+			}
+
+		} catch (error) {
+			message.error(error?.message);
+		}
+	}
+
 
 	return <Author
 		dataList={ dataList }
 		paging={ paging }
 		params={ params }
+		deleteById={deleteById}
 		getDatasByFilter={ getDatasByFilter }
 		setParams={ setParams }
 		setPaging={ setPaging }
