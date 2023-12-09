@@ -58,11 +58,7 @@ export const CategorySearch = ( props ) =>
 			onFinish={ submitForm }
 		>
 			<div className="row mb-1">
-				<div className="col-md-3 mb-2 form-group">
-					<Form.Item name="id" label="id" className='mb-0 d-block'>
-						<Input className='form-control' placeholder='Enter Id' />
-					</Form.Item>
-				</div>
+				
 				<div className="col-md-3 mb-2 form-group">
 					<Form.Item name="name" label="name" className='mb-0 d-block'>
 						<Input className='form-control' placeholder='Enter name' />

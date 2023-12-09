@@ -5,6 +5,11 @@ exports.index = async ( filters ) =>
 {
 	const condition = {};
 	const paging = buildParamPaging( filters );
+
+	if ( filters?.name ) condition.name = { $regex: '.*' + filters.name + '.*' };
+	if ( filters?.status != null ) condition.status = filters?.status;
+	if ( filters?.id != null ) condition.id = filters?.id;
+	
 	// execute query with page and limit values
 	const categories = await Category.find()
 		.where( condition )
@@ -60,6 +65,15 @@ exports.update = async ( id, data ) =>
 	if ( data.name )
 	{
 		category.name = data.name;
+		category.slug = toSlug(data.name);
+	}
+	if ( data.avatar )
+	{
+		category.avatar = data.avatar;
+	}
+	if ( data.status != null )
+	{
+		category.status = data.status;
 	}
 
 	await category.save();
