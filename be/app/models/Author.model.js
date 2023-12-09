@@ -22,10 +22,10 @@ const authorSchema = new Schema(
 		status: {
             type: Number,
         },
-        products: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product"
-        }],
+        // products: [{
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Product"
+        // }],
         created_at : { type: Date, default: Date.now }
     },
     { collection: 'producers' }

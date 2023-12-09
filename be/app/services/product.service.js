@@ -12,13 +12,22 @@ exports.index = async ( filters ) =>
 	if ( filters?.hot ) condition.hot = filters.hot;
 	if ( filters?.category_id ) condition.category_id = filters.category_id;
 	if ( filters?.status ) condition.status = filters.status;
+	if ( filters?.price_from != null && filters?.price_to )
+	{
+		condition.price = {
+			$gt: filters?.price_from,
+			$lt: filters?.price_to,
+		}
+	}
+
+	console.log( condition );
 
 	const paging = buildParamPaging( filters );
 	const products = await ProductModel.find()
 		.where( condition )
 		.limit( paging.page_size )
 		.skip( ( paging.page - 1 ) * paging.page_size )
-		.populate( [ 'category' ] )
+		.populate( [ 'category', 'author' ] )
 		.exec();
 
 
@@ -53,7 +62,7 @@ exports.showBySlug = async ( slug ) =>
 	return await ProductModel.findOne(
 		{
 			slug: slug
-		} ).populate( [ 'category' ] );
+		} ).populate( [ 'category', 'author' ] );
 };
 
 exports.store = async ( data ) =>
@@ -110,7 +119,8 @@ exports.update = async ( id, data ) =>
 		_id: data.author_id,
 		status: 1
 	} );
-	
+	console.log( author );
+
 	if ( !product )
 	{
 		throw {
@@ -177,7 +187,7 @@ exports.update = async ( id, data ) =>
 
 	if ( data.status ) product.status = Number( data.status );
 	await product.save();
-	return await this.show(id);
+	return await this.show( id );
 };
 
 exports.delete = async ( id ) =>

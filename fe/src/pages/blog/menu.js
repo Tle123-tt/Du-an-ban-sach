@@ -139,7 +139,29 @@ function MenuPage ()
 									}
 								</div>
 								<nav aria-label="Pagination">
+									{
+										paging?.total > 0 &&
+										<div className='mx-auto d-flex justify-content-center align-content-end mt-4'>
+											< Pagination
+												onChange={ ( page, pageSize ) =>
+												{
+													let paramPage = { page: page, page_size: pageSize };
+													if ( paramPage.page_size !== paging.page_size )
+													{
+														paramPage.page = 1;
+														setPaging( { ...paging, page: 1, page_size: pageSize } )
+													}
+													getListsProducts( { ...paramPage, ...params } );
+												}
+												}
+												current={ paging.page }
+												pageSize={ paging.page_size }
+												defaultCurrent={ paging.page }
+												total={ paging.total }
+											/>
+										</div>
 
+									}
 								</nav>
 							</> }
 

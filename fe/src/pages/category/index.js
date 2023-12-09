@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 import ProductItem from '../../components/product/_inc_product_item';
@@ -17,11 +17,13 @@ import {timeDelay} from '../../api/common';
 function CategoryPage ()
 {
 	const { slug } = useParams();
+	const datas = useParams();
 
 	const [ categoryID, setCategoryId ] = useState( null );
 	const [ category, setCategory ] = useState( null );
 	const [ products, setProducts ] = useState( [] );
 	const [ loadingProduct, setLoadingProduct ] = useState( true );
+	const [search, setSearch] = useSearchParams();
 
 	const [ currentPage, setCurrentPage ] = useState( 1 );
 	const [ paging, setPaging ] = useState(
@@ -29,27 +31,26 @@ function CategoryPage ()
 	);
 	const [ params, setParams ] = useState( {
 		category_id: null,
+		price_from: null,
+		price_to: null
 	} );
+
 
 	const dispatch = useDispatch();
 
-	const getListsProducts = async ( params ) =>
+	const getListsProducts = async ( filters ) =>
 	{
 		dispatch(toggleShowLoading(true));
-		let newParams = { ...params };
-		if ( categoryID )
-		{
-			newParams.category_id = categoryID;
-		}
+		let newParams = { ...filters };
 		delete newParams.total;
 		delete newParams.total_page;
-		const response = await productService.getListsProducts( newParams );
+		console.log(params);
+		const response = await productService.getListsProducts( {...newParams, ...params} );
 		await timeDelay(1000)
-		console.log('--------------- response:getListsProducts ', response);
 		if ( response?.status === 200 )
 		{
 			setProducts( response?.data?.products );
-			setPaging( { ...response.meta } );
+			setPaging( { ...response?.data?.meta } );
 		}
 		setLoadingProduct( false );
 		dispatch(toggleShowLoading(false));
@@ -60,10 +61,10 @@ function CategoryPage ()
 		const response = await categoryService.findBySlug( slug );
 		if ( response?.status === 200 && response?.data )
 		{
-			setCategoryId( response?.data?.id );
+			setCategoryId( response?.data?._id );
 			setLoadingProduct( true );
 			setCategory( response?.data );
-			getListsProducts( { page: 1, page_size: 4 } ).then( r => { } );
+			await getListsProducts( { page: 1, page_size: 10, category_id: response?.data?._id } ).then( r => { } );
 		}
 	}
 
@@ -75,10 +76,10 @@ function CategoryPage ()
 
 		} else
 		{
-			getListsProducts( { page: 1, page_size: 4 } ).then( r => { } );
+			getListsProducts( { page: 1, page_size: 10,  } ).then( r => { } );
 		}
 
-	}, [ slug ] );
+	}, [ slug, params ] );
 
 	return (
 		<div>
@@ -86,7 +87,7 @@ function CategoryPage ()
 				<Container>
 					<Row>
 						<Col xs={ 3 } className="mt-3">
-							<SidebarSearch category={ category } />
+							<SidebarSearch category={ category } setParams={setParams} params={params} />
 						</Col>
 						<Col xs={ 9 } className="mt-3">
 							<Row>
