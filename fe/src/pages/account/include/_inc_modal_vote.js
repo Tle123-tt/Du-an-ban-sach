@@ -7,7 +7,9 @@ import CartApi from "../../../api/CartService";
 function ModalVote(props) {
 
     const [title, setTitle] = useState("")
+    const [userID, setUser] = useState("")
     const [contentVote, setContentVote] = useState("")
+    const [number, setNumber] = useState(5)
 
     const handleClose = async () => {
         props.setShowModal(false);
@@ -15,11 +17,10 @@ function ModalVote(props) {
 
     const clickVote = async () => {
         let data = {
-            v_content : contentVote,
-            v_number: 5,
-            v_product_id: parseInt(props.product.id),
-            v_user_id: parseInt(props.userID),
-            v_status: 4,
+            vote_content : contentVote,
+            vote_number: parseInt(number),
+            product_id: props.product.product_id,
+            user_id: userID,
         }
 
         console.log('-------------data ', data);
@@ -34,6 +35,7 @@ function ModalVote(props) {
     useEffect(() => {
         console.log('------------ props: ', props);
         setTitle(props.product?.name);
+        setUser(props.userID);
     }, [props]);
 
     return (
@@ -54,6 +56,18 @@ function ModalVote(props) {
                         <Form.Control as="textarea"
                                       onChange={(event) => setContentVote(event.target.value)}
                                       rows={3} placeholder={'Nội dung đánh giá ...'}/>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                        <Form.Select aria-label="Default select example" onChange={e => {
+                            console.log("e.target.value", e.target.value);
+                            setNumber(e.target.value);
+                        }}>
+                            <option value={5}>Sản phẩm tuyệt vời</option>
+                            <option value="4">Sản phẩm tốt</option>
+                            <option value="3">Sản phẩm bình thường</option>
+                            <option value="2">Sản phẩm kém</option>
+                            <option value="1">Quá tệ</option>
+                        </Form.Select>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

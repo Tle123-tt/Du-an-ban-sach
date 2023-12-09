@@ -57,7 +57,7 @@ function OrderPage()
             let response = await AuthApi.getProfile();
             if(response?.status === 200)
             {
-                setUserId(response?.data.id);
+                setUserId(response?.data._id);
             }
         } catch (e) {
             console.log("-----Expired");
@@ -100,7 +100,12 @@ function OrderPage()
                                         <p className="item-header">
                                             <span><b style={{paddingRight: "4px"}}>Đơn hàng #{item._id}</b>
                                             Ngày tạo <Moment date={item.created_at}  format="YYYY/MM/DD"/></span>
-                                            <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
+                                            <div className={'d-flex'}>
+                                                <Badge style={{ display: "flex", alignItems: "center"}} className={getStatus(item.status)?.text} bg={getStatus(item.status)?.class}>{getStatus(item.status)?.name}</Badge>
+                                                <span className='item-delete text-danger' style={{ marginLeft: "10px"}}>
+                                                    <FaTrash /> Huỷ đơn
+                                                </span>
+                                            </div>
                                         </p>
                                         {item.transactions.length && (
                                             <>
@@ -118,10 +123,7 @@ function OrderPage()
                                                                     <h4>{transaction.name}</h4>
                                                                 </Link>
                                                                 <div className={'d-flex'}>
-                                                                    <span className='item-delete text-danger' >
-                                                                        <FaTrash /> huỷ bỏ
-                                                                    </span>
-                                                                    <span className='item-delete m-lg-2' onClick={() => handleVote(transaction.product)} >
+                                                                    <span className='item-delete m-lg-2' onClick={() => handleVote(transaction)} >
                                                                         <FaStar /> Viết đánh giá
                                                                     </span>
                                                                 </div>
