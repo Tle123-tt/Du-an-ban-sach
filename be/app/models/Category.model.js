@@ -24,6 +24,10 @@ const modelSchema = new Schema(
 		hot: {
             type: Number
         },
+		// products: [{
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Product"
+        // }],
 		
         created_at : { type: Date, default: Date.now }
     },

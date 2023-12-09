@@ -9,14 +9,21 @@ import { useForm } from 'antd/lib/form/Form';
 import { toSlug } from '../../helpers/common/common';
 import { PlusOutlined } from '@ant-design/icons';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { showCategoryDetail, submitForms } from '../../services/categoryService';
+import { submitForms } from '../../services/blogService';
 import { buildImage } from '../../services/common';
+
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { BlogService } from '../../services/blogService';
+import { toggleShowLoading } from '../../redux/actions/common';
+import { MenuService } from '../../services/menuService';
 export const BlogForm = ( props ) =>
 {
 	const [ form ] = useForm();
 	const [ status, setStatus ] = useState( [] );
 	const [ files, setFiles ] = useState( [] );
 	const [ data, setData ] = useState( null );
+	const [ menu, setMenu ] = useState( [] );
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const params = useParams();
@@ -28,6 +35,7 @@ export const BlogForm = ( props ) =>
 			{ value: 1, label: "Active" },
 			{ value: 0, label: "Inactive" }
 		] );
+		getDatasByFilter();
 	}, [] );
 
 	useEffect( () =>
@@ -49,18 +57,24 @@ export const BlogForm = ( props ) =>
 				uid: file.length,
 				name: data.avatar,
 				status: 'done',
-				url: buildImage(data.avatar),
+				url: buildImage( data.avatar ),
 				default: true
 			} );
 			let formValue = {
-				name: data.name,
+				title: data.title,
+				content: data.content,
+				menu_id: data.menu_id,
+				tags: data.tags,
+				title: data.title,
 				description: data.description,
 				status: data.status || 0,
-				hot: data.hot === 1 ? true : false,
 				slug: data.slug,
+				author_avatar: data.author_avatar,
+				author_email: data.author_email,
+				author_name: data.author_name,
 				image: file
 			}
-			setFiles(file)
+			setFiles( file )
 			form.setFieldsValue( formValue )
 
 		}
@@ -68,7 +82,51 @@ export const BlogForm = ( props ) =>
 
 	const getData = async ( id ) =>
 	{
-		await showCategoryDetail( id, setData );
+		try
+		{
+
+			dispatch( toggleShowLoading( true ) )
+			const response = await BlogService.show( id );
+
+			if ( response?.status === 200 )
+			{
+				setData(response?.data)
+			}
+			dispatch( toggleShowLoading( false ) );
+		} catch ( error )
+		{
+			dispatch( toggleShowLoading( false ) );
+		}
+	}
+
+	const getDatasByFilter = async ( filter ) =>
+	{
+		try
+		{
+
+			dispatch( toggleShowLoading( true ) )
+			const response = await MenuService.getList( params );
+
+			if ( response?.status === 200 )
+			{
+				let menuData = response.data?.menus.reduce( ( newCate, item ) =>
+				{
+					if ( item )
+					{
+						newCate.push( {
+							value: item._id,
+							label: item.name
+						} )
+					}
+					return newCate
+				}, [] );
+				setMenu( menuData )
+			}
+			dispatch( toggleShowLoading( false ) );
+		} catch ( error )
+		{
+			dispatch( toggleShowLoading( false ) );
+		}
 	}
 
 	const validateMessages = {
@@ -97,7 +155,7 @@ export const BlogForm = ( props ) =>
 		if ( e.length > 0 )
 		{
 			let value = typeof e[ 0 ].value === 'string' ? e[ 0 ].value : e[ 0 ].value;
-			if ( e[ 0 ].name[ 0 ] === 'name' && value != '' )
+			if ( e[ 0 ].name[ 0 ] === 'title' && value != '' )
 			{
 				let slug = toSlug( value );
 				form.setFieldsValue( { slug: slug } );
@@ -131,19 +189,19 @@ export const BlogForm = ( props ) =>
 					validateMessages={ validateMessages }
 				>
 					<div className='mb-3'>
-						<Form.Item name="name" label="Category name"
+						<Form.Item name="title" label="Title"
 							rules={ [ { required: true } ] }
 							className=' d-block'>
-							<Input className='form-control' placeholder='Enter name' />
+							<Input className='form-control' placeholder='Enter title' />
 						</Form.Item>
 
-						<Form.Item name="slug" label="Category Slug"
+						<Form.Item name="slug" label="Slug"
 							rules={ [ { required: true } ] }
 							className=' d-block'>
 							<Input className='form-control' placeholder='Enter slug' />
 						</Form.Item>
 						<Form.Item
-							label="Avatar"
+							label="Images"
 							name="image"
 							accept="images/**"
 							className='d-block'
@@ -159,20 +217,70 @@ export const BlogForm = ( props ) =>
 							</Upload>
 						</Form.Item>
 
-						<Form.Item name="description" label="Description"
+						<div className='row'>
+							<div className='col-12 col-md-6'>
+								<Form.Item name="author_name" label="Author Name"
+									rules={ [ { required: true } ] }
+									className=' d-block'>
+									<Input className='form-control' placeholder='Enter author name' />
+								</Form.Item>
+							</div>
+
+							<div className='col-12 col-md-6'>
+								<Form.Item name="author_email" label="Author Email"
+									rules={ [ { required: true } ] }
+									className=' d-block'>
+									<Input className='form-control' placeholder='Enter author email' />
+								</Form.Item>
+							</div>
+							<div className='col-12 col-md-6'>
+								<Form.Item name="menu_id" label="Menu"
+									rules={ [ { required: true } ] } className='d-block'>
+									<Select
+										placeholder="Select Menu"
+										style={ { width: '100%' } }
+										options={ menu }
+									/>
+								</Form.Item>
+							</div>
+
+							<div className='col-12 col-md-6'>
+								<Form.Item name="status" label="Status"
+									rules={ [ { required: true } ] } className='d-block'>
+									<Select
+										placeholder="Select status"
+										style={ { width: '100%' } }
+										options={ status }
+									/>
+								</Form.Item>
+							</div>
+						</div>
+
+						<Form.Item name="tags" label="Tags"
+							className=' d-block'>
+							<Input className='form-control' placeholder='Enter tags (adc,def)' />
+						</Form.Item>
+
+						<Form.Item name="description" label="Short description"
+							rules={ [ { required: true } ] }
+							className=' d-block'>
+							<Input.TextArea rows={ 5 } className='form-control' placeholder='Enter slug' />
+						</Form.Item>
+
+						<Form.Item name="content" label="Description"
 
 							className='d-block'>
-							<Input.TextArea className='form-control'
-								placeholder='Enter description' cols={ 10 } rows={ 5 } />
-						</Form.Item>
-						<Form.Item name="status" label="Status"
-							rules={ [ { required: true } ] } className='d-block'>
-							<Select
-								placeholder="Select status"
-								style={ { width: '100%' } }
-								options={ status }
+							<CKEditor
+								editor={ ClassicEditor }
+								data={ form.getFieldValue( 'content' ) }
+								onChange={ ( e, editor ) =>
+								{
+									form.setFieldValue( 'content', editor?.getData() || null )
+								} }
 							/>
 						</Form.Item>
+
+
 
 						{/* <Form.Item name="hot" label="Is hot?" valuePropName="checked">
 							<Switch />

@@ -31,7 +31,7 @@ export const Author = ( props ) =>
 			<Widget>
 				<div className="p-5">
 					<div className="mb-3">
-						<Link to="/category/create" className="btn btn-info">
+						<Link to="/author/create" className="btn btn-info">
 							<span className="d-flex align-items-center"><i className="eva eva-plus mr-2"></i> Create</span>
 						</Link>
 					</div>
@@ -43,11 +43,11 @@ export const Author = ( props ) =>
 					<Table className={ `table-striped table-bordered table-hover ${ s.statesTable }` } responsive>
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th className="text-nowrap">Image</th>
+								<th>#</th>
+								<th className="text-nowrap">Avatar</th>
 								<th className="text-nowrap">Name</th>
-								<th className="text-nowrap">Slug</th>
-								{/* <th className="text-nowrap">Hot</th> */}
+								<th className="text-nowrap">Email</th>
+								<th className="text-nowrap">Phone</th>
 								<th className="text-nowrap">Status</th>
 								<th className="text-nowrap">Time</th>
 								<th className="text-nowrap text-center">Action</th>
@@ -55,7 +55,7 @@ export const Author = ( props ) =>
 						</thead>
 						<tbody>
 							{
-								props.datas?.length > 0 && props.datas.map( ( item, key ) =>
+								props.dataList?.length > 0 && props.dataList.map( ( item, key ) =>
 								{
 									return (
 										< tr key={ key } className="table-product">
@@ -70,17 +70,17 @@ export const Author = ( props ) =>
 												<span className="text-break" style={ { minWidth: '100px' } }>{ item.name }</span>
 											</td>
 											<td className="text-gray-900">
-												<span className="text-break" style={ { minWidth: '100px' } }>{ item.slug }</span>
+												<span className="text-break" style={ { minWidth: '100px' } }>{ item.email }</span>
 											</td>
-											{/* <td className="text-gray-900">
-												{ item.hot === 1 && <span className="text-danger">Hot</span> }
-											</td> */}
+											<td className="text-gray-900">
+												<span className="text-break" style={ { minWidth: '80px' } }>{ item.phone }</span>
+											</td>
 											<td className="text-gray-900">{ genStatus( item.status ) }</td>
 											<td className="text-gray-900 text-nowrap">
 												{ customDate( item.created_at, 'DD/MM/yyyy' ) }
 											</td>
 											<td>
-												<Link to={ `/category/edit/${ item._id }` } className="d-flex justify-content-center">
+												<Link to={ `/author/edit/${ item._id }` } className="d-flex justify-content-center">
 													<i className="eva eva-edit" style={ { fontSize: "16px", border: "1px solid" } }></i>
 												</Link>
 											</td>
@@ -90,7 +90,7 @@ export const Author = ( props ) =>
 								) }
 
 							{
-								( !props.datas || props.datas?.length <= 0 ) &&
+								( !props.dataList || props.dataList?.length <= 0 ) &&
 								<tr>
 									<td colSpan={ 9 } style={ { textAlign: "center", backgroundColor: '#ffff' } }>
 										<img className="text-center" src={ EMPTY_IMG } style={ { width: "300px", height: "300px" } } />
@@ -102,11 +102,11 @@ export const Author = ( props ) =>
 						</tbody>
 					</Table>
 					{
-						props.datas && props.paging.total > 0 &&
+						props.paging.total > 0 &&
 						<div className="mx-auto d-flex justify-content-center my-4">
 							<Pagination
 								onChange={ e =>
-									props.getList( { ...props.paging, page: e, ...props.params } )
+									props.getList( {page: e, page_size: props.paging?.page_size, ...props.params } )
 								}
 								pageSize={ props.paging.page_size }
 								defaultCurrent={ props.paging.page }

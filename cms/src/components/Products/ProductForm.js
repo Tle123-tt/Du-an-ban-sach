@@ -14,19 +14,20 @@ import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min
 import { buildImage, timeDelay } from '../../services/common';
 import { toggleShowLoading } from '../../redux/actions/common';
 import moment from 'moment';
+import { AuthorService } from '../../services/AuthorService';
 
-const initOptions = [{
+const initOptions = [ {
 	key: "",
 	value: ""
-}]
+} ]
 export const ProductForm = ( props ) =>
 {
 	const [ form ] = useForm();
 	const [ status, setStatus ] = useState( [] );
-	const [ hot, setHot ] = useState( [] );
+	const [ authors, setAuthors ] = useState( [] );
 	const [ categories, setCategories ] = useState( [] );
 	const [ files, setFiles ] = useState( [] );
-	let [ attributes, setAttributes ] = useState( initOptions);
+	let [ attributes, setAttributes ] = useState( initOptions );
 	const [ product, setProduct ] = useState( null );
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -42,6 +43,7 @@ export const ProductForm = ( props ) =>
 			{ value: 0, label: "Inactive" }
 		] );
 		getListCategories();
+		getListAuthors();
 	}, [] );
 
 	useEffect( () =>
@@ -92,6 +94,7 @@ export const ProductForm = ( props ) =>
 				category_id: product.category_id,
 				content: product.content,
 				description: product.description,
+				author_id: product.author_id,
 				status: product.status,
 				hot: product.hot === 1 ? true : false,
 				quantity: product.quantity,
@@ -101,13 +104,13 @@ export const ProductForm = ( props ) =>
 				image: file
 			}
 			form.setFieldsValue( formValue )
-			setAttributes(product?.options || initOptions)
+			setAttributes( product?.options || initOptions )
 		}
 	}, [ product ] )
 
 	const getListCategories = async () =>
 	{
-		const result = await getCategoriesByFilter( { page: 1, page_size: 20, status: 1 }, dispatch );
+		const result = await getCategoriesByFilter( { page: 1, page_size: 1000, status: 1 }, dispatch );
 		await timeDelay( 500 );
 		dispatch( toggleShowLoading( false ) );
 		if ( result )
@@ -125,6 +128,35 @@ export const ProductForm = ( props ) =>
 			}, [] );
 			setCategories( category );
 		}
+	}
+
+	const getListAuthors = async () =>
+	{
+		try
+		{
+			dispatch( toggleShowLoading( true ) );
+			const result = await AuthorService.getList( { page: 1, page_size: 1000, status: 1 } );
+			dispatch( toggleShowLoading( false ) );
+			if ( result?.status === 200 )
+			{
+				let author = result.data?.authors?.reduce( ( newCate, item ) =>
+				{
+					if ( item )
+					{
+						newCate.push( {
+							value: item._id,
+							label: item.name
+						} )
+					}
+					return newCate
+				}, [] );
+				setAuthors( author );
+			}
+		} catch ( error )
+		{
+			dispatch( toggleShowLoading( false ) );
+		}
+
 	}
 
 	const getProduct = async ( id ) =>
@@ -145,8 +177,8 @@ export const ProductForm = ( props ) =>
 
 	const submitForm = async ( e ) =>
 	{
-		let valueAttributes = attributes?.filter(item => item.key !== "" && item.value !== "")
-		await submitFormProduct( id, files, {...e, options: valueAttributes}, dispatch, history );
+		let valueAttributes = attributes?.filter( item => item.key !== "" && item.value !== "" )
+		await submitFormProduct( id, files, { ...e, options: valueAttributes }, dispatch, history );
 	}
 
 	const resetForm = () =>
@@ -167,7 +199,7 @@ export const ProductForm = ( props ) =>
 			let fieldValue = {
 				[ String( e[ 0 ].name[ 0 ] ) ]: value
 			}
-			console.log(fieldValue);
+			console.log( fieldValue );
 			form.setFieldsValue( fieldValue );
 		}
 	}
@@ -211,17 +243,34 @@ export const ProductForm = ( props ) =>
 							<Input className='form-control' placeholder='Enter slug' />
 						</Form.Item>
 
-						<Form.Item name="category_id" label="Category"
-							rules={ [ { required: true } ] } className='d-block'>
-							<Select
-								placeholder="Select category"
-								// showSearch
-								// filterOption={ ( input, option ) => ( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
+						<div className='row'>
+							<div className='col-12 col-md-6 my-3'>
+								<Form.Item name="category_id" label="Category"
+									rules={ [ { required: true } ] } className='d-block'>
+									<Select
+										placeholder="Select category"
+										// showSearch
+										// filterOption={ ( input, option ) => ( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
 
-								style={ { width: '100%' } }
-								options={ categories }
-							/>
-						</Form.Item>
+										style={ { width: '100%' } }
+										options={ categories }
+									/>
+								</Form.Item>
+							</div>
+							<div className='col-12 col-md-6 my-3'>
+								<Form.Item name="author_id" label="Author"
+									rules={ [ { required: true } ] } className='d-block'>
+									<Select
+										placeholder="Select Author"
+										// showSearch
+										// filterOption={ ( input, option ) => ( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
+
+										style={ { width: '100%' } }
+										options={ authors }
+									/>
+								</Form.Item>
+							</div>
+						</div>
 						<Form.Item
 							label="Images"
 							name="image"
@@ -250,74 +299,6 @@ export const ProductForm = ( props ) =>
 							<Input.TextArea className='form-control'
 								placeholder='Enter description' cols={ 10 } rows={ 5 } />
 						</Form.Item>
-
-						{/*<div className='form-group'>
-							<label >Thuộc tính</label>
-							<div className='mt-2'>
-								<div className="table-item row w-100 mx-auto" style={ { lineHeight: 3, backgroundColor: "#eef5f9", fontWeight: "700", borderBottom: "1px solid #F1F3F8" } }>
-									<div className="text-center table-item__id col-5">Key</div>
-									<div className="table-item__info col-5 text-center"
-										style={ { borderLeft: "1px solid #d9d9d9", borderRight: "1px solid #d9d9d9" } }>
-										Value
-									</div>
-									<div className="table-item__action col-2">Action</div>
-								</div>
-								{
-									attributes?.length > 0 && attributes.map( ( item, key ) =>
-									{
-										return (
-											<div key={ key } className='w-100 mx-auto'>
-
-												<div className="style-scroll" style={ { overflow: "hidden", overflowY: "auto", boxShadow: "1px 0 8px rgba(0, 0, 0, .08) inset;" } }>
-													<div className="table-item w-100 mx-auto row py-1" style={ { border: "1px solid #d9d9d9" } }>
-														<div className="text-center table-item__id col-5">
-															<input className='form-control' defaultValue={ item.key } onChange={ ( e ) =>
-															{
-																if ( e )
-																{
-																	attributes[ key ].key = e?.target?.value;
-																	setAttributes( attributes );
-																}
-															} } />
-														</div>
-														<div className="table-item__info col-5"
-															style={ { borderLeft: "1px solid #d9d9d9", borderRight: "1px solid #d9d9d9" } }>
-															<input className='form-control' defaultValue={ item.value } onChange={ ( e ) =>
-															{
-																if ( e )
-																{
-																	attributes[ key ].value = e?.target?.value;
-																	setAttributes( attributes );
-																}
-															} } />
-
-														</div>
-														<div className="table-item__action col-2 d-flex justify-content-center">
-															{attributes?.length > 1 && 
-															<DeleteOutlined className=" text-danger text-center cursor-pointer"
-															 style={{fontSize: "20px"}} onClick={() => {
-																let value = attributes.filter((e, index) => index !== key);
-																setAttributes(value)
-															 }}/> }
-														</div>
-													</div>
-												</div>
-											</div>
-										);
-									} )
-								}
-
-								<div className='mt-3'>
-									<button type='button' className='btn btn-success' onClick={ () =>
-									{
-										setAttributes( attributes.concat( { key: "", value: "" } ) )
-									} }>
-										<PlusCircleOutlined style={{fontSize: "20px"}} />
-									</button>
-								</div>
-
-							</div>
-								</div>*/}
 
 						<div className='row'>
 

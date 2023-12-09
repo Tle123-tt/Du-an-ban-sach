@@ -5,6 +5,7 @@ exports.index = async ( filters ) =>
 {
 	const condition = {};
 	const paging = buildParamPaging( filters );
+	if ( filters?.name ) condition.name = { $regex: '.*' + filters.name + '.*' };
 	// execute query with page and limit values
 	const dataList = await ModelData.find()
 		.where( condition )
@@ -58,6 +59,8 @@ exports.update = async ( id, data ) =>
 	if ( data.name )
 	{
 		result.name = data.name;
+		result.slug = toSlug(data.name);
+
 	}
 	await result.save();
 	return await this.show(id);

@@ -16,21 +16,12 @@ import { MenuService, submitMenuForms } from '../../services/menuService';
 export const MenuForm = ( props ) =>
 {
 	const [ form ] = useForm();
-	const [ status, setStatus ] = useState( [] );
 	const [ files, setFiles ] = useState( [] );
 	const [ data, setData ] = useState( null );
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const params = useParams();
 	const [ id, setId ] = useState( null );
-
-	useEffect( () =>
-	{
-		setStatus( [
-			{ value: 1, label: "Active" },
-			{ value: 0, label: "Inactive" }
-		] );
-	}, [] );
 
 	useEffect( () =>
 	{

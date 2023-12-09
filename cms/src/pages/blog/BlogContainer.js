@@ -32,7 +32,7 @@ export const BlogContainer =() =>
 
 			if ( response?.status === 200 )
 			{
-				setDataList(response?.data?.menus || []) ;
+				setDataList(response?.data?.blogs || []) ;
 				setPaging(response?.data?.meta || INIT_PAGING);
 			} 
 			dispatch(toggleShowLoading(false));

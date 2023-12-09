@@ -53,6 +53,7 @@ export const Products = ( props ) =>
 								<th>ID</th>
 								<th className="text-nowrap">Image</th>
 								<th className="text-nowrap">Product</th>
+								<th className="text-nowrap">Author</th>
 								<th className="text-nowrap">Quantity</th>
 								<th className="text-nowrap">Price</th>
 								<th className="text-nowrap">Category</th>
@@ -83,6 +84,7 @@ export const Products = ( props ) =>
 													<div className="ml-2 text-break" style={ { minWidth: '100px' } }>{ item.slug }</div>
 												</div>
 											</td>
+											<td className="text-gray-900">{item.author?.name}</td>
 											<td className="text-gray-900">{ customNumber( item.quantity, '.', '' ) }</td>
 											<td className="text-gray-900">{ customNumber( item.price, '.', 'đ' ) }</td>
 											<td className="text-gray-900 text-break" style={ { minWidth: "100px" } }>{ item.category?.name || 'N/A' }</td>

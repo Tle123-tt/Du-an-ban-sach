@@ -1,5 +1,5 @@
 const { buildParamPaging, buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
-const DataService = require( "../../services/blog.service" );
+const DataService = require( "../../services/menu.service" );
 
 exports.index = async ( req, res ) =>
 {
@@ -31,22 +31,22 @@ exports.show = async ( req, res ) =>
 			message: e?.message || "Không có dữ liệu"
 		} );
 	}
-}
-
-;exports.showBySlug = async ( req, res ) =>
-{
-	try
-	{
-		const response =  await DataService.showBySlug( req.params.slug );
-		await buildResponse(res, response);
-	} catch ( e )
-	{
-		buildResponseException( res, 400, {
-			status: 400,
-			message: e?.message || "Không có dữ liệu"
-		} );
-	}
 };
+
+// ;exports.showBySlug = async ( req, res ) =>
+// {
+// 	try
+// 	{
+// 		const response =  await DataService.showBySlug( req.params.slug );
+// 		await buildResponse(res, response);
+// 	} catch ( e )
+// 	{
+// 		buildResponseException( res, 400, {
+// 			status: 400,
+// 			message: e?.message || "Không có dữ liệu"
+// 		} );
+// 	}
+// };
 
 exports.store = async ( req, res ) =>
 {

@@ -121,17 +121,17 @@ export const SIDE_BARS = [
 	},
 	
 	{
-		path: '/menu',
+		path: '/menu-blog',
 		icon: 'eva eva-people',
 		title: 'Menu',
 		children: [
 			{
-				path: '/menu/list',
+				path: '/menu-blog/list',
 				title: 'List',
 				icon: '',
 			},
 			{
-				path: '/menu/create',
+				path: '/menu-blog/create',
 				icon: '',
 				title: 'Add new',
 			},

@@ -1,6 +1,7 @@
 const { buildResponsePaging, buildParamPaging, buildResponseException, toSlug } = require( "../helpers/buildData.helper" );
 const ProductModel = require( "../models/Product.model" )
-const CategoryModel = require( "../models/Category.model" )
+const CategoryModel = require( "../models/Category.model" );
+const AuthorModel = require( "../models/Author.model" );
 
 exports.index = async ( filters ) =>
 {
@@ -31,7 +32,7 @@ exports.index = async ( filters ) =>
 	const data = {
 		products: products
 	}
-	return  {
+	return {
 		...data,
 		meta
 	};
@@ -42,16 +43,17 @@ exports.show = async ( id ) =>
 	const data = await ProductModel.findOne(
 		{
 			_id: id
-		} ).populate( [ 'category' ] )
-	return  data;
+		} )
+		.populate( [ 'category', 'author' ] )
+	return data;
 };
 
 exports.showBySlug = async ( slug ) =>
 {
-	return  await ProductModel.findOne(
+	return await ProductModel.findOne(
 		{
 			slug: slug
-		}).populate(['category']);
+		} ).populate( [ 'category' ] );
 };
 
 exports.store = async ( data ) =>
@@ -64,6 +66,14 @@ exports.store = async ( data ) =>
 	{
 		throw { message: "Phân loại sản phẩm không tồn tại" };
 	}
+	const author = await AuthorModel.findOne( {
+		_id: data.author_id,
+		status: 1
+	} );
+	if ( !author )
+	{
+		throw { message: "Không tìm thấy tác giả" };
+	}
 	const product = new ProductModel( {
 		name: data.name,
 		avatar: data.avatar || null,
@@ -75,6 +85,8 @@ exports.store = async ( data ) =>
 		hot: Number( data.hot ),
 		customer: data.customer,
 		product_images: data.product_images,
+		author_id: data.author_id,
+		author: author,
 		slug: toSlug( data.slug ),
 		category: category,
 		total_reviews: 0,
@@ -82,7 +94,7 @@ exports.store = async ( data ) =>
 		category_id: data.category_id
 	} )
 	await product.save();
-	return  product;
+	return product;
 
 };
 
@@ -94,6 +106,11 @@ exports.update = async ( id, data ) =>
 		} );
 	const category = await CategoryModel.
 		findById( data.category_id );
+	const author = await AuthorModel.findOne( {
+		_id: data.author_id,
+		status: 1
+	} );
+	
 	if ( !product )
 	{
 		throw {
@@ -104,9 +121,18 @@ exports.update = async ( id, data ) =>
 	{
 		throw { message: "Phân loại sản phẩm không tồn tại" };
 	}
+	if ( !author )
+	{
+		throw { message: "Không tìm thấy tác giả" };
+	}
 	if ( data.name )
 	{
 		product.name = data.name;
+	}
+	if ( data.author_id )
+	{
+		product.author_id = data.author_id;
+		product.author = author;
 	}
 	if ( data.avatar )
 	{
@@ -134,7 +160,7 @@ exports.update = async ( id, data ) =>
 	if ( data.category_id )
 	{
 		product.category_id = data.category_id;
-		// product.category = category;
+		product.category = category;
 	}
 
 	if ( data.quantity )
@@ -147,15 +173,17 @@ exports.update = async ( id, data ) =>
 		product.hot = Number( data.hot );
 	}
 
+
+
 	if ( data.status ) product.status = Number( data.status );
 	await product.save();
-	return product
+	return await this.show(id);
 };
 
 exports.delete = async ( id ) =>
 {
 	await ProductModel.deleteOne( { _id: id } )
-	return  []
+	return []
 };
 
 exports.updateVoting = async ( data, number ) =>

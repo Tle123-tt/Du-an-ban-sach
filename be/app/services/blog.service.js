@@ -1,5 +1,6 @@
 const { buildParamPaging, buildResponsePaging, toSlug } = require( "../helpers/buildData.helper" );
 const ModelData = require( "../models/Blog.model" );
+const MenuModel = require( "../models/Menu.model" );
 
 exports.index = async ( filters ) =>
 {
@@ -29,19 +30,19 @@ exports.index = async ( filters ) =>
 
 exports.show = async ( id ) =>
 {
-	const blog = await ModelData.findOne( { _id: id } ).populate(['category_blog'])
+	const blog = await ModelData.findOne( { _id: id } ).populate(['menu'])
 	return blog;
 };
 
 exports.showBySlug = async ( slug ) =>
 {
-	const blog = await ModelData.findOne( { slug: slug } ).populate(['category_blog'])
+	const blog = await ModelData.findOne( { slug: slug } ).populate(['menu'])
 	return blog;
 };
 
 exports.store = async ( data ) =>
 {
-	data.slug = toSlug(data.name);
+	data.slug = toSlug(data.title);
 	const blog = new ModelData( data );
 	await blog.save();
 	return blog;
@@ -53,16 +54,25 @@ exports.update = async ( id, data ) =>
 	if ( !blog )
 	{
 		throw {
-			message: "Không tồn tại phân loại"
+			message: "Dữ liệu không tồn tại"
 		}
 	}
-	blog.name = data.name;
+	const menu = await MenuModel.findOne( { _id: data.menu_id } )
+	if ( !blog )
+	{
+		throw {
+			message: "Dữ liệu không tồn tại"
+		}
+	}
+	blog.title = data.title;
+	blog.slug = toSlug(data.title);
 	blog.status = data.status;
 	blog.description = data.description;
 	blog.content = data.content;
 	blog.avatar = data.avatar;
 	blog.tags = data.tags;
 	blog.menu_id = data.menu_id;
+	blog.menu = data.menu;
 	blog.slug = data.slug;
 	blog.author_avatar = data.author_avatar;
 	blog.author_email = data.author_email;

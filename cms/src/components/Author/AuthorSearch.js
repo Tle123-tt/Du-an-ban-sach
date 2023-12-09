@@ -9,18 +9,12 @@ export const AuthorSearch = ( props ) =>
 {
 	const [ form ] = useForm();
 	const [ status, setStatus ] = useState( [] );
-	const [ hot, setHot ] = useState( [] );
 
 	useEffect( () =>
 	{
 		setStatus( [
 			{ value: 1, label: "Active" },
 			{ value: 0, label: "Inactive" }
-		] );
-
-		setHot( [
-			{ value: 1, label: "Hot" },
-			{ value: 0, label: "Not hot" }
 		] );
 	}, [] )
 
@@ -43,11 +37,10 @@ export const AuthorSearch = ( props ) =>
 	{
 		props.getDatasByFilter( { page: 1, page_size: props?.paging?.page_size } );
 		props.setParams( {
-			id: null,
 			name: null,
-			category_id: null,
+			email: null,
+			phone: null,
 			status: null,
-			hot: null
 		} );
 		form.resetFields();
 	}
@@ -59,13 +52,18 @@ export const AuthorSearch = ( props ) =>
 		>
 			<div className="row mb-1">
 				<div className="col-md-3 mb-2 form-group">
-					<Form.Item name="id" label="id" className='mb-0 d-block'>
-						<Input className='form-control' placeholder='Enter Id' />
+					<Form.Item name="name" label="Name" className='mb-0 d-block'>
+						<Input className='form-control' placeholder='Enter name' />
 					</Form.Item>
 				</div>
 				<div className="col-md-3 mb-2 form-group">
-					<Form.Item name="name" label="name" className='mb-0 d-block'>
-						<Input className='form-control' placeholder='Enter name' />
+					<Form.Item name="email" label="Email" className='mb-0 d-block'>
+						<Input className='form-control' placeholder='Enter email' />
+					</Form.Item>
+				</div>
+				<div className="col-md-3 mb-2 form-group">
+					<Form.Item name="phone" label="Phone" className='mb-0 d-block'>
+						<Input className='form-control' placeholder='Enter phone' />
 					</Form.Item>
 				</div>
 				<div className="col-md-3 mb-2">
@@ -77,15 +75,6 @@ export const AuthorSearch = ( props ) =>
 						/>
 					</Form.Item>
 				</div>
-				{/* <div className="col-md-3 mb-2">
-					<Form.Item name="hot" label="Hot" className='mb-0 d-block'>
-						<Select
-							placeholder="Select hot"
-							style={ { width: '100%' } }
-							options={ hot }
-						/>
-					</Form.Item>
-				</div> */}
 			</div>
 
 			<button type="submit" className="btn btn-primary" style={ { marginRight: 10, padding: '10px 10px' } }>

@@ -114,6 +114,51 @@ export const ROUTERS = [
 		title: 'Edit',
 		component: SlideForm,
 	},
+
+	{
+		path: '/blog/list',
+		exact: true,
+		redirectFrom: '/blog', 
+		title: 'Blogs',
+		component: BlogContainer,
+	},
+	{
+		path: '/blog/create',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Create blog',
+		component: BlogForm,
+	},
+	{
+		path: '/blog/edit/:id',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Update blog',
+		component: BlogForm,
+	},
+
+	{
+		path: '/author/list',
+		exact: true,
+		redirectFrom: '/author', 
+		title: 'authors',
+		component: AuthorContainer,
+	},
+	{
+		path: '/author/create',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Create author',
+		component: AuthorForm,
+	},
+	{
+		path: '/author/edit/:id',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Update author',
+		component: AuthorForm,
+	},
+
 	{
 		path: '/order/list',
 		exact: true,
@@ -168,6 +213,28 @@ export const ROUTERS = [
 	},
 
 	{
+		path: '/menu-blog/list',
+		exact: true,
+		redirectFrom: '/menu-blog', 
+		title: 'Menus',
+		component: MenuContainer,
+	},
+	{
+		path: '/menu-blog/create',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Create Menu',
+		component: MenuForm,
+	},
+	{
+		path: '/menu-blog/edit/:id',
+		exact: true,
+		redirectFrom: null, 
+		title: 'Update Menu',
+		component: MenuForm,
+	},
+
+	{
 		path: '/profile',
 		exact: true,
 		// redirectFrom: '/role', 
@@ -189,71 +256,5 @@ export const ROUTERS = [
 		// redirectFrom: '/role', 
 		title: 'Contacts',
 		component: ContactPage,
-	},
-
-	{
-		path: '/menu/list',
-		exact: true,
-		redirectFrom: '/menu', 
-		title: 'Menus',
-		component: MenuContainer,
-	},
-	{
-		path: '/menu/create',
-		exact: true,
-		// redirectFrom: '/role', 
-		title: 'Create Menu',
-		component: MenuForm,
-	},
-	{
-		path: '/menu/edit',
-		exact: true,
-		// redirectFrom: '/role', 
-		title: 'Update Menu',
-		component: MenuForm,
-	},
-
-	{
-		path: '/blog/list',
-		exact: true,
-		redirectFrom: '/blog', 
-		title: 'Blogs',
-		component: BlogContainer,
-	},
-	{
-		path: '/blog/create',
-		exact: true,
-		// redirectFrom: '/role', 
-		title: 'Create blog',
-		component: BlogForm,
-	},
-	{
-		path: '/blog/edit',
-		exact: true,
-		// redirectFrom: '/role', 
-		title: 'Update blog',
-		component: BlogForm,
-	},
-
-	{
-		path: '/author/list',
-		exact: true,
-		redirectFrom: '/author', 
-		title: 'authors',
-		component: AuthorContainer,
-	},
-	{
-		path: '/author/create',
-		exact: true,
-		// redirectFrom: '/role', 
-		title: 'Create author',
-		component: AuthorForm,
-	},
-	{
-		path: '/author/edit',
-		exact: true,
-		// redirectFrom: '/role', 
-		title: 'Update author',
-		component: AuthorForm,
 	},
 ]

@@ -5,6 +5,10 @@ exports.index = async ( filters ) =>
 {
 	const condition = {};
 	const paging = buildParamPaging( filters );
+	if ( filters?.name ) condition.name = { $regex: '.*' + filters.name + '.*' };
+	if ( filters?.email ) condition.email = { $regex: '.*' + filters.email + '.*' };
+	if ( filters?.phone ) condition.phone = { $regex: '.*' + filters.phone + '.*' };
+	if ( filters?.status != null ) condition.status = filters?.status;
 	// execute query with page and limit values
 	const dataList = await ModelData.find()
 		.where( condition )
@@ -34,7 +38,9 @@ exports.show = async ( id ) =>
 
 exports.store = async ( dataForm ) =>
 {
+	
 	const data = new ModelData( dataForm );
+	data.status = Number(data?.status || 1);
 	await data.save();
 	return data;
 };
@@ -47,6 +53,9 @@ exports.update = async ( id, data ) =>
 		throw {
 			message: "Dữ liệu không tồn tại"
 		}
+	}
+	if(data.status != null) {
+		result.status = Number(data.status)
 	}
 	if ( data.name )
 	{

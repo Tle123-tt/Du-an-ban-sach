@@ -20,7 +20,7 @@ const authorSchema = new Schema(
             type: String,
         },
 		status: {
-            type: String,
+            type: Number,
         },
         products: [{
             type: mongoose.Schema.Types.ObjectId,

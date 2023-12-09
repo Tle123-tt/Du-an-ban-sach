@@ -72,10 +72,10 @@ export const AuthorForm = ( props ) =>
 		try
 		{
 			dispatch( toggleShowLoading( true ) );
-			const rs = await AuthorService.show( id );
-			if ( rs )
+			const rs = await AuthorService.show( id, null );
+			if ( rs?.status === 200 )
 			{
-				setData( rs );
+				setData( rs?.data );
 			} else
 			{
 				setData( null );
@@ -186,11 +186,6 @@ export const AuthorForm = ( props ) =>
 								style={ { width: '100%' } }
 								options={ status }
 							/>
-						</Form.Item>
-
-						<Form.Item name="address" label="User address"
-							className=' d-block'>
-							<Input className='form-control' placeholder='Enter address' />
 						</Form.Item>
 					</div>
 

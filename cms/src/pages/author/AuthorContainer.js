@@ -30,12 +30,12 @@ export const AuthorContainer = () =>
 		try
 		{
 
-			dispatch( toggleShowLoading( true ) )
-			const response = await AuthorService.getList( params );
+			dispatch( toggleShowLoading( true ) );
+			const response = await AuthorService.getList( filter );
 
 			if ( response?.status === 200 )
 			{
-				setDataList(response?.data?.menus || []) ;
+				setDataList(response?.data?.authors || []) ;
 				setPaging(response?.data?.meta || INIT_PAGING);
 			} 
 			dispatch(toggleShowLoading(false));

@@ -54,7 +54,7 @@ export const submitFormAuthor = async ( id = null, files, e, dispatch, history )
 		{
 			message.success( `${id && 'Update' || 'Create'} successfully!` );
 			await timeDelay( 500 );
-			history.push( '/menu/list' );
+			history.push( '/author/list' );
 		} else if ( response?.status === 'fail' && response?.data )
 		{
 			let error = Object.entries( response?.data ) || [];

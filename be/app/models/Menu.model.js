@@ -8,6 +8,9 @@ const menuSchema = new Schema(
             type: String,
             required: 'name cannot be blank'
         },
+		slug: {
+            type: String
+        },
 		blogs: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Blog"
