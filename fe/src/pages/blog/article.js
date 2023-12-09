@@ -11,94 +11,175 @@ import { RatingConfig } from '../../data/data';
 import { FaStar } from 'react-icons/fa';
 import ProductItem from '../../components/product/_inc_product_item';
 import Skeleton from "react-loading-skeleton";
-import {useDispatch} from "react-redux";
-import {addToCart} from "../../store/CartSlice";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/CartSlice";
 import Swal from "sweetalert2";
-import formatPrice, {buildImage, onErrorImage} from "../utils/util_price";
+import formatPrice, { buildImage, onErrorImage } from "../utils/util_price";
 import IncSidebar from "./component/sidebar";
 import BlogService from '../../api/BlogService';
 import { customDate } from '../../api/common';
+import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 
-function ArticlePage(){
-    let { slug } = useParams();
+function ArticlePage ()
+{
+	let { slug } = useParams();
 
-    const [productsSuggest, setProductsSuggest] = useState([]);
-    const [tags, setTags] = useState([]);
-    const [loadingProductSuggest, setLoadingProductSuggest] = useState(true);
-    const [productDetail, setProductDetail] = useState(null);
-    const [loadingProductDetail, setLoadingProductDetail] = useState(true);
-    let [qty, setQty] = useState(1);
-    const [images, setImages] = useState([]);
-    const dispatch = useDispatch();
+	const [ productsSuggest, setProductsSuggest ] = useState( [] );
+	const [ tags, setTags ] = useState( [] );
+	const [ loadingProductSuggest, setLoadingProductSuggest ] = useState( true );
+	const [ productDetail, setProductDetail ] = useState( null );
+	const [ loadingProductDetail, setLoadingProductDetail ] = useState( true );
+	let [ qty, setQty ] = useState( 1 );
+	const [ images, setImages ] = useState( [] );
+	const dispatch = useDispatch();
+
+	const [ user, setUser ] = useState( null );
 
 
-    const findProductsDetailBySlug = async () => {
-        const response = await BlogService.findBySlug(slug);
-        console.log("--------------- response:findProductsDetailBySlug ", response);
-        if (response?.status === 200) {
-            setProductDetail(response?.data);
-			if(response?.data?.tags) {
-				let tagData = response?.data?.tags.split(',');
-				setTags(tagData);
+	const findProductsDetailBySlug = async () =>
+	{
+		let params = {};
+		if ( localStorage.getItem( 'user' ) )
+		{
+			let userData = JSON.parse( localStorage.getItem( 'user' ) );
+			setUser( userData?.user );
+			params.user_id = userData?.user?._id;
+		}
+		console.log( params, user );
+		const response = await BlogService.findBySlug( slug, params );
+		if ( response?.status === 200 )
+		{
+			setProductDetail( response?.data );
+			if ( response?.data?.tags )
+			{
+				let tagData = response?.data?.tags.split( ',' );
+				setTags( tagData );
 			}
-        }
-        setLoadingProductDetail(false);
-    }
+		}
+		setLoadingProductDetail( false );
+	}
 
 
-    const getListsProductsSuggest = async () => {
-        const response = await productService.getListsProducts({
-            page_size: 18
-        });
-        if (response?.status === 200) {
-            setProductsSuggest(response?.data?.products);
-            setLoadingProductSuggest(false);
-        }
-    }
+	const getListsProductsSuggest = async () =>
+	{
+		const response = await productService.getListsProducts( {
+			page_size: 18
+		} );
+		if ( response?.status === 200 )
+		{
+			setProductsSuggest( response?.data?.products );
+			setLoadingProductSuggest( false );
+		}
+	}
 
 
+	useEffect( () =>
+	{
+		if ( localStorage.getItem( 'user' ) )
+		{
+			let userData = JSON.parse( localStorage.getItem( 'user' ) );
+			setUser( userData?.user );
+		}
+		findProductsDetailBySlug().then( r => { } );
+		getListsProductsSuggest().then( r => { } );
+	}, [ slug ] );
 
-    useEffect(() => {
-        findProductsDetailBySlug().then(r => {});
-        getListsProductsSuggest().then(r => {});
-    }, [slug]);
+	const likeOrDislikeBlog = async ( type ) =>
+	{
+		try
+		{
+			if ( !user )
+			{
+				return;
+			}
+			let data = {
+				user_id: user?._id,
+				type: type
+			}
+			const response = await BlogService.likeOrDislike( productDetail._id, data );
+			if ( response?.status == 200 )
+			{
+				setProductDetail( response?.data );
+			}
+		} catch ( error )
+		{
 
-    return (
-        <div style={ { background: 'rgb(245 245 250)' } }>
-            <header className="py-3 bg-light border-bottom mb-4">
-                <div className="container">
-                    <div className="text-center my-3">
-                        <h1 className="fw-bolder">Danh sách blog {productDetail?.menu?.name || ''}</h1>
-                        <p className="lead mb-0">Nơi chia sẻ kinh nghiệm đọc sách hiệu quả</p>
-                    </div>
-                </div>
-            </header>
-            <div className="container mt-5">
-                <div className="row">
-                    <div className="col-lg-8">
-                        <article>
-                            <header className="mb-4">
-                                <h1 className="fw-bolder mb-1">{productDetail?.title}</h1>
-                                <div className="text-muted fst-italic mb-2">
-									{customDate(productDetail?.created_at, 'DD/MM/yyyy') } {' Created by: ' + productDetail?.author_name} 
+		}
+	}
+
+	return (
+		<div style={ { background: 'rgb(245 245 250)' } }>
+			<header className="py-3 bg-light border-bottom mb-4">
+				<div className="container">
+					<div className="text-center my-3">
+						<h1 className="fw-bolder">Danh sách blog { productDetail?.menu?.name || '' }</h1>
+						<p className="lead mb-0">Nơi chia sẻ kinh nghiệm đọc sách hiệu quả</p>
+					</div>
+				</div>
+			</header>
+			<div className="container mt-5">
+				<div className="row">
+					<div className="col-lg-8">
+						<article>
+							<header className="mb-4">
+								<h1 className="fw-bolder mb-1">{ productDetail?.title }</h1>
+								<div className="text-muted fst-italic mb-2">
+									{ customDate( productDetail?.created_at, 'DD/MM/yyyy' ) } { ' Created by: ' + productDetail?.author_name }
 								</div>
-                                {tags?.length > 0 && tags.map((item, key) => {
-									return <a key={key} className="badge bg-secondary text-decoration-none mr-2 link-light" href="">{item}</a>
-								})}
-                            </header>
-                            <figure className="mb-4"><img className="img-fluid rounded w-100"
-							src={buildImage(productDetail?.avatar)} alt="..." /></figure>
-                            <section className="mb-5">
-                                <p className='fs-5 mb-4'>
-									{productDetail?.description}
+								{ tags?.length > 0 && tags.map( ( item, key ) =>
+								{
+									return <a key={ key } className="badge bg-secondary text-decoration-none mr-2 link-light" href="">{ item }</a>
+								} ) }
+							</header>
+							<figure className="mb-4"><img className="img-fluid rounded w-100"
+								src={ buildImage( productDetail?.avatar ) } alt="..." /></figure>
+							<section className="mb-5">
+								<div className='mb-5 d-flex align-content-left'>
+									<div className='me-3'>
+										{ ( user && productDetail?.user_like == 1 ) ?
+											<AiFillLike className='text-primary' onClick={
+												() =>
+												{
+													likeOrDislikeBlog( 1 )
+												}
+											} />
+											: <AiOutlineLike onClick={
+												() =>
+												{
+													likeOrDislikeBlog( 1 )
+												}
+											} />
+										}
+										<span>({ productDetail?.total_like || 0 })</span>
+									</div>
+									<div>
+										{ ( user && productDetail?.user_like == 2 ) ?
+											<AiFillDislike className='text-primary' onClick={
+												() =>
+												{
+													likeOrDislikeBlog( 2 )
+												}
+											} />
+											: <AiOutlineDislike onClick={
+												() =>
+												{
+													likeOrDislikeBlog( 2 )
+												}
+											} />
+										}
+										<span>({ productDetail?.total_dislike || 0 })</span>
+									</div>
+								</div>
+								<p className='fs-5 mb-4'>
+									{ productDetail?.description }
 								</p>
-								<p dangerouslySetInnerHTML={{ __html: productDetail?.content }}>
+								<p dangerouslySetInnerHTML={ { __html: productDetail?.content } }>
 
 								</p>
 
-                            </section>
-                        </article>
-                        {/* <section className="mb-5">
+							</section>
+						</article>
+						{/* <section className="mb-5">
                             <div className="card bg-light">
                                 <div className="card-body">
                                     <form className="mb-4"><textarea className="form-control" rows="3" placeholder="Join the discussion and leave a comment!" /></form>
@@ -133,12 +214,12 @@ function ArticlePage(){
                                 </div>
                             </div>
                         </section> */}
-                    </div>
-                    <IncSidebar />
-                </div>
-            </div>
-        </div>
-    );
+					</div>
+					<IncSidebar />
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default ArticlePage;

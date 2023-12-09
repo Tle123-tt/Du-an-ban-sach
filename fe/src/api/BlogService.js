@@ -32,10 +32,10 @@ const BlogService = {
 		}
 	},
 
-    async findBySlug(slug) {
+    async findBySlug(slug, params) {
 		try {
 			const url = `blog/show/${slug}`;
-			const response = await axiosClient.get(url)
+			const response = await axiosClient.get(url, {params: params})
 
 			if (response?.status === 200) {
 				return response?.data;
@@ -43,6 +43,27 @@ const BlogService = {
 		} catch (e) {
 			console.log('--------------- findById@Error ', e);
 			return {};
+		}
+	},
+
+	async likeOrDislike(id, data) {
+		try {
+			const url = `blog/like/${id}`;
+			const response = await axiosClient.post(url, data)
+			if (response?.status === 200) {
+				return response?.data;
+			} else {
+				return {
+					status: 400,
+					message: response?.message
+				}
+			}
+		} catch (e) {
+			console.log('--------------- likeOrDislike@Error ', e);
+			return {
+				status: 400,
+				message: e?.message
+			}
 		}
 	},
 }

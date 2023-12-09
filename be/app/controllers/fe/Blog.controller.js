@@ -22,7 +22,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await DataService.show( req.params.id );
+		const response =  await DataService.show( req.params.id, req.query );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -37,7 +37,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await DataService.showBySlug( req.params.slug );
+		const response =  await DataService.showBySlug( req.params.slug, req.query );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -53,6 +53,23 @@ exports.store = async ( req, res ) =>
 	try
 	{
 		const response =  await DataService.store( req.body );
+		await buildResponse(res, response);
+	} catch ( e )
+	{
+		await buildResponseException( res, 400, {
+			status: 400,
+			message: e?.message || "Không có dữ liệu"
+		} );
+	}
+
+};
+
+
+exports.LikeOrDisLike = async ( req, res ) =>
+{
+	try
+	{
+		const response =  await DataService.LikeOrDislike( req.params.id, req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{

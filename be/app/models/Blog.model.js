@@ -36,9 +36,21 @@ const modelSchema = new Schema(
 		author_email: {
 			type: String
 		},
+		user_like: {
+			type: Number,
+			default: 0
+		},
 		author_avatar: {
 			type: String
 		},
+		total_like: {
+            type: Number,
+			default: 0
+        },
+		total_dislike: {
+            type: Number,
+			default: 0
+        },
 		menu: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Menu"
