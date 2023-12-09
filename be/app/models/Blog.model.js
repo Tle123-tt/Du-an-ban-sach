@@ -12,9 +12,6 @@ const modelSchema = new Schema(
             type: String,
             required: 'Slug cannot be blank'
         },
-		author_id: {
-			type: String
-		},
 		tags: {
 			type: String
 		},
@@ -24,21 +21,27 @@ const modelSchema = new Schema(
 		content: {
             type: String
         },
+		avatar: {
+            type: String
+        },
 		status: {
             type: Number
         },
-		category_id: {
+		menu_id: {
 			type: String
 		},
-
-		author: {
+		author_name: {
+			type: String
+		},
+		author_email: {
+			type: String
+		},
+		author_avatar: {
+			type: String
+		},
+		menu: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Author"
-        }, 
-
-		category_blog: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "CategoryBlog"
+            ref: "Menu"
         },
 		
         created_at : { type: Date, default: Date.now }

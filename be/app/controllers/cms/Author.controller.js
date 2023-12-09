@@ -1,12 +1,12 @@
 const { buildParamPaging, buildResponsePaging, buildResponseException, buildResponse } = require( "../../helpers/buildData.helper" );
-const CategoryService = require( "../../services/category.service" );
+const DataService = require( "../../services/author.service" );
 
 exports.index = async ( req, res ) =>
 {
 	try
 	{
 		const filters = req.query;
-		const response = await  CategoryService.index( filters );
+		const response = await  DataService.index( filters );
 		await buildResponse(res, response)
 	} catch ( e )
 	{
@@ -22,7 +22,7 @@ exports.show = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await CategoryService.show( req.params.id );
+		const response =  await DataService.show( req.params.id );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -31,18 +31,31 @@ exports.show = async ( req, res ) =>
 			message: e?.message || "Không có dữ liệu"
 		} );
 	}
-};
+}
+
+// ;exports.showBySlug = async ( req, res ) =>
+// {
+// 	try
+// 	{
+// 		const response =  await DataService.showBySlug( req.params.slug );
+// 		await buildResponse(res, response);
+// 	} catch ( e )
+// 	{
+// 		buildResponseException( res, 400, {
+// 			status: 400,
+// 			message: e?.message || "Không có dữ liệu"
+// 		} );
+// 	}
+// };
 
 exports.store = async ( req, res ) =>
 {
 	try
 	{
-		console.log(req.body);
-		const response =  await CategoryService.store( req.body );
+		const response =  await DataService.store( req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
-		console.log('e----------> ', e);
 		await buildResponseException( res, 400, {
 			status: 400,
 			message: e?.message || "Không có dữ liệu"
@@ -55,7 +68,7 @@ exports.update = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await CategoryService.update( req.params.id, req.body );
+		const response =  await DataService.update( req.params.id, req.body );
 		await buildResponse(res, response);
 	} catch ( e )
 	{
@@ -70,13 +83,12 @@ exports.delete = async ( req, res ) =>
 {
 	try
 	{
-		const response =  await CategoryService.delete( req.params.id );
+		const response =  await DataService.delete( req.params.id );
 		await buildResponse(res, response);
 	} catch (e) {
-		console.log('e----------> ', e);
 		await buildResponseException(res, 400, {
 			status: 400,
 			message:  e?.message || "Không có dữ liệu"
 		});
-	}	
+	}
 };

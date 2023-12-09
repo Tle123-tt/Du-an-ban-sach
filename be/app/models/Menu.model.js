@@ -8,6 +8,10 @@ const menuSchema = new Schema(
             type: String,
             required: 'name cannot be blank'
         },
+		blogs: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Blog"
+        }],
         created_at : { type: Date, default: Date.now }
     },
     { collection: 'menus' }

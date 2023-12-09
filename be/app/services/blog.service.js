@@ -56,31 +56,17 @@ exports.update = async ( id, data ) =>
 			message: "Không tồn tại phân loại"
 		}
 	}
-	if ( data.name )
-	{
-		blog.name = data.name;
-	}
-	if ( data.status != null )
-	{
-		blog.status = data.status;
-	}
-	if ( data.description )
-	{
-		blog.description = data.description;
-	}
-	if ( data.content )
-	{
-		blog.content = data.content;
-	}
-	if ( data.author_id )
-	{
-		blog.author_id = data.author_id;
-	}
-	if(data.tags) {
-		blog.tags = data.tags
-	}
-	blog.category_id = data.category_id;
+	blog.name = data.name;
+	blog.status = data.status;
+	blog.description = data.description;
+	blog.content = data.content;
+	blog.avatar = data.avatar;
+	blog.tags = data.tags;
+	blog.menu_id = data.menu_id;
 	blog.slug = data.slug;
+	blog.author_avatar = data.author_avatar;
+	blog.author_email = data.author_email;
+	blog.author_name = data.author_name;
 
 	await blog.save();
 	return blog;

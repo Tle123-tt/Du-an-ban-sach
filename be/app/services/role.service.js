@@ -1,6 +1,6 @@
 const Role = require( "./../models/Role.model" ) // new
 const Permission = require( "./../models/Permission.model" )
-const Room = require( "../models/Room.model" ); // new
+// const Room = require( "../models/Room.model" ); // new
 
 exports.index = async ( filters ) =>
 {

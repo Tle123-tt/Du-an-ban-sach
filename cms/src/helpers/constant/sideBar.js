@@ -6,6 +6,23 @@ export const SIDE_BARS = [
 		key: -1 
 	},
 	{
+		path: '/author',
+		icon: 'eva eva-people',
+		title: 'Author',
+		children: [
+			{
+				path: '/author/list',
+				title: 'list ',
+				icon: '',
+			},
+			{
+				path: '/author/create',
+				icon: '',
+				title: 'Add new',
+			},
+		]
+	},
+	{
 		path: '/user',
 		icon: 'eva eva-people',
 		title: 'User',
@@ -102,6 +119,43 @@ export const SIDE_BARS = [
 			},
 		]
 	},
+	
+	{
+		path: '/menu',
+		icon: 'eva eva-people',
+		title: 'Menu',
+		children: [
+			{
+				path: '/menu/list',
+				title: 'List',
+				icon: '',
+			},
+			{
+				path: '/menu/create',
+				icon: '',
+				title: 'Add new',
+			},
+		]
+	},
+
+	{
+		path: '/blog',
+		icon: 'eva eva-people',
+		title: 'Blog',
+		children: [
+			{
+				path: '/blog/list',
+				title: 'List ',
+				icon: '',
+			},
+			{
+				path: '/blog/create',
+				icon: '',
+				title: 'Add new',
+			},
+		]
+	},
+	
 
 	{
 		path: '/reviews',

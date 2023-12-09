@@ -1,25 +1,24 @@
 const { buildParamPaging, buildResponsePaging, toSlug } = require( "../helpers/buildData.helper" );
-const Category = require( "../models/Category.model" );
+const ModelData = require( "../models/Menu.model" );
 
 exports.index = async ( filters ) =>
 {
 	const condition = {};
 	const paging = buildParamPaging( filters );
 	// execute query with page and limit values
-	const categories = await Category.find()
+	const dataList = await ModelData.find()
 		.where( condition )
 		.limit( paging.page_size )
 		.skip( ( paging.page - 1 ) * paging.page_size )
 		.exec();
 
 	// get total documents in the Posts collection
-	const count = await Category.count().where( condition );
+	const count = await ModelData.count().where( condition );
 
 	// return response with posts, total pages, and current page
 	const meta = buildResponsePaging( paging.page, paging.page_size, count )
-	const status = 200;
 	const data = {
-		categories: categories
+		menus: dataList
 	}
 	return {
 		...data,
@@ -29,44 +28,43 @@ exports.index = async ( filters ) =>
 
 exports.show = async ( id ) =>
 {
-	const category = await Category.findOne( { _id: id } )
-	return category;
+	const data = await ModelData.findOne( { _id: id } )
+	return data;
 };
 
 exports.showBySlug = async ( slug ) =>
 {
-	const category = await Category.findOne( { slug: slug } )
-	return category;
+	const data = await ModelData.findOne( { slug: slug } )
+	return data;
 };
 
-exports.store = async ( data ) =>
+exports.store = async ( dataForm ) =>
 {
-	data.slug = toSlug(data.name);
-	const category = new Category( data );
-	await category.save();
-	return category;
+	dataForm.slug = toSlug(dataForm.name);
+	const data = new ModelData( dataForm );
+	await data.save();
+	return data;
 };
 
 exports.update = async ( id, data ) =>
 {
-	const category = await Category.findOne( { _id: id } )
-	if ( !category )
+	const result = await ModelData.findOne( { _id: id } )
+	if ( !result )
 	{
 		throw {
-			message: "Không tồn tại phân loại"
+			message: "Dữ liệu không tồn tại"
 		}
 	}
 	if ( data.name )
 	{
-		category.name = data.name;
+		result.name = data.name;
 	}
-
-	await category.save();
-	return category;
+	await result.save();
+	return await this.show(id);
 };
 
 exports.delete = async ( id ) =>
 {
-	await Category.deleteOne( { _id: id } )
+	await ModelData.deleteOne( { _id: id } )
 	return [];
 };

@@ -11,6 +11,9 @@ const voteRouter = require("./vote");
 const orderRouter = require("./order");
 const slideRouter = require("./slide");
 const contactRouter = require("./contact");
+const blogRouter = require("./blog");
+const authorRouter = require("./author");
+const menuRouter = require("./menu");
 
 router.use(productRouter);
 router.use(discountRouter);
@@ -23,5 +26,8 @@ router.use(voteRouter);
 router.use(orderRouter);
 router.use(slideRouter);
 router.use(contactRouter);
+router.use(blogRouter);
+router.use(authorRouter);
+router.use(menuRouter);
 
 module.exports = router;

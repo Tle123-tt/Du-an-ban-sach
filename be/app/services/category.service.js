@@ -43,6 +43,7 @@ exports.store = async ( data ) =>
 {
 	data.slug = toSlug(data.name);
 	const category = new Category( data );
+	console.log(category);
 	await category.save();
 	return category;
 };

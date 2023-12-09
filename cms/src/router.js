@@ -1,5 +1,8 @@
+import { AuthorForm } from "./components/Author/AuthorForm";
+import { BlogForm } from "./components/Blog/BlogForm";
 import { CategoryForm } from "./components/Category/CategoryForm";
 import { ContactPage } from "./components/Contact/Contact";
+import { MenuForm } from "./components/Menu/MenuForm";
 import { OrderForm } from "./components/Order/OrderForm";
 import { ProductForm } from "./components/Products/ProductForm";
 import { Permissions } from "./components/Settings/Permission/Permissions";
@@ -8,8 +11,11 @@ import { Roles } from "./components/Settings/Role/Roles";
 import { SlideForm } from "./components/Slide/SlideForm";
 import { UserForm } from "./components/User/UserForm";
 import {PageVoting} from "./components/vote/voteList";
+import { AuthorContainer } from "./pages/author/AuthorContainer";
+import { BlogContainer } from "./pages/blog/BlogContainer";
 import { CategoryContainer } from "./pages/category/CategoryContainer";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { MenuContainer } from "./pages/menu/MenuContainer";
 import { OrderContainer } from "./pages/order/OrderContainer";
 import { ProductContainer } from "./pages/products/ProductContainer";
 import { ProfileContainer } from "./pages/profile/ProfileContainer";
@@ -183,5 +189,71 @@ export const ROUTERS = [
 		// redirectFrom: '/role', 
 		title: 'Contacts',
 		component: ContactPage,
+	},
+
+	{
+		path: '/menu/list',
+		exact: true,
+		redirectFrom: '/menu', 
+		title: 'Menus',
+		component: MenuContainer,
+	},
+	{
+		path: '/menu/create',
+		exact: true,
+		// redirectFrom: '/role', 
+		title: 'Create Menu',
+		component: MenuForm,
+	},
+	{
+		path: '/menu/edit',
+		exact: true,
+		// redirectFrom: '/role', 
+		title: 'Update Menu',
+		component: MenuForm,
+	},
+
+	{
+		path: '/blog/list',
+		exact: true,
+		redirectFrom: '/blog', 
+		title: 'Blogs',
+		component: BlogContainer,
+	},
+	{
+		path: '/blog/create',
+		exact: true,
+		// redirectFrom: '/role', 
+		title: 'Create blog',
+		component: BlogForm,
+	},
+	{
+		path: '/blog/edit',
+		exact: true,
+		// redirectFrom: '/role', 
+		title: 'Update blog',
+		component: BlogForm,
+	},
+
+	{
+		path: '/author/list',
+		exact: true,
+		redirectFrom: '/author', 
+		title: 'authors',
+		component: AuthorContainer,
+	},
+	{
+		path: '/author/create',
+		exact: true,
+		// redirectFrom: '/role', 
+		title: 'Create author',
+		component: AuthorForm,
+	},
+	{
+		path: '/author/edit',
+		exact: true,
+		// redirectFrom: '/role', 
+		title: 'Update author',
+		component: AuthorForm,
 	},
 ]
