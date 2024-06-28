@@ -20,7 +20,7 @@ class HomeSlideCpn extends Component {
                 <Carousel.Item>
                     <img
                     className="d-block w-100"
-                    src="https://bookbuy.vn/Res/Images/Album/b0559867-9eea-409e-86c9-7dd647521478.jpg?w=880&scale=both&h=320&mode=crop"
+                    src="https://lh3.googleusercontent.com/syjMI_DfSr8cQBR5hR7y4w9HqDeysh1mMG9l0Vo2ZoD5_xmS4Qo1HJniMkABUstaGm2i3K0FdntvbO-o6IG-G0AvG3sk_f-B_YYsgTJWMaxDJmTf1FzTAO5wiY_OGUccaosJK8rAlVodiYyKV5_hUAsYMpw4GG8JSck6NWJbxtbcZZJke7MSkI_H9pF6DQ"
                     alt="Second slide"
                     />
 

@@ -11,9 +11,9 @@ class FooterCpn extends Component {
                             <div className="footer-widget">
                                 <h3>Thông tin liên hệ</h3>
                                 <div className="footer-widget-content">
-                                    <a href="mailto:sales@example.com"  className="contact-link">doantotnghiep@gmail.com</a>
-                                    <a href="mailto:support@example.com" className="contact-link red"> support@gmail.com </a>
-                                    <a href="tel:0121234" className="contact-link">0986420994</a>
+                                    <a href="mailto:sales@example.com"  className="contact-link">Giới thiệu</a>
+                                    <a href="mailto:support@example.com" className="contact-link"> Liên hệ </a>
+                                    <a href="tel:0121234" className="contact-link">Chính sách và bảo mật</a>
                                     {/*<div className="footer-social">*/}
                                     {/*    <ul>*/}
                                     {/*        <li><a href="#"><i className="fa fa-facebook"></i></a></li>*/}
@@ -32,7 +32,7 @@ class FooterCpn extends Component {
                                 <div className="footer-widget-content">
                                     <div className="media">
                                         <div className="media-left">
-                                            <a href={'/'}><img className="media-object" src="http://placehold.it/60x60"  alt={'123code.net'}/></a>
+                                            <a href={'/'}><img className="media-object" src=""  alt={''}/></a>
                                         </div>
                                         <div className="media-body">
                                             <p>vulputate velit esse consequat</p>

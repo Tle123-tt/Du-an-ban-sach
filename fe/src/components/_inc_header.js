@@ -62,7 +62,10 @@ function HeaderCpn()
                 <Container>
                     <Navbar.Brand>
                         <Link to={"/"}>
-                            <img src={'https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/logo/fahasa_logo.png'}  alt={"123code.net"}/>
+                            {/* <img src={'https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/logo/fahasa_logo.png'}  alt={"123code.net"}/> */}
+                            <div className='font-weight-bold text-dark fs-1'>
+                                Book store
+                            </div>
                         </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -94,7 +97,7 @@ function HeaderCpn()
                         </Form>
                         <Nav className='header-account'>
                             <Nav.Link >
-                                <img src="https://lh5.googleusercontent.com/-2xmuUdXe0so/AAAAAAAAAAI/AAAAAAAACgQ/OOJcACbRFYs/photo.jpg" alt='123code.net' />
+                                {/* <img src="https://lh5.googleusercontent.com/-2xmuUdXe0so/AAAAAAAAAAI/AAAAAAAACgQ/OOJcACbRFYs/photo.jpg" alt='123code.net' /> */}
                             </Nav.Link>
                             <Link to={'/cart'} className={'icon-cart nav-link'}>
                                 <FaShoppingCart /> <span>({cart ? cart.length : 0})</span>
